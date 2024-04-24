@@ -6,6 +6,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import Image from "next/image";
+import Link from "next/link";
 
 interface ProductCardProps {
   product: {
@@ -39,8 +40,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <h4 className="text-sm text-wrap">{product.description}</h4>
       </CardContent>
       <CardFooter className="flex justify-center gap-4 items-center">
-        <Button>Add to Cart</Button>
-        <Button>View Details</Button>
+        <Button variant="link">Add to Cart</Button>
+        <Button variant="link">
+          <Link href={`/boardgames/${product.id}`}>View Details</Link>
+        </Button>
       </CardFooter>
     </Card>
   );

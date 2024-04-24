@@ -5,12 +5,13 @@ const getProducts = async () => {
   return await response.json();
 };
 
-export default async function Home() {
+const BoardGamesPage = async () => {
   const products = await getProducts();
-
   return (
-    <main className="mt-10">
+    <div className="mt-10">
       <Catalog products={products} />
-    </main>
+    </div>
   );
-}
+};
+
+export default BoardGamesPage;
