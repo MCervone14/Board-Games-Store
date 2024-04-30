@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 interface BoardGameDetailsPageProps {
   params: {
@@ -15,12 +16,21 @@ interface BoardGameDetailsPageProps {
 }
 
 const getProduct = async (id: string) => {
-  const response = await fetch(`http://localhost:5000/api/products/${id}`);
-  return await response.json();
+  try {
+    const response = await fetch(`http://localhost:5000/api/products/${id}`);
+    return await response.json();
+  } catch (error: any) {
+    return { error };
+  }
 };
 
 const BoardGameDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
   const product = await getProduct(params.id);
+
+  if (product.error) {
+    return notFound();
+  }
+
   return (
     <div className="flex h-screen max-w-7xl mx-auto justify-center items-center">
       <div className="max-w-7xl relative w-[500px] h-[500px]">

@@ -6,7 +6,16 @@ interface CatalogProps {
   products: Product[];
 }
 
-const Catalog = ({ products }: CatalogProps) => {
+const fetchCookie = async () => {
+  const response = await fetch("http://localhost:5000/api/basket");
+  return response.json();
+};
+
+const Catalog = async ({ products }: CatalogProps) => {
+  const cookie = await fetchCookie();
+
+  console.log(cookie);
+
   return (
     <div className="mx-auto flex flex-col justify-center items-center">
       <ProductList products={products} />

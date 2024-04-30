@@ -1,4 +1,7 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
+
 import {
   Card,
   CardHeader,
@@ -7,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import AddProductButton from "../cart-button/add-product-button";
 
 interface ProductCardProps {
   product: {
@@ -40,7 +44,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <h4 className="text-sm text-wrap">{product.description}</h4>
       </CardContent>
       <CardFooter className="flex justify-center gap-4 items-center">
-        <Button variant="link">Add to Cart</Button>
+        <AddProductButton productId={product.id} quantity={1} />
         <Button variant="link">
           <Link href={`/boardgames/${product.id}`}>View Details</Link>
         </Button>
