@@ -24,9 +24,8 @@ namespace API.Controllers
             return MapBasketToDto(basket);
 
         }
-
+        
         [HttpPost]
-
         public async Task<ActionResult<BasketDto>> AddItemToBasket(int productId, int quantity)
         {
             
@@ -54,7 +53,9 @@ namespace API.Controllers
             basket.RemoveItem(productId, quantity);
             var result = await _context.SaveChangesAsync() > 0;
             
-            if (result) return Ok();
+            if (result) {
+                 return Ok(MapBasketToDto(basket));
+            };
 
              return BadRequest(new ProblemDetails {
                 Status = 400,

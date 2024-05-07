@@ -1,12 +1,9 @@
-"use client";
-
 import { Bars3Icon, ShoppingCartIcon } from "@heroicons/react/24/solid";
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  NavbarMenu,
   NavbarMenuItem,
 } from "@nextui-org/navbar";
 import { Link } from "@nextui-org/link";
@@ -18,22 +15,50 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { cookies } from "next/headers";
+import { Badge } from "@/components/ui/badge";
+import { BasketItem } from "@/types/basket";
+const menuItems = [
+  { label: "Board Games", href: "/boardgames" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+  { label: "Login", href: "/login" },
+  { label: "Sign Up", href: "/signup" },
+  { label: "Analytics", href: "/analytics" },
+  { label: "System", href: "/system" },
+  { label: "Deployments", href: "/deployments" },
+  { label: "My Settings", href: "/settings" },
+];
 
-export default function NavbarLayout() {
-  const menuItems = [
-    { label: "Board Games", href: "/boardgames" },
-    { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" },
-    { label: "Login", href: "/login" },
-    { label: "Sign Up", href: "/signup" },
-    { label: "Analytics", href: "/analytics" },
-    { label: "System", href: "/system" },
-    { label: "Deployments", href: "/deployments" },
-    { label: "My Settings", href: "/settings" },
-  ];
+const getBasket = async () => {
+  const nextCookies = cookies();
+  const buyerId = nextCookies.get("buyerId")?.value;
+
+  const response = await fetch("http://localhost:5000/api/basket", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Cookie: `buyerId=${buyerId}`,
+    },
+    credentials: "include",
+  });
+  const data = await response.json();
+  return data;
+};
+
+export default async function NavbarLayout() {
+  const basket = await getBasket();
+  const sum =
+    basket?.items?.reduce(
+      (acc: number, item: BasketItem) => acc + item.quantity,
+      0
+    ) || 0;
 
   return (
-    <Navbar className="flex justify-between max-w-7xl mx-auto px-4 py-4 sm:py-6">
+    <Navbar
+      className="flex justify-between max-w-7xl mx-auto px-4 py-4 sm:py-6 sticky"
+      isBlurred
+    >
       <NavbarContent>
         <Sheet>
           <SheetTrigger className="rounded-lg sm:hidden flex justify-center items-center">
@@ -87,17 +112,29 @@ export default function NavbarLayout() {
           </Link>
         </NavbarItem>
       </NavbarContent>
-      <NavbarContent justify="end">
+      <NavbarContent justify="end" className="gap-10">
         <NavbarItem>
-          <Button variant={"link"} className="p-0">
-            <ShoppingCartIcon className="w-6 h-6" />
-          </Button>
+          <Link href="/basket" className="relative">
+            <Button variant={"link"} className="p-0">
+              <ShoppingCartIcon className="w-7 h-7" />
+              <Badge
+                className="rounded-full bg-purple-500 text-black -bottom-3 -right-3 absolute font-bold px-2 outline-none"
+                variant={"outline"}
+              >
+                {sum || 0}
+              </Badge>
+            </Button>
+          </Link>
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
+          <Link href="#">
+            <Button variant="secondary">Login</Button>
+          </Link>
         </NavbarItem>
         <NavbarItem>
-          <Button variant="default">Sign Up</Button>
+          <Link href="#">
+            <Button variant="default">Sign Up</Button>
+          </Link>
         </NavbarItem>
       </NavbarContent>
     </Navbar>

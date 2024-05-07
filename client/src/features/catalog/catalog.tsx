@@ -14,8 +14,6 @@ const fetchCookie = async () => {
 const Catalog = async ({ products }: CatalogProps) => {
   const cookie = await fetchCookie();
 
-  console.log(cookie);
-
   return (
     <div className="mx-auto flex flex-col justify-center items-center">
       <ProductList products={products} />
