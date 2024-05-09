@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getBasket } from "@/actions/server-actions";
+import { getBasket } from "@/actions/server";
 import { BasketItem } from "@/types/basket";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

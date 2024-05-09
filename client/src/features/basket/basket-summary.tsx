@@ -5,7 +5,7 @@ import Link from "next/link";
 
 interface BasketSummaryProps {
   basket: {
-    buyerId: number;
+    buyerId: string;
     items: BasketItem[];
     status?: number;
   };

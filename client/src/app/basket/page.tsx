@@ -1,4 +1,4 @@
-import { getBasket } from "@/actions/server-actions";
+import { getBasket } from "@/actions/server";
 import BasketDetails from "@/features/basket/basket-details";
 
 const BasketPage = async () => {

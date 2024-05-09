@@ -15,9 +15,10 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { cookies } from "next/headers";
 import { Badge } from "@/components/ui/badge";
 import { BasketItem } from "@/types/basket";
+import { getBasket } from "@/actions/server";
+
 const menuItems = [
   { label: "Board Games", href: "/boardgames" },
   { label: "About", href: "/about" },
@@ -30,24 +31,9 @@ const menuItems = [
   { label: "My Settings", href: "/settings" },
 ];
 
-const getBasket = async () => {
-  const nextCookies = cookies();
-  const buyerId = nextCookies.get("buyerId")?.value;
-
-  const response = await fetch("http://localhost:5000/api/basket", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Cookie: `buyerId=${buyerId}`,
-    },
-    credentials: "include",
-  });
-  const data = await response.json();
-  return data;
-};
-
 export default async function NavbarLayout() {
   const basket = await getBasket();
+
   const sum =
     basket?.items?.reduce(
       (acc: number, item: BasketItem) => acc + item.quantity,

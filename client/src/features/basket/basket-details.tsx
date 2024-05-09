@@ -8,7 +8,7 @@ import {
   TableCell,
   TableFooter,
 } from "@/components/ui/table";
-import { BasketItem } from "@/types/basket";
+import { Basket } from "@/types/basket";
 import Image from "next/image";
 import {
   MinusCircleIcon,
@@ -18,20 +18,11 @@ import {
 import CartButton from "../cart/cart-button";
 import BasketSummary from "./basket-summary";
 
-interface BasketProps {
-  basket: {
-    buyerId: number;
-    items: BasketItem[];
-    status?: number;
-    subtotal: number;
-  };
+interface BasketDetailsProps {
+  basket: Basket;
 }
 
-const BasketDetails = async ({ basket }: BasketProps) => {
-  if (basket.status === 404) {
-    return <h3>Your basket is empty</h3>;
-  }
-
+const BasketDetails = async ({ basket }: BasketDetailsProps) => {
   return (
     <Table className="max-w-7xl mx-auto">
       <TableCaption>Product(s) in your Cart</TableCaption>

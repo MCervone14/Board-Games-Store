@@ -1,6 +1,6 @@
 "use client";
 
-import { CartActionButton } from "@/actions/server-actions";
+import { CartActionButton } from "@/actions/server";
 import { Button } from "@/components/ui/button";
 import { useTransition } from "react";
 

@@ -37,7 +37,6 @@ export const getBasket = async () => {
   const buyerId = await nextCookies.get("buyerId");
 
   const response = await fetch("http://localhost:5000/api/basket", {
-    cache: "no-cache",
     headers: {
       "Content-Type": "application/json",
       Cookie: `buyerId=${buyerId?.value}`,

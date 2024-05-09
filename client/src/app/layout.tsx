@@ -4,7 +4,6 @@ import NavbarLayout from "@/features/layout/navbar";
 
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import { StoreProvider } from "@/store-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -18,14 +17,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <StoreProvider>
-      <html lang="en" className="dark">
-        <body className={inter.className}>
-          <NavbarLayout />
-          {children}
-          <Toaster />
-        </body>
-      </html>
-    </StoreProvider>
+    <html lang="en" className="dark">
+      <body className={inter.className}>
+        <NavbarLayout />
+        {children}
+        <Toaster />
+      </body>
+    </html>
   );
 }
