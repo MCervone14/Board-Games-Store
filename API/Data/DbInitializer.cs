@@ -1,17 +1,41 @@
 
 using API.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Data
 {
     public static class DbInitializer
     {
-        public static void Initialize(StoreContext context) 
+        public static async Task Initialize(StoreContext context, UserManager<User> userManager)
         {
+
+            if (!userManager.Users.Any())
+            {
+                var user = new User
+                {
+                    UserName = "bob",
+                    Email = "bob@test.com",
+                };
+
+                await userManager.CreateAsync(user, "Pa$$w0rd");
+                await userManager.AddToRoleAsync(user, "Member");
+
+                var admin = new User
+                {
+                    UserName = "admin",
+                    Email = "admin@test.com",
+                };
+
+                await userManager.CreateAsync(admin, "Pa$$w0rd");
+                await userManager.AddToRolesAsync(admin, new[] { "Member", "Admin" });
+            }
+
+
             if (context.Products.Any()) return;
 
-            var products = new List<Product> 
+            var products = new List<Product>
             {
-                new Product 
+                new Product
                 {
                     Name = "Apiary",
                     Description = "Hyper-intelligent bees take to outer space to build, explore, and grow",
@@ -22,7 +46,7 @@ namespace API.Data
                     Publisher = "Stonemaier Games",
                     QuantityInStock = 10
                 },
-                new Product 
+                new Product
                 {
                     Name = "Between Two Castles of Mad King Ludwig",
                     Description = "Help your 2 neighboring players build the wackiest—but highest scoring—castles",
@@ -33,7 +57,7 @@ namespace API.Data
                     Publisher = "Stonemaier Games",
                     QuantityInStock = 5
                 },
-                new Product 
+                new Product
                 {
                     Name = "Pandemic Legacy: Season 1",
                     Description = "Mutating diseases are spreading around the world - can your team save humanity?",
@@ -44,7 +68,7 @@ namespace API.Data
                     Publisher = "Z-Man Games",
                     QuantityInStock = 15
                 },
-                new Product 
+                new Product
                 {
                     Name = "Scythe",
                     Description = "Five factions vie for dominance in a war-torn, mech-filled, dieselpunk 1920s Europe.",
@@ -55,7 +79,7 @@ namespace API.Data
                     Publisher = "Stonemaier Games",
                     QuantityInStock = 20
                 },
-                new Product 
+                new Product
                 {
                     Name = "Terraforming Mars",
                     Description = "Compete with rival CEOs to make Mars habitable and profitable for your corporation.",
@@ -66,7 +90,7 @@ namespace API.Data
                     Publisher = "FryxGames",
                     QuantityInStock = 25
                 },
-                new Product 
+                new Product
                 {
                     Name = "Arkham Horror: The Card Game",
                     Description = "Investigate the horrors of Arkham while courting cosmic doom.",
@@ -77,7 +101,7 @@ namespace API.Data
                     Publisher = "Fantasy Flight Games",
                     QuantityInStock = 30
                 },
-                new Product 
+                new Product
                 {
                     Name = "Root",
                     Description = "Choose your faction and fight for control of the forest in this asymmetric strategy game.",
@@ -88,7 +112,7 @@ namespace API.Data
                     Publisher = "Leder Games",
                     QuantityInStock = 35
                 },
-                new Product 
+                new Product
                 {
                     Name = "Wingspan",
                     Description = "Attract a beautiful and diverse collection of birds to your wildlife preserve.",
@@ -99,7 +123,7 @@ namespace API.Data
                     Publisher = "Stonemaier Games",
                     QuantityInStock = 40
                 },
-                new Product 
+                new Product
                 {
                     Name = "Twilight Imperium: Fourth Edition",
                     Description = "Lead one of seventeen factions in a grand strategy game of galactic conquest.",
@@ -110,7 +134,7 @@ namespace API.Data
                     Publisher = "Fantasy Flight Games",
                     QuantityInStock = 45
                 },
-                new Product 
+                new Product
                 {
                     Name = "Spirit Island",
                     Description = "Defend your island from colonizing Invaders with the help of powerful Spirits.",
