@@ -12,7 +12,7 @@ const LoadingTesting = () => {
   return (
     <div className="max-w-7xl mx-auto flex flex-wrap justify-center items-center gap-5 mt-10">
       {Array.from({ length: 9 }).map((_, index) => (
-        <Card className="py-4 space-y-4">
+        <Card className="py-4 space-y-4" key={index}>
           <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
             <Skeleton className="mx-auto object-contain max-h-[300px] h-[300px] w-full" />
           </CardHeader>
@@ -25,7 +25,7 @@ const LoadingTesting = () => {
             </small>
             <h4 className="text-sm text-wrap">
               {Array.from({ length: 3 }).map((_, index) => (
-                <Skeleton className="w-full h-4 mt-2" />
+                <Skeleton className="w-full h-4 mt-2" key={index} />
               ))}
             </h4>
           </CardContent>

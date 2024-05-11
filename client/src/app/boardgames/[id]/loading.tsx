@@ -8,7 +8,7 @@ const ProductLoadingPage = () => {
       </div>
       <div className="flex-1">
         {Array.from({ length: 10 }).map((_, index) => (
-          <Skeleton className="h-5 mt-2 w-full" />
+          <Skeleton className="h-5 mt-2 w-full" key={index} />
         ))}
       </div>
       <div className="flex flex-col items-center justify-center w-[200px]">

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using API.Entities;
 
 namespace API.Extensions
@@ -33,22 +29,15 @@ namespace API.Extensions
         }
 
         
-         public static IQueryable<Product> Filter(this IQueryable<Product> query, string publishers, string types)
-        {
-            var publishersList = new List<string>();
+         public static IQueryable<Product> Filter(this IQueryable<Product> query, string types)
+        {;
             var typesList = new List<string>();
-
-            if (!string.IsNullOrEmpty(publishers))
-            {
-                publishersList.AddRange(publishers.ToLower().Split(",").ToList());
-            }
 
              if (!string.IsNullOrEmpty(types))
             {
-                typesList.AddRange(types.ToLower().Split(",").ToList());
+                typesList.AddRange(types.ToLower().Split(",").Select(t => t.Trim()).ToList());
             }
 
-            query = query.Where(p => publishersList.Count == 0 || publishersList.Contains(p.Publisher.ToLower()));
             query = query.Where(p => typesList.Count == 0 || typesList.Contains(p.Type.ToLower()));
 
 

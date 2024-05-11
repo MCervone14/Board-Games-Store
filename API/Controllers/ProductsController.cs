@@ -1,3 +1,4 @@
+
 using System.Text.Json;
 using API.Data;
 using API.Entities;
@@ -20,17 +21,34 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<PagedList<Product>>> GetProducts([FromQuery]ProductParams productParams)
         {
+            
+
             var query = _context.Products
                 .Sort(productParams.OrderBy)
                 .Search(productParams.SearchTerm)
-                .Filter(productParams.Publishers, productParams.Types)
+                .Filter(productParams.Types)
                 .AsQueryable();
+
 
             var products = await PagedList<Product>.ToPagedList(query, productParams.PageNumber, productParams.PageSize);
 
-            Response.AddPaginationHeader(products.MetaData);
+            
+            var paginationMetaData = products.MetaData;
 
-            return products;
+            var response = new {
+                products,
+                paginationMetaData
+            };
+
+             var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
+             Response.Headers.Append("Pagination", JsonSerializer.Serialize(products.MetaData, options));
+             Response.Headers.Append("Access-Control-Expose-Headers", "Pagination");
+        
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -47,10 +65,10 @@ namespace API.Controllers
 
         public async Task<IActionResult> GetFilters()
         {
-            var publishers = await _context.Products.Select(p => p.Publisher).Distinct().ToListAsync();
             var types = await _context.Products.Select(p => p.Type).Distinct().ToListAsync();
 
-            return Ok(new {publishers, types});
+
+            return Ok(new {types});
         }
     }
 }

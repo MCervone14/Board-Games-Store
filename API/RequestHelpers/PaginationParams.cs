@@ -8,7 +8,7 @@ namespace API.RequestHelpers
 
         public int PageNumber { get; set; } = 1;    
 
-        private int _pageSize = 6;
+        private int _pageSize = 12;
 
         public int PageSize
         {

@@ -17,7 +17,7 @@ namespace API.Data
                     Description = "Hyper-intelligent bees take to outer space to build, explore, and grow",
                     Price = 7999,
                     PictureUrl = "/images/products/Apiary.png",
-                    Type = "Strategy",
+                    Type = "Strategy,",
                     Designer = "Connie Vogelmann",
                     Publisher = "Stonemaier Games",
                     QuantityInStock = 10
@@ -28,7 +28,7 @@ namespace API.Data
                     Description = "Help your 2 neighboring players build the wackiest—but highest scoring—castles",
                     Price = 4999,
                     PictureUrl = "/images/products/Between-Two-Castles-of-Mad-King-Ludwig.png",
-                    Type = "Family",
+                    Type = "Family,",
                     Designer = "Matthew O'Malley, Ben Rosset",
                     Publisher = "Stonemaier Games",
                     QuantityInStock = 5
@@ -50,7 +50,7 @@ namespace API.Data
                     Description = "Five factions vie for dominance in a war-torn, mech-filled, dieselpunk 1920s Europe.",
                     Price = 9900,
                     PictureUrl = "/images/products/Scythe.png",
-                    Type = "Strategy",
+                    Type = "Strategy,",
                     Designer = "Jamey Stegmaier",
                     Publisher = "Stonemaier Games",
                     QuantityInStock = 20
@@ -61,7 +61,7 @@ namespace API.Data
                     Description = "Compete with rival CEOs to make Mars habitable and profitable for your corporation.",
                     Price = 6999,
                     PictureUrl = "/images/products/Between-Two-Cities-Essential-Edition.png",
-                    Type = "Strategy",
+                    Type = "Strategy,",
                     Designer = "Jacob Fryxelius",
                     Publisher = "FryxGames",
                     QuantityInStock = 25
@@ -83,7 +83,7 @@ namespace API.Data
                     Description = "Choose your faction and fight for control of the forest in this asymmetric strategy game.",
                     Price = 5999,
                     PictureUrl = "/images/products/Euphoria-Build-a-Better-Dystopia.png",
-                    Type = "Strategy",
+                    Type = "Strategy,",
                     Designer = "Cole Wehrle",
                     Publisher = "Leder Games",
                     QuantityInStock = 35
@@ -94,7 +94,7 @@ namespace API.Data
                     Description = "Attract a beautiful and diverse collection of birds to your wildlife preserve.",
                     Price = 5999,
                     PictureUrl = "/images/products/Wingspan.png",
-                    Type = "Strategy",
+                    Type = "Strategy,",
                     Designer = "Elizabeth Hargrave",
                     Publisher = "Stonemaier Games",
                     QuantityInStock = 40
@@ -126,7 +126,7 @@ namespace API.Data
                     Description = "Work together to complete missions and find the mysterious Planet Nine.",
                     Price = 1499,
                     PictureUrl = "/images/products/Libertalia.png",
-                    Type = "Card Game",
+                    Type = "Card Game,",
                     Designer = "Thomas Sing",
                     Publisher = "KOSMOS",
                     QuantityInStock = 55
@@ -136,7 +136,7 @@ namespace API.Data
                     Description = "Draft cards and build your civilization in this two-player version of the classic game.",
                     Price = 2499,
                     PictureUrl = "/images/products/My-Little-Scythe.png",
-                    Type = "Strategy",
+                    Type = "Strategy,",
                     Designer = "Antoine Bauza, Bruno Cathala",
                     Publisher = "Repos Production",
                     QuantityInStock = 60
@@ -166,7 +166,7 @@ namespace API.Data
                     Description = "Build a 5x5 kingdom with domino-like tiles in this Spiel des Jahres winner.",
                     Price = 1999,
                     PictureUrl = "/images/products/Rolling-Realms.png",
-                    Type = "Family",
+                    Type = "Family,",
                     Designer = "Bruno Cathala",
                     Publisher = "Blue Orange Games",
                     QuantityInStock = 75
@@ -176,7 +176,7 @@ namespace API.Data
                     Description = "Survive in a nightmarish world filled with monsters and darkness.",
                     Price = 40000,
                     PictureUrl = "/images/products/Tapestry.png",
-                    Type = "Thematic",
+                    Type = "Thematic,",
                     Designer = "Adam Poots",
                     Publisher = "Kingdom Death",
                     QuantityInStock = 1
@@ -186,7 +186,7 @@ namespace API.Data
                     Description = "Collect train cards and claim railway routes across the country in this classic game.",
                     Price = 4499,
                     PictureUrl = "/images/products/Viticulture.png",
-                    Type = "Family",
+                    Type = "Family,",
                     Designer = "Alan R. Moon, Matt Leacock, Rob Daviau",
                     Publisher = "Days of Wonder",
                     QuantityInStock = 0
