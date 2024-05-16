@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 
 export const CartActionButton = async (
   productId: number,
@@ -77,7 +77,6 @@ export const fetchProducts = async (
     pageNumber === 1 &&
     pageSize === 12
   ) {
-    console.log("fetching top products");
     const response = await fetch(`http://localhost:5000/api/products`, {
       method: "GET",
       headers: {
@@ -85,10 +84,8 @@ export const fetchProducts = async (
       },
     });
     const data = await response.json();
-    console.log(data);
     return data;
   } else {
-    console.log("fetching bottom");
     const response = await fetch(
       `http://localhost:5000/api/products?orderBy=${orderBy}&searchTerm=${searchTerm}&types=${types}&PageNumber=${pageNumber}&PageSize=${pageSize}`,
       {
@@ -103,4 +100,71 @@ export const fetchProducts = async (
 
     return data;
   }
+};
+
+export const Login = async (username: string, password: string) => {
+  const response = await fetch("http://localhost:5000/api/Account/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }),
+  });
+
+  const data = await response.json();
+
+  if (data.token.value !== undefined || data.token !== null) {
+    cookies().set("token", data.token);
+  }
+
+  return data;
+};
+
+export const Register = async (
+  username: string,
+  email: string,
+  password: string
+) => {
+  const response = await fetch("http://localhost:5000/api/Account/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, email, password }),
+  });
+
+  if (response.status === 400) {
+    const data = await response.json();
+    return data;
+  }
+
+  if (response.status === 201) {
+    const data = await Login(username, password);
+    return data;
+  }
+};
+
+export const getCurrentUser = async (token: string | undefined) => {
+  if (!token) return null;
+  const response = await fetch(
+    "http://localhost:5000/api/Account/currentUser",
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+
+  if (response.status !== 401) {
+    const data = await response.json();
+    return data;
+  }
+
+  return null;
+};
+
+export const removeCookie = (name: string) => {
+  cookies().delete(name);
 };

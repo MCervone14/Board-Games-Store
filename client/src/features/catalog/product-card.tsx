@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import CartButton from "../cart/cart-button";
+import CartButton from "../buttons/cart-button";
 
 interface ProductCardProps {
   product: {

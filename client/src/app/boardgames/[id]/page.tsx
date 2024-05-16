@@ -6,7 +6,7 @@ import { BasketItem } from "@/types/basket";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/solid";
-import DetailsViewCartButton from "@/features/cart/details-view-cart-button";
+import DetailsViewCartButton from "@/features/buttons/details-view-cart-button";
 
 interface BoardGameDetailsPageProps {
   params: {

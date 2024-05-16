@@ -15,7 +15,7 @@ import {
   PlusCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
-import CartButton from "../cart/cart-button";
+import CartButton from "../buttons/cart-button";
 import BasketSummary from "./basket-summary";
 
 interface BasketDetailsProps {

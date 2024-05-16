@@ -6,7 +6,7 @@ import {
   NavbarItem,
   NavbarMenuItem,
 } from "@nextui-org/navbar";
-import { Link } from "@nextui-org/link";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -18,6 +18,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { BasketItem } from "@/types/basket";
 import { getBasket } from "@/actions/server";
+import { UserMenu } from "./user-menu";
 
 const menuItems = [
   { label: "Board Games", href: "/boardgames" },
@@ -42,7 +43,7 @@ export default async function NavbarLayout() {
 
   return (
     <Navbar
-      className="flex justify-between max-w-7xl mx-auto px-4 py-4 sm:py-6 sticky"
+      className="flex justify-between items-center max-w-7xl mx-auto px-4 py-4 sm:py-6 sticky"
       isBlurred
     >
       <NavbarContent>
@@ -112,16 +113,7 @@ export default async function NavbarLayout() {
             </Button>
           </Link>
         </NavbarItem>
-        <NavbarItem className="hidden lg:flex">
-          <Link href="#">
-            <Button variant="secondary">Login</Button>
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link href="#">
-            <Button variant="default">Sign Up</Button>
-          </Link>
-        </NavbarItem>
+        <UserMenu />
       </NavbarContent>
     </Navbar>
   );
