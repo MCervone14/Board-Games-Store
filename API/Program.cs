@@ -52,6 +52,20 @@ builder.Services.AddIdentityCore<User>(opt =>
 }).AddRoles<IdentityRole>().AddEntityFrameworkStores<StoreContext>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
 {
+    opt.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var cookie = context.Request.Cookies["token"];
+            if (!string.IsNullOrEmpty(cookie))
+            {
+                context.Token = cookie;
+            }
+            return Task.CompletedTask;
+        }
+    };
+
+
     opt.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = false,

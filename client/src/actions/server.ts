@@ -11,30 +11,62 @@ export const CartActionButton = async (
 ) => {
   const nextCookies = cookies();
   const buyerId = nextCookies.get("buyerId")?.value;
+  const token = nextCookies.get("token")?.value;
+  let user = null;
 
-  const response = await fetch(
-    `http://localhost:5000/api/basket?productId=${productId}&quantity=${quantity}`,
-    {
-      method: method,
-      headers: {
-        contentType: "application/json",
-        Cookie: `buyerId=${buyerId}`,
-      },
-      body: JSON.stringify({ productId, quantity }),
-    }
-  );
-
-  if (cookie) {
+  if (token) {
+    user = await getCurrentUser(token);
+    const response = await fetch(
+      `http://localhost:5000/api/basket?productId=${productId}&quantity=${quantity}`,
+      {
+        method: method,
+        headers: {
+          contentType: "application/json",
+          Authorization: "Bearer " + user.token,
+        },
+        body: JSON.stringify({ productId, quantity }),
+      }
+    );
     const data = await response.json();
     cookies().set("buyerId", data.buyerId);
+    revalidatePath("/basket");
+    return data;
+  } else if (buyerId) {
+    const response = await fetch(
+      `http://localhost:5000/api/basket?productId=${productId}&quantity=${quantity}`,
+      {
+        method: method,
+        headers: {
+          contentType: "application/json",
+          Cookie: `buyerId=${buyerId}`,
+        },
+        body: JSON.stringify({ productId, quantity }),
+      }
+    );
+    const data = await response.json();
+    revalidatePath("/basket");
+    return data;
+  } else {
+    const response = await fetch(
+      `http://localhost:5000/api/basket?productId=${productId}&quantity=${quantity}`,
+      {
+        method: method,
+        headers: {
+          contentType: "application/json",
+        },
+        body: JSON.stringify({ productId, quantity }),
+      }
+    );
+    const data = await response.json();
+    cookies().set("buyerId", data.buyerId);
+    revalidatePath("/basket");
+    return data;
   }
-
-  revalidatePath("/basket");
 };
 
 export const getBasket = async () => {
   const nextCookies = cookies();
-  const buyerId = await nextCookies.get("buyerId");
+  const buyerId = nextCookies.get("buyerId");
 
   const response = await fetch("http://localhost:5000/api/basket", {
     headers: {
@@ -103,18 +135,29 @@ export const fetchProducts = async (
 };
 
 export const Login = async (username: string, password: string) => {
+  const nextCookies = cookies();
+  const buyerId = nextCookies.get("buyerId")?.value;
+
   const response = await fetch("http://localhost:5000/api/Account/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Cookie: `buyerId=${buyerId}`,
     },
     body: JSON.stringify({ username, password }),
   });
 
   const data = await response.json();
 
-  if (data.token.value !== undefined || data.token !== null) {
-    cookies().set("token", data.token);
+  if (data.token) {
+    const user = await getCurrentUser(data.token);
+    nextCookies.set("buyerId", user?.basket?.buyerId);
+  }
+
+  console.log(data);
+
+  if (data.token) {
+    nextCookies.set(`token`, data.token);
   }
 
   return data;
@@ -166,5 +209,6 @@ export const getCurrentUser = async (token: string | undefined) => {
 };
 
 export const removeCookie = (name: string) => {
-  cookies().delete(name);
+  const nextCookies = cookies();
+  nextCookies.delete(name);
 };

@@ -1,15 +1,13 @@
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { NavbarItem } from "@nextui-org/navbar";
-import { getCurrentUser, removeCookie } from "@/actions/server";
+import { getCurrentUser } from "@/actions/server";
 import { cookies } from "next/headers";
 import LogoutButton from "../buttons/logout-button";
 
@@ -39,7 +37,7 @@ export async function UserMenu() {
             <DropdownMenuContent className="w-fit">
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Orders</DropdownMenuItem>
-              <LogoutButton name="token">Logout</LogoutButton>
+              <LogoutButton>Logout</LogoutButton>
             </DropdownMenuContent>
           </DropdownMenu>
         </NavbarItem>

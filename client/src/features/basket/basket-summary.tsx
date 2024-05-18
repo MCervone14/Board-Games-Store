@@ -12,11 +12,12 @@ interface BasketSummaryProps {
 }
 
 const BasketSummary = ({ basket }: BasketSummaryProps) => {
-  const subtotal = basket.items.reduce(
-    (acc, item) => acc + (item.price * item.quantity) / 100,
-    0
-  );
-  const shipping = subtotal > 100 ? 0 : 5;
+  const subtotal =
+    basket?.items?.reduce(
+      (acc, item) => acc + (item.price * item.quantity) / 100,
+      0
+    ) || 0;
+  const shipping = subtotal > 100 || subtotal === 0 ? 0 : 5;
   const total = subtotal + shipping;
 
   const tableInfo = [
@@ -44,7 +45,7 @@ const BasketSummary = ({ basket }: BasketSummaryProps) => {
           <TableCell colSpan={4} className="bg-background"></TableCell>
           <TableCell className="font-bold border-b">{info.Label}</TableCell>
           <TableCell colSpan={2} className="pl-[88px] text-center border-b">
-            ${info.Value.toFixed(2)}
+            ${info.Value?.toFixed(2) || 0}
           </TableCell>
         </TableRow>
       ))}
