@@ -10,7 +10,7 @@ namespace API.DTOs
 
         public string BuyerId { get; set; }
 
-        public ShippingAddress ShipToAddress { get; set; }
+        public ShippingAddress ShippingAddress { get; set; }
 
         public DateTime OrderDate { get; set; } = DateTime.Now;
 

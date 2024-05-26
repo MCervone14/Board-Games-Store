@@ -12,7 +12,7 @@ namespace API.Entities.OrderAggregate
         public string BuyerId { get; set; }
 
         [Required]
-        public ShippingAddress ShipToAddress { get; set; }
+        public ShippingAddress ShippingAddress { get; set; }
 
         public DateTime OrderDate { get; set; } = DateTime.Now;
 

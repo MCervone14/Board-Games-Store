@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { FieldValues } from "react-hook-form";
 
 export const CartActionButton = async (
   productId: number,
@@ -211,4 +212,76 @@ export const getCurrentUser = async (token: string | undefined) => {
 export const removeCookie = (name: string) => {
   const nextCookies = cookies();
   nextCookies.delete(name);
+};
+
+export const handleSubmitOrder = async (values: FieldValues) => {
+  const {
+    nameOnCard,
+    cardNumber,
+    expiration,
+    cvc,
+    saveAddress,
+    ...shippingAddress
+  } = values;
+  console.log(saveAddress, shippingAddress);
+  const nextCookies = cookies();
+  const buyerId = nextCookies.get("buyerId")?.value;
+  const token = nextCookies.get("token")?.value;
+
+  const response = await fetch(`http://localhost:5000/api/Orders`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Cookie: `buyerId=${buyerId}`,
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify({ saveAddress, shippingAddress }),
+  });
+
+  const data = await response.json();
+  console.log(data);
+  revalidatePath("/basket");
+  return data;
+};
+
+export const getAddress = async () => {
+  const nextCookies = cookies();
+  const buyerId = nextCookies.get("buyerId")?.value;
+  const token = nextCookies.get("token")?.value;
+
+  const response = await fetch(
+    `http://localhost:5000/api/Account/savedAddress`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `buyerId=${buyerId}`,
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+
+  if (response.status === 200) {
+    const data = await response.json();
+    return data;
+  } else {
+    return null;
+  }
+};
+
+export const getOrders = async () => {
+  const nextCookies = cookies();
+  const buyerId = nextCookies.get("buyerId")?.value;
+  const token = nextCookies.get("token")?.value;
+
+  const response = await fetch(`http://localhost:5000/api/Orders`, {
+    headers: {
+      "Content-Type": "application/json",
+      Cookie: `buyerId=${buyerId}`,
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  const data = await response.json();
+  return data;
 };

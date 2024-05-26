@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace API.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class OrderEntity : Migration
+    public partial class OrdersEntity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -74,13 +74,13 @@ namespace API.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     BuyerId = table.Column<string>(type: "TEXT", nullable: true),
-                    ShipToAddress_FullName = table.Column<string>(type: "TEXT", nullable: true),
-                    ShipToAddress_Address1 = table.Column<string>(type: "TEXT", nullable: true),
-                    ShipToAddress_Address2 = table.Column<string>(type: "TEXT", nullable: true),
-                    ShipToAddress_City = table.Column<string>(type: "TEXT", nullable: true),
-                    ShipToAddress_State = table.Column<string>(type: "TEXT", nullable: true),
-                    ShipToAddress_ZipCode = table.Column<string>(type: "TEXT", nullable: true),
-                    ShipToAddress_Country = table.Column<string>(type: "TEXT", nullable: true),
+                    ShippingAddress_FullName = table.Column<string>(type: "TEXT", nullable: true),
+                    ShippingAddress_Address1 = table.Column<string>(type: "TEXT", nullable: true),
+                    ShippingAddress_Address2 = table.Column<string>(type: "TEXT", nullable: true),
+                    ShippingAddress_City = table.Column<string>(type: "TEXT", nullable: true),
+                    ShippingAddress_State = table.Column<string>(type: "TEXT", nullable: true),
+                    ShippingAddress_ZipCode = table.Column<string>(type: "TEXT", nullable: true),
+                    ShippingAddress_Country = table.Column<string>(type: "TEXT", nullable: true),
                     OrderDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Subtotal = table.Column<long>(type: "INTEGER", nullable: false),
                     DeliveryFee = table.Column<long>(type: "INTEGER", nullable: false),

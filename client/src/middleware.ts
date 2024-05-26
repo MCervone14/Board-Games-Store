@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { getCurrentUser } from "./actions/server";
 
 // 1. Specify protected and public routes
-const protectedRoutes = ["/dashboard", "/checkout"];
+const protectedRoutes = ["/dashboard", "/checkout", "/orders"];
 const publicRoutes = [
   "/login",
   "/signup",

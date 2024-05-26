@@ -7,5 +7,6 @@ namespace API.Entities.OrderAggregate
         PaymentReceived,
 
         PaymentFailed
+
     }
 }

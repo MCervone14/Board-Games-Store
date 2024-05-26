@@ -10,6 +10,7 @@ import { NavbarItem } from "@nextui-org/navbar";
 import { getCurrentUser } from "@/actions/server";
 import { cookies } from "next/headers";
 import LogoutButton from "../buttons/logout-button";
+import OrdersButton from "../buttons/orders-button";
 
 export async function UserMenu() {
   const authToken = await cookies().get("token");
@@ -36,7 +37,7 @@ export async function UserMenu() {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-fit">
               <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Orders</DropdownMenuItem>
+              <OrdersButton>Orders</OrdersButton>
               <LogoutButton>Logout</LogoutButton>
             </DropdownMenuContent>
           </DropdownMenu>

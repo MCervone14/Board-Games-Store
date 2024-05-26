@@ -32,8 +32,6 @@ export function RegisterForm() {
     const { username, email, password } = values;
     const data = await Register(username, email, password);
 
-    console.log(data);
-
     if (data.status === 400) {
       if (data.errors.DuplicateEmail) {
         form.setError("email", {

@@ -5,7 +5,6 @@ using API.Entities;
 using API.Entities.OrderAggregate;
 using API.Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,7 +42,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> CreateOrder(CreateOrderDto OrderDto)
+        public async Task<ActionResult<int>> CreateOrder(CreateOrderDto orderDto)
         {
             var basket = await _context.Baskets
                 .RetrieveBasketWithItems(User.Identity.Name)
@@ -82,7 +81,7 @@ namespace API.Controllers
             {
                 BuyerId = User.Identity.Name,
                 OrderItems = items,
-                ShipToAddress = OrderDto.ShipToAddress,
+                ShippingAddress = orderDto.ShippingAddress,
                 Subtotal = subtotal,
                 DeliveryFee = deliveryFee,
             };
@@ -90,21 +89,30 @@ namespace API.Controllers
             _context.Orders.Add(order);
             _context.Baskets.Remove(basket);
 
-            if (OrderDto.SaveAddress)
+            if (orderDto.SaveAddress)
             {
-                var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
-                user.Address = new UserAddress
-                {
-                    FullName = OrderDto.ShipToAddress.FullName,
-                    Address1 = OrderDto.ShipToAddress.Address1,
-                    Address2 = OrderDto.ShipToAddress.Address2,
-                    City = OrderDto.ShipToAddress.City,
-                    State = OrderDto.ShipToAddress.State,
-                    ZipCode = OrderDto.ShipToAddress.ZipCode,
-                    Country = OrderDto.ShipToAddress.Country
-                };
+                var user = await _context.Users.Include(a => a.Address).FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
 
-                _context.Users.Update(user);
+
+
+                if (user.Address == null)
+                {
+                    user.Address = new UserAddress();
+                }
+
+                if (orderDto.ShippingAddress == null)
+                {
+                    return BadRequest(new ProblemDetails { Title = "Shipping address is required" });
+                }
+
+                user.Address.FullName = orderDto.ShippingAddress.FullName;
+                user.Address.Address1 = orderDto.ShippingAddress.Address1;
+                user.Address.Address2 = orderDto.ShippingAddress.Address2;
+                user.Address.City = orderDto.ShippingAddress.City;
+                user.Address.State = orderDto.ShippingAddress.State;
+                user.Address.ZipCode = orderDto.ShippingAddress.ZipCode;
+                user.Address.Country = orderDto.ShippingAddress.Country;
+
             }
 
             var result = await _context.SaveChangesAsync() > 0;
