@@ -1,5 +1,6 @@
 "use client";
 
+import { CreatePaymentIntent } from "@/actions/server";
 import {
   FormField,
   FormItem,
@@ -8,10 +9,36 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  CardCvcElement,
+  CardExpiryElement,
+  CardNumberElement,
+} from "@stripe/react-stripe-js";
+import { StripeElementType } from "@stripe/stripe-js";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
-const PaymentForm = () => {
+interface PaymentFormProps {
+  cardState: { elementError: { [key in StripeElementType]?: string } };
+  onCardInputChange: (event: any) => void;
+  setClientSecret: (clientSecret: string) => void;
+}
+
+const PaymentForm = ({
+  onCardInputChange,
+  cardState,
+  setClientSecret,
+}: PaymentFormProps) => {
   const form = useFormContext();
+
+  useEffect(() => {
+    const paymentIntent = async () => {
+      const response = await CreatePaymentIntent();
+      setClientSecret(response.clientSecret);
+    };
+
+    paymentIntent();
+  }, []);
 
   return (
     <div className="p-6">
@@ -23,69 +50,79 @@ const PaymentForm = () => {
           </p>
         </div>
         <div className="space-y-4">
-          <div className="space-y-2">
-            <FormField
-              control={form.control}
-              name="cardNumber"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Credit Card Number</FormLabel>
-                  <FormControl>
-                    <Input placeholder="1230-2232-2323-2323" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+          <FormField
+            control={form.control}
+            name="nameOnCard"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel htmlFor="nameOnCard">Name on Card</FormLabel>
+                <FormControl>
+                  <Input id="nameOnCard" placeholder="John Doe" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="border p-2 rounded">
+            <CardNumberElement
+              onChange={onCardInputChange}
+              onReady={(element) => element.focus()}
+              options={{
+                style: {
+                  base: {
+                    fontSize: "16px",
+                    color: "#fff",
+                    "::placeholder": {
+                      color: "foreground-muted",
+                    },
+                  },
+                },
+              }}
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              {" "}
-              <FormField
-                control={form.control}
-                name="expiration"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel htmlFor="expireDate">Expiration Date</FormLabel>
-                    <FormControl>
-                      <Input id="expireDate" placeholder="MM/YY" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="space-y-2">
-              <FormField
-                control={form.control}
-                name="cvc"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel htmlFor="cvc">Security Key</FormLabel>
-                    <FormControl>
-                      <Input id="cvc" placeholder="123" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <FormField
-              control={form.control}
-              name="nameOnCard"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="NameOnCard">Name on Card</FormLabel>
-                  <FormControl>
-                    <Input id="nameOnCard" placeholder="John Doe" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+          <small className="text-red-800 px-2">
+            {cardState.elementError.cardNumber || ""}
+          </small>
+          <div className="border rounded p-2">
+            <CardExpiryElement
+              onChange={onCardInputChange}
+              onReady={(element) => element.focus()}
+              options={{
+                style: {
+                  base: {
+                    fontSize: "16px",
+                    color: "#fff",
+                    "::placeholder": {
+                      color: "foreground-muted",
+                    },
+                  },
+                },
+              }}
             />
           </div>
+          <small className="text-red-800 px-2">
+            {cardState.elementError.cardExpiry || ""}
+          </small>
+          <div className="border rounded p-2 mb-5">
+            <CardCvcElement
+              onChange={onCardInputChange}
+              onReady={(element) => element.focus()}
+              options={{
+                style: {
+                  base: {
+                    fontSize: "16px",
+                    color: "#fff",
+                    "::placeholder": {
+                      color: "foreground-muted",
+                    },
+                  },
+                },
+              }}
+            />
+          </div>
+          <small className="text-red-800 px-2">
+            {cardState.elementError.cardCvc || ""}
+          </small>
         </div>
       </div>
     </div>

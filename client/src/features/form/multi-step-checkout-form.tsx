@@ -12,20 +12,61 @@ import ShippingForm from "./shipping-form";
 import ReviewOrderForm from "./review-order-form";
 import PaymentForm from "./payment-form";
 import { useEffect, useMemo, useState } from "react";
-import { FieldValues, FormProvider, useForm } from "react-hook-form";
+import { FieldValues, FormProvider, set, useForm } from "react-hook-form";
 import { validationFormSchema } from "@/lib/form-schemas";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Confirmation from "./confirmation";
 import { getAddress, handleSubmitOrder } from "@/actions/server";
 import Link from "next/link";
+import { StripeElementType } from "@stripe/stripe-js";
+import {
+  CardNumberElement,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js";
+import { Basket } from "@/types/basket";
+
+interface MultoStepCheckoutFormProps {
+  basket: Basket;
+}
 
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
-export default function MultiStepCheckoutForm() {
+export default function MultiStepCheckoutForm({
+  basket,
+}: MultoStepCheckoutFormProps) {
   const [activeStep, setActiveStep] = useState(0);
   const [orderNumber, setOrderNumber] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [cardState, setCardState] = useState<{
+    elementError: { [key in StripeElementType]?: string };
+  }>({ elementError: {} });
+  const [cardComplete, setCardComplete] = useState({
+    cardNumber: false,
+    cardExpiry: false,
+    cardCvc: false,
+  });
+  const [paymentId, setPaymentId] = useState("");
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [paymentMessage, setPaymentMessage] = useState("");
+  const [paymentSucceeded, setPaymentSucceeded] = useState(false);
+  const stripe = useStripe();
+  const elements = useElements();
+
+  function onCardInputChange(event: any) {
+    setCardState({
+      ...cardState,
+      elementError: {
+        ...cardState.elementError,
+        [event.elementType]: event.error?.message,
+      },
+    });
+    setCardComplete({
+      ...cardComplete,
+      [event.elementType]: event.complete,
+    });
+  }
 
   const currentValidationSchema = validationFormSchema[activeStep];
 
@@ -34,11 +75,23 @@ export default function MultiStepCheckoutForm() {
       case 0:
         return <ShippingForm />;
       case 1:
-        return <PaymentForm />;
+        return (
+          <PaymentForm
+            setClientSecret={setClientSecret}
+            onCardInputChange={onCardInputChange}
+            cardState={cardState}
+          />
+        );
       case 2:
         return <ReviewOrderForm />;
       case 3:
-        return <Confirmation orderNumber={orderNumber} />;
+        return (
+          <Confirmation
+            orderNumber={orderNumber}
+            paymentMessage={paymentMessage}
+            paymentSucceeded={paymentSucceeded}
+          />
+        );
       default:
         throw new Error("Unknown step");
     }
@@ -58,9 +111,6 @@ export default function MultiStepCheckoutForm() {
         zipCode: "",
         country: "US",
         saveAddress: false,
-        cardNumber: "",
-        expiration: "",
-        cvc: "",
         nameOnCard: "",
       }),
       []
@@ -76,6 +126,24 @@ export default function MultiStepCheckoutForm() {
   }, [methods]);
 
   const handleNext = async () => {
+    if (activeStep === 1) {
+      const cardElement = elements?.getElement(CardNumberElement);
+      const paymentCreation = await stripe?.createPaymentMethod({
+        type: "card",
+        card: cardElement!,
+        billing_details: {
+          name: methods.getValues("nameOnCard"),
+        },
+      });
+      console.log(paymentCreation?.paymentMethod);
+      if (!paymentCreation) {
+        console.log("Payment creation failed");
+        return;
+      } else {
+        console.log("Payment creation successful");
+        setPaymentId(paymentCreation.paymentMethod?.id as string);
+      }
+    }
     setActiveStep((prev) => prev + 1);
   };
 
@@ -83,13 +151,43 @@ export default function MultiStepCheckoutForm() {
     setActiveStep((prev) => prev - 1);
   };
 
+  const submitDisabled = () => {
+    if (activeStep === steps.length - 2) {
+      return (
+        !cardComplete.cardNumber ||
+        !cardComplete.cardExpiry ||
+        !cardComplete.cardCvc ||
+        !methods.formState.isValid
+      );
+    } else {
+      return !methods.formState.isValid;
+    }
+  };
+
   const onSubmit = async (values: FieldValues) => {
     setIsLoading(true);
+    if (!stripe) return;
+    console.log(clientSecret, paymentId);
     try {
-      const orderNumber = await handleSubmitOrder(values);
-      setOrderNumber(orderNumber);
-      setActiveStep((prev) => prev + 1);
-      setIsLoading(false);
+      const paymentResult = await stripe.confirmCardPayment(clientSecret!, {
+        payment_method: paymentId,
+      });
+      console.log(paymentResult);
+      if (paymentResult?.paymentIntent?.status === "succeeded") {
+        const orderNumber = await handleSubmitOrder(values);
+        setOrderNumber(orderNumber);
+        setPaymentSucceeded(true);
+        setPaymentMessage("Payment successful");
+        setActiveStep((prev) => prev + 1);
+        setIsLoading(false);
+        setClientSecret(null);
+        setPaymentId("");
+      } else {
+        setPaymentMessage(paymentResult?.error?.message!);
+        setActiveStep((prev) => prev + 1);
+        setPaymentSucceeded(false);
+        setIsLoading(false);
+      }
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -139,7 +237,7 @@ export default function MultiStepCheckoutForm() {
                   "hidden"
                 }`}
                 onClick={handleNext}
-                disabled={!methods.formState.isValid}
+                disabled={submitDisabled()}
               >
                 Next
               </Button>

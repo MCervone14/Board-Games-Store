@@ -215,14 +215,7 @@ export const removeCookie = (name: string) => {
 };
 
 export const handleSubmitOrder = async (values: FieldValues) => {
-  const {
-    nameOnCard,
-    cardNumber,
-    expiration,
-    cvc,
-    saveAddress,
-    ...shippingAddress
-  } = values;
+  const { nameOnCard, saveAddress, ...shippingAddress } = values;
   console.log(saveAddress, shippingAddress);
   const nextCookies = cookies();
   const buyerId = nextCookies.get("buyerId")?.value;
@@ -275,6 +268,24 @@ export const getOrders = async () => {
   const token = nextCookies.get("token")?.value;
 
   const response = await fetch(`http://localhost:5000/api/Orders`, {
+    headers: {
+      "Content-Type": "application/json",
+      Cookie: `buyerId=${buyerId}`,
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  const data = await response.json();
+  return data;
+};
+
+export const CreatePaymentIntent = async () => {
+  const nextCookies = cookies();
+  const buyerId = nextCookies.get("buyerId")?.value;
+  const token = nextCookies.get("token")?.value;
+
+  const response = await fetch(`http://localhost:5000/api/Payments`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Cookie: `buyerId=${buyerId}`,

@@ -54,9 +54,6 @@ export const validationFormSchema = [
     saveAddress: z.boolean(),
   }),
   z.object({
-    cardNumber: z.string(),
-    expiration: z.string(),
-    cvc: z.string(),
     nameOnCard: z.string().min(2).max(75),
   }),
 ];

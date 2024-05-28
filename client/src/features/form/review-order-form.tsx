@@ -7,7 +7,6 @@ import { useFormContext } from "react-hook-form";
 const ReviewOrderForm = () => {
   const form = useFormContext();
   const values = form.getValues();
-  const last4Digits = values.cardNumber.slice(-4);
 
   return (
     <div className="p-6">
@@ -41,7 +40,7 @@ const ReviewOrderForm = () => {
               <div>
                 <h3 className="font-medium">Payment Method</h3>
                 <p className="text-gray-500">
-                  Visa ending in {last4Digits}, Expires {values.expiration}
+                  Visa ending in 1111, Expires 12/2025
                 </p>
               </div>
               <Link
