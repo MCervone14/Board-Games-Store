@@ -28,11 +28,9 @@ const BoardGamesPage = async ({ searchParams }: BoardGamesPageProps) => {
   );
   const filters = await getFilters();
   return (
-    <div className="mt-10 flex justify-center gap-5">
-      <div className="flex gap-5">
-        <Catalog products={products} metaData={paginationMetaData} />
-        <FilterSideBar filters={filters} />
-      </div>
+    <div className="container">
+      <FilterSideBar filters={filters} />
+      <Catalog products={products} metaData={paginationMetaData} />
     </div>
   );
 };

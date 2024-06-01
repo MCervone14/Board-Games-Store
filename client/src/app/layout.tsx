@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import NavbarLayout from "@/features/layout/navbar";
-import { cookies } from "next/headers";
-
+import { Archivo } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-const inter = Inter({ subsets: ["latin"] });
+import Footer from "@/features/footer/footer";
+import NavbarLayout from "@/features/layout/navbar";
+import CategoriesNavbar from "@/features/layout/categories-navbar";
+
+const archivo = Archivo({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-archivo",
+});
 
 export const metadata: Metadata = {
   title: "Board Games",
@@ -17,12 +22,16 @@ export default async function RootLayout(props: {
   modal: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <body className={inter.className}>
+    <html lang="en">
+      <body className={archivo.className}>
         <NavbarLayout />
-        {props.children}
-        {props.modal}
+        <CategoriesNavbar />
+        <main>
+          {props.children}
+          {props.modal}
+        </main>
         <Toaster />
+        <Footer />
       </body>
     </html>
   );

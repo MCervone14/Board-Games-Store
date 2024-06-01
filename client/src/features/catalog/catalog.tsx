@@ -10,10 +10,10 @@ interface CatalogProps {
 
 const Catalog = async ({ products, metaData }: CatalogProps) => {
   return (
-    <div className="mx-auto flex flex-col justify-center items-center">
+    <>
       <ProductList products={products} />
       <NextPagePagination metaData={metaData} />
-    </div>
+    </>
   );
 };
 

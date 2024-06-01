@@ -19,18 +19,22 @@ export async function UserMenu() {
   return (
     <>
       {!user ? (
-        <>
+        <div className="hidden md:flex gap-2">
           <NavbarItem className="hidden lg:flex">
-            <Link href="/login">Login</Link>
+            <Link href="/login">
+              <Button variant="outline">Login</Button>
+            </Link>
           </NavbarItem>
           <NavbarItem>
             <Link href="/register">
-              <Button variant="default">Sign Up</Button>
+              <Button variant="default" className="bg-blue-600">
+                Sign Up
+              </Button>
             </Link>
           </NavbarItem>
-        </>
+        </div>
       ) : (
-        <NavbarItem>
+        <NavbarItem className="hidden md:flex gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">{user.email}</Button>

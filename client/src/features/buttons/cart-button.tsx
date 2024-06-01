@@ -23,7 +23,8 @@ const CartButton = ({
 
   return (
     <Button
-      variant="link"
+      className="bg-blue-600 text-white w-full py-6 rounded-tl-none rounded-r-none"
+      variant="default"
       onClick={() =>
         startTransition(() =>
           CartActionButton(productId, quantity, method, cookie)

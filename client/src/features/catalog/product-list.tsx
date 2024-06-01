@@ -7,7 +7,7 @@ interface ProductCardProps {
 
 const ProductList = ({ products }: ProductCardProps) => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 max-w-6xl gap-4 w-full  justify-center items-center">
+    <div className="mx-auto grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
