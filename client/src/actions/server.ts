@@ -68,18 +68,22 @@ export const CartActionButton = async (
 };
 
 export const getBasket = async () => {
-  const nextCookies = cookies();
-  const buyerId = nextCookies.get("buyerId");
+  try {
+    const nextCookies = cookies();
+    const buyerId = nextCookies.get("buyerId");
 
-  const response = await fetch(`${baseURL}/basket`, {
-    headers: {
-      "Content-Type": "application/json",
-      Cookie: `buyerId=${buyerId?.value}`,
-    },
-  });
+    const response = await fetch(`${baseURL}/basket`, {
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: `buyerId=${buyerId?.value}`,
+      },
+    });
 
-  const data = await response.json();
-  return data;
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    return { products: [] };
+  }
 };
 
 export const handleAddToCart = async (formData: FormData) => {
@@ -105,35 +109,39 @@ export const fetchProducts = async (
   pageSize?: number,
   types?: string[]
 ) => {
-  if (
-    orderBy === "name" &&
-    searchTerm === "" &&
-    types?.length === 0 &&
-    pageNumber === 1 &&
-    pageSize === 12
-  ) {
-    const response = await fetch(`${baseURL}/products`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    return data;
-  } else {
-    const response = await fetch(
-      `${baseURL}/products?orderBy=${orderBy}&searchTerm=${searchTerm}&types=${types}&PageNumber=${pageNumber}&PageSize=${pageSize}`,
-      {
+  try {
+    if (
+      orderBy === "name" &&
+      searchTerm === "" &&
+      types?.length === 0 &&
+      pageNumber === 1 &&
+      pageSize === 12
+    ) {
+      const response = await fetch(`${baseURL}/products`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-      }
-    );
-    const data = await response.json();
+      });
+      const data = await response.json();
+      return data;
+    } else {
+      const response = await fetch(
+        `${baseURL}/products?orderBy=${orderBy}&searchTerm=${searchTerm}&types=${types}&PageNumber=${pageNumber}&PageSize=${pageSize}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
 
-    revalidatePath("/boardgames");
+      revalidatePath("/boardgames");
 
-    return data;
+      return data;
+    }
+  } catch (error) {
+    return { products: [], paginationMetaData: {} };
   }
 };
 
