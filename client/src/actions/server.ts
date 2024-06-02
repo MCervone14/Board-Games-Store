@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 
+const baseURL = process.env.BASE_API_URL;
+
 export const CartActionButton = async (
   productId: number,
   quantity: number,
@@ -18,7 +20,7 @@ export const CartActionButton = async (
   if (token) {
     user = await getCurrentUser(token);
     const response = await fetch(
-      `http://localhost:5000/api/basket?productId=${productId}&quantity=${quantity}`,
+      `${baseURL}/basket?productId=${productId}&quantity=${quantity}`,
       {
         method: method,
         headers: {
@@ -34,7 +36,7 @@ export const CartActionButton = async (
     return data;
   } else if (buyerId) {
     const response = await fetch(
-      `http://localhost:5000/api/basket?productId=${productId}&quantity=${quantity}`,
+      `${baseURL}/basket?productId=${productId}&quantity=${quantity}`,
       {
         method: method,
         headers: {
@@ -49,7 +51,7 @@ export const CartActionButton = async (
     return data;
   } else {
     const response = await fetch(
-      `http://localhost:5000/api/basket?productId=${productId}&quantity=${quantity}`,
+      `${baseURL}/basket?productId=${productId}&quantity=${quantity}`,
       {
         method: method,
         headers: {
@@ -69,7 +71,7 @@ export const getBasket = async () => {
   const nextCookies = cookies();
   const buyerId = nextCookies.get("buyerId");
 
-  const response = await fetch("http://localhost:5000/api/basket", {
+  const response = await fetch(`${baseURL}/basket`, {
     headers: {
       "Content-Type": "application/json",
       Cookie: `buyerId=${buyerId?.value}`,
@@ -110,7 +112,7 @@ export const fetchProducts = async (
     pageNumber === 1 &&
     pageSize === 12
   ) {
-    const response = await fetch(`http://localhost:5000/api/products`, {
+    const response = await fetch(`${baseURL}/products`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -120,7 +122,7 @@ export const fetchProducts = async (
     return data;
   } else {
     const response = await fetch(
-      `http://localhost:5000/api/products?orderBy=${orderBy}&searchTerm=${searchTerm}&types=${types}&PageNumber=${pageNumber}&PageSize=${pageSize}`,
+      `${baseURL}/products?orderBy=${orderBy}&searchTerm=${searchTerm}&types=${types}&PageNumber=${pageNumber}&PageSize=${pageSize}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -139,7 +141,7 @@ export const Login = async (username: string, password: string) => {
   const nextCookies = cookies();
   const buyerId = nextCookies.get("buyerId")?.value;
 
-  const response = await fetch("http://localhost:5000/api/Account/login", {
+  const response = await fetch(`${baseURL}/Account/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -169,7 +171,7 @@ export const Register = async (
   email: string,
   password: string
 ) => {
-  const response = await fetch("http://localhost:5000/api/Account/register", {
+  const response = await fetch(`${baseURL}/Account/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -190,16 +192,13 @@ export const Register = async (
 
 export const getCurrentUser = async (token: string | undefined) => {
   if (!token) return null;
-  const response = await fetch(
-    "http://localhost:5000/api/Account/currentUser",
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    }
-  );
+  const response = await fetch(`${baseURL}/Account/currentUser`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
 
   if (response.status !== 401) {
     const data = await response.json();
@@ -221,7 +220,7 @@ export const handleSubmitOrder = async (values: FieldValues) => {
   const buyerId = nextCookies.get("buyerId")?.value;
   const token = nextCookies.get("token")?.value;
 
-  const response = await fetch(`http://localhost:5000/api/Orders`, {
+  const response = await fetch(`${baseURL}/Orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -242,17 +241,14 @@ export const getAddress = async () => {
   const buyerId = nextCookies.get("buyerId")?.value;
   const token = nextCookies.get("token")?.value;
 
-  const response = await fetch(
-    `http://localhost:5000/api/Account/savedAddress`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Cookie: `buyerId=${buyerId}`,
-        Authorization: "Bearer " + token,
-      },
-    }
-  );
+  const response = await fetch(`${baseURL}/Account/savedAddress`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Cookie: `buyerId=${buyerId}`,
+      Authorization: "Bearer " + token,
+    },
+  });
 
   if (response.status === 200) {
     const data = await response.json();
@@ -267,7 +263,7 @@ export const getOrders = async () => {
   const buyerId = nextCookies.get("buyerId")?.value;
   const token = nextCookies.get("token")?.value;
 
-  const response = await fetch(`http://localhost:5000/api/Orders`, {
+  const response = await fetch(`${baseURL}/Orders`, {
     headers: {
       "Content-Type": "application/json",
       Cookie: `buyerId=${buyerId}`,
@@ -284,7 +280,7 @@ export const CreatePaymentIntent = async () => {
   const buyerId = nextCookies.get("buyerId")?.value;
   const token = nextCookies.get("token")?.value;
 
-  const response = await fetch(`http://localhost:5000/api/Payments`, {
+  const response = await fetch(`${baseURL}/Payments`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
