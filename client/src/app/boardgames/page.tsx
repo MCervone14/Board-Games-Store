@@ -3,7 +3,7 @@ import Catalog from "@/features/catalog/catalog";
 import FilterSideBar from "@/features/filter/filter-sidebar";
 
 const getFilters = async () => {
-  const response = await fetch("http://localhost:5000/api/products/filters");
+  const response = await fetch(`${process.env.BASE_API_URL}/products/filters`);
 
   return await response.json();
 };

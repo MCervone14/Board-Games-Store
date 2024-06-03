@@ -16,7 +16,7 @@ interface BoardGameDetailsPageProps {
 
 const getProduct = async (id: string) => {
   try {
-    const response = await fetch(`http://localhost:5000/api/products/${id}`);
+    const response = await fetch(`${process.env.BASE_API_URL}/products/${id}`);
     return await response.json();
   } catch (error: any) {
     return { error };

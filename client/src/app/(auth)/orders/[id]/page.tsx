@@ -7,7 +7,7 @@ const getOrder = async (id: string) => {
   const buyerId = nextCookies.get("buyerId")?.value;
   const token = nextCookies.get("token")?.value;
 
-  const response = await fetch(`http://localhost:5000/api/Orders/${id}`, {
+  const response = await fetch(`${process.env.BASE_API_URL}/Orders/${id}`, {
     method: "GET",
     headers: {
       contentType: "application/json",

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 import { fetchProducts } from "@/actions/server";
 import Catalog from "@/features/catalog/catalog";
@@ -16,6 +15,8 @@ export default async function Home() {
     <>
       <section className="w-full">
         <Image
+          priority
+          blurDataURL="/images/promotionals/boardgame-with-dice-banner.jpg"
           alt="Promotional Board Game Image found on FreePik.com"
           className="mx-auto max-h-[500px] w-full object-cover"
           height="500"
