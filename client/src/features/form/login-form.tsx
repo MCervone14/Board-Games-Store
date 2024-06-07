@@ -45,7 +45,7 @@ export function LoginForm() {
 
     if (data.token) {
       form.reset();
-      router.replace("/boardgames");
+      router.push("/");
     }
   };
 

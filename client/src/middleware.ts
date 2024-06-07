@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { getCurrentUser } from "./actions/server";
 
 // 1. Specify protected and public routes
-const protectedRoutes = ["/dashboard", "/checkout", "/orders"];
+const protectedRoutes = ["/dashboard", "/checkout", "/orders", "/inventory"];
 const publicRoutes = [
   "/login",
   "/signup",
@@ -32,12 +32,8 @@ export default async function middleware(req: NextRequest) {
   }
 
   // 6. Redirect to /dashboard if the user is authenticated
-  if (
-    isPublicRoute &&
-    user &&
-    !req.nextUrl.pathname.startsWith("/boardgames")
-  ) {
-    return NextResponse.redirect(new URL("/boardgames", req.nextUrl));
+  if (isPublicRoute && user && !req.nextUrl.pathname.startsWith("/")) {
+    return NextResponse.redirect(new URL("/", req.nextUrl));
   }
 
   return NextResponse.next();

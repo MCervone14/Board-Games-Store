@@ -24,18 +24,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { OrdersTablePagination } from "./orders-pagination";
+import { TablePagination } from "./table-pagination";
 import { useState } from "react";
 
-interface OrderTableProps<TData, TValue> {
+interface TableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function OrderTable<TData, TValue>({
+export function DataTable<TData, TValue>({
   columns,
   data,
-}: OrderTableProps<TData, TValue>) {
+}: TableProps<TData, TValue>) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -111,7 +111,7 @@ export function OrderTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <OrdersTablePagination table={table} />
+      <TablePagination table={table} />
     </div>
   );
 }

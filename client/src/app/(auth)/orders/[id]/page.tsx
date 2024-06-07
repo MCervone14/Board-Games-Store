@@ -1,5 +1,5 @@
 import BackButton from "@/features/buttons/back-button";
-import OrderDetails from "@/features/orders/order-details";
+import OrderTableDetails from "@/features/table/data/orders-data/order-table-details";
 import { cookies } from "next/headers";
 
 const getOrder = async (id: string) => {
@@ -41,7 +41,7 @@ const OrdersDetailPage = async ({ params }: OrdersDetailPageProps) => {
           <BackButton>Back to Orders</BackButton>
         </div>
       </div>
-      <OrderDetails order={order} />
+      <OrderTableDetails order={order} />
     </div>
   );
 };

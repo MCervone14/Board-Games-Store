@@ -218,6 +218,7 @@ export const getCurrentUser = async (token: string | undefined) => {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     },
+    credentials: "include",
   });
 
   if (response.status !== 401) {

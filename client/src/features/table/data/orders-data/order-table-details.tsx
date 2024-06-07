@@ -10,14 +10,13 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 import { Order } from "@/types/order";
-import BasketSummary from "../basket/basket-summary";
-import OrderSummary from "./order-summary";
+import Summary from "../../table-summary";
 
-interface OrderDetailsProps {
+interface DetailsProps {
   order: Order;
 }
 
-const OrderDetails = ({ order }: OrderDetailsProps) => {
+const OrderTableDetails = ({ order }: DetailsProps) => {
   return (
     <Table className="max-w-7xl mx-auto">
       <TableCaption>
@@ -67,10 +66,10 @@ const OrderDetails = ({ order }: OrderDetailsProps) => {
         ))}
       </TableBody>
       <TableFooter className="mx-auto">
-        <OrderSummary orderItems={order.orderItems} />
+        <Summary items={order.orderItems} />
       </TableFooter>
     </Table>
   );
 };
 
-export default OrderDetails;
+export default OrderTableDetails;

@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import { z } from "zod";
-import { columns } from "@/features/orders/columns";
-import { OrderTable } from "@/features/orders/order-table";
+import { orderColumns } from "@/features/table/data/orders-data/order-columns";
+
 import { getOrders } from "@/actions/server";
+import { DataTable } from "@/features/table/table";
 
 export const metadata: Metadata = {
   title: "Orders",
@@ -22,7 +22,7 @@ export default async function TaskPage() {
           </p>
         </div>
       </div>
-      <OrderTable data={orders} columns={columns} />
+      <DataTable data={orders} columns={orderColumns} />
     </div>
   );
 }

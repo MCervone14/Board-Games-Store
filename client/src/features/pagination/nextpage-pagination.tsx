@@ -24,9 +24,18 @@ const NextPagePagination = ({ metaData }: NextPagePaginationProps) => {
   const [isPending, startTransition] = useTransition();
   const { currentPage, totalPages, pageSize, totalCount } = metaData;
 
+  const startIndex = (currentPage - 1) * pageSize + 1;
+  const endIndex = Math.min(currentPage * pageSize, totalCount);
+
+  console.log("metaData", metaData);
+
   return (
-    <Pagination className="mt-10">
-      <div className="flex flex-col gap-4 justify-center items-center">
+    <Pagination className={`my-10 ${pathname == "/" && "hidden"}`}>
+      <div className="flex gap-4 w-full justify-between items-center">
+        <p className="text-center text-lg">
+          <span className="font-bold">Showing</span>
+          {` ${startIndex} - ${endIndex} of ${totalCount} `}
+        </p>
         <div className="flex gap-1">
           <Button
             onClick={() =>
@@ -85,10 +94,6 @@ const NextPagePagination = ({ metaData }: NextPagePaginationProps) => {
             <ChevronRightIcon className="w-5 h-5" />
           </Button>
         </div>
-        <p className="text-center text-lg">
-          <span className="font-bold">products</span> {currentPage} - {pageSize}{" "}
-          of {totalCount}{" "}
-        </p>
       </div>
     </Pagination>
   );

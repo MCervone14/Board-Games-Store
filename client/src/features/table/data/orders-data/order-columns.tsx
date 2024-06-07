@@ -1,12 +1,12 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { DataTableColumnHeader } from "./data-table-column-header";
+import { DataTableColumnHeader } from "../../data-table-column-header";
 import { Order } from "@/types/order";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-export const columns: ColumnDef<Order>[] = [
+export const orderColumns: ColumnDef<Order>[] = [
   {
     accessorKey: "id",
     header: ({ column }) => (

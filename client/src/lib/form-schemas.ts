@@ -57,3 +57,16 @@ export const validationFormSchema = [
     nameOnCard: z.string().min(2).max(75),
   }),
 ];
+
+export const AddProductFormSchema = z.object({
+  name: z.string().min(3).max(75),
+  description: z.string().min(10).max(500),
+  price: z.number().min(100),
+  files: z.array(z.object({})),
+  type: z.string(),
+  designer: z.string(),
+  publisher: z.string(),
+  quantityInStock: z.number().min(1),
+  // onSale: z.boolean(),
+  // salePrice: z.number().min(0),
+});

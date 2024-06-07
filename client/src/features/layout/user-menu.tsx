@@ -3,6 +3,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
@@ -11,10 +12,11 @@ import { getCurrentUser } from "@/actions/server";
 import { cookies } from "next/headers";
 import LogoutButton from "../buttons/logout-button";
 import OrdersButton from "../buttons/orders-button";
+import { UserCircleIcon } from "@heroicons/react/24/solid";
 
 export async function UserMenu() {
-  const authToken = await cookies().get("token");
-  let user = await getCurrentUser(authToken?.value);
+  const authToken = cookies().get("token")?.value;
+  let user = await getCurrentUser(authToken);
 
   return (
     <>
@@ -37,9 +39,18 @@ export async function UserMenu() {
         <NavbarItem className="hidden md:flex gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">{user.email}</Button>
+              <Button variant="ghost" className="p-0 rounded-full">
+                <UserCircleIcon className="w-8 h-8 fill-primary/90" />
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-fit">
+              <p className="text-sm px-2">{user.email}</p>
+              <DropdownMenuSeparator />
+              {user.admin && (
+                <Link href="/inventory">
+                  <DropdownMenuItem>Admin Panel</DropdownMenuItem>
+                </Link>
+              )}
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <OrdersButton>Orders</OrdersButton>
               <LogoutButton>Logout</LogoutButton>

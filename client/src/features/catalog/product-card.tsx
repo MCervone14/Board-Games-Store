@@ -51,13 +51,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </Tooltip>
         </TooltipProvider>
         <Link href={`/boardgames/${product.id}`} className="w-full">
-          <Image
-            alt={product.name}
-            className="mx-auto object-contain max-h-[300px] h-[300px] w-full"
-            src={product.pictureUrl}
-            width={300}
-            height={300}
-          />
+          {product.pictureUrl && (
+            <Image
+              alt={product.name}
+              className="mx-auto object-contain max-h-[300px] h-[300px] w-full"
+              src={product.pictureUrl}
+              width={300}
+              height={300}
+            />
+          )}
         </Link>
       </CardHeader>
       <CardContent className="py-2">

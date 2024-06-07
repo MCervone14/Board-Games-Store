@@ -2,16 +2,14 @@ import { TableRow, TableCell } from "@/components/ui/table";
 
 import { OrderItem } from "@/types/order";
 
-interface OrderSummaryProps {
-  orderItems: OrderItem[];
+interface SummaryProps {
+  items: OrderItem[];
 }
 
-const OrderSummary = ({ orderItems }: OrderSummaryProps) => {
+const Summary = ({ items }: SummaryProps) => {
   const subtotal =
-    orderItems?.reduce(
-      (acc, item) => acc + (item.price * item.quantity) / 100,
-      0
-    ) || 0;
+    items?.reduce((acc, item) => acc + (item.price * item.quantity) / 100, 0) ||
+    0;
   const shipping = subtotal > 100 || subtotal === 0 ? 0 : 5;
   const total = subtotal + shipping;
 
@@ -48,4 +46,4 @@ const OrderSummary = ({ orderItems }: OrderSummaryProps) => {
   );
 };
 
-export default OrderSummary;
+export default Summary;
