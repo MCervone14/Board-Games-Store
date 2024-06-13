@@ -24,7 +24,7 @@ interface BasketDetailsProps {
 
 const BasketDetails = async ({ basket }: BasketDetailsProps) => {
   return (
-    <Table className="max-w-7xl mx-auto">
+    <Table className="max-w-5xl mx-auto min-h-screen">
       <TableCaption>Product(s) in your Cart</TableCaption>
       <TableHeader>
         <TableRow>
@@ -38,7 +38,7 @@ const BasketDetails = async ({ basket }: BasketDetailsProps) => {
           <TableHead></TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody>
+      <TableBody className="bg-gray-100">
         {basket?.items?.map((item) => (
           <TableRow key={item.productId}>
             <TableCell>
@@ -63,8 +63,9 @@ const BasketDetails = async ({ basket }: BasketDetailsProps) => {
                   quantity={1}
                   method="DELETE"
                   cookie={false}
+                  variant="ghost"
                 >
-                  <MinusCircleIcon className="w-5 text-gray-200 hover:text-gray-100" />
+                  <MinusCircleIcon className="w-7 h-7 text-primary/90 hover:text-primary hover:fill-blue-600" />
                 </CartButton>
                 {item.quantity}
                 <CartButton
@@ -72,8 +73,9 @@ const BasketDetails = async ({ basket }: BasketDetailsProps) => {
                   quantity={1}
                   method="POST"
                   cookie={true}
+                  variant="ghost"
                 >
-                  <PlusCircleIcon className="w-5 text-gray-200 hover:text-gray-100 rounded-full" />
+                  <PlusCircleIcon className="w-7 h-7 text-primary/90 hover:text-primary hover:fill-blue-600" />
                 </CartButton>
               </div>
             </TableCell>
@@ -85,17 +87,27 @@ const BasketDetails = async ({ basket }: BasketDetailsProps) => {
                   quantity={item.quantity}
                   method="DELETE"
                   cookie={false}
+                  variant="ghost"
                 >
-                  <XMarkIcon className="bg-slate-200 w-4 h-4 rounded-full text-slate-700 hover:cursor-pointer hover:bg-slate-100" />
+                  <XMarkIcon className="w-5 h-5 rounded-full  hover:text-red-600 hover:bg-red-100" />
                 </CartButton>
               </div>
             </TableCell>
           </TableRow>
         ))}
+        {basket?.items?.length === 0 && (
+          <TableRow>
+            <TableCell colSpan={7} className="text-center">
+              Your cart is empty
+            </TableCell>
+          </TableRow>
+        )}
       </TableBody>
-      <TableFooter className="mx-auto">
-        <BasketSummary basket={basket} />
-      </TableFooter>
+      {basket?.items?.length > 0 && (
+        <TableFooter className="mx-auto bg-gray-100">
+          <BasketSummary basket={basket} />
+        </TableFooter>
+      )}
     </Table>
   );
 };

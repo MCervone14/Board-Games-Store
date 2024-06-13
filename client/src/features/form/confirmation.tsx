@@ -1,41 +1,56 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface ConfirmationProps {
   orderNumber: string;
   paymentMessage: string;
   paymentSucceeded: boolean;
+  setActiveStep: (step: number) => void;
 }
 
 const Confirmation = ({
   orderNumber,
   paymentMessage,
   paymentSucceeded,
+  setActiveStep,
 }: ConfirmationProps) => {
-  const router = useRouter();
-
   return (
     <div className="p-6">
       <div className="space-y-6">
-        <div className="space-y-2">
+        <div className="space-y-2 text-center">
           {paymentSucceeded ? (
             <>
-              <h2 className="text-2xl font-bold">
-                Confirmation of your order! Your order number is: {orderNumber}
+              <Image
+                src="/icons/check-mark-128.png"
+                alt="check mark created by Wahyu.Setyanto from flaticon"
+                width={128}
+                height={128}
+                className="mx-auto"
+              />
+              <h2 className="text-2xl text-blue-600 font-bold">
+                {paymentMessage}!
               </h2>
-              <p className="text-gray-500 dark:text-gray-400">
-                {paymentMessage}
+              <p className="text-xl">Thank you for your purchase!</p>
+              <p className="text-xl">
+                This is a confirmation of your order! Your order number is:{" "}
+                {orderNumber}
               </p>
             </>
           ) : (
             <>
-              <h2 className="text-2xl font-bold">Payment failed</h2>
-              <p>{paymentMessage}</p>
-              <Button onClick={(e) => router.back}>
-                Go back, to try again
-              </Button>
+              <Image
+                src="/icons/attention-128.png"
+                alt="attention icon created by sonnycandra from flaticon"
+                width={128}
+                height={128}
+                className="mx-auto"
+              />
+              <h2 className="text-2xl text-red-600 font-bold">
+                {paymentMessage}
+              </h2>
+              <Button onClick={() => setActiveStep(1)}></Button>
             </>
           )}
         </div>

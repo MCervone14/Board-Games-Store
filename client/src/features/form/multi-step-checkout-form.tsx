@@ -1,8 +1,6 @@
 "use client";
 
 import {
-  BreadcrumbLink,
-  BreadcrumbItem,
   BreadcrumbSeparator,
   BreadcrumbList,
   Breadcrumb,
@@ -12,13 +10,12 @@ import ShippingForm from "./shipping-form";
 import ReviewOrderForm from "./review-order-form";
 import PaymentForm from "./payment-form";
 import { useEffect, useMemo, useState } from "react";
-import { FieldValues, FormProvider, set, useForm } from "react-hook-form";
+import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import { validationFormSchema } from "@/lib/form-schemas";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Confirmation from "./confirmation";
 import { getAddress, handleSubmitOrder } from "@/actions/server";
-import Link from "next/link";
 import { StripeElementType } from "@stripe/stripe-js";
 import {
   CardNumberElement,
@@ -26,6 +23,8 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { Basket } from "@/types/basket";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 interface MultoStepCheckoutFormProps {
   basket: Basket;
@@ -36,6 +35,7 @@ const steps = ["Shipping address", "Payment details", "Review your order"];
 export default function MultiStepCheckoutForm({
   basket,
 }: MultoStepCheckoutFormProps) {
+  const router = useRouter();
   const [activeStep, setActiveStep] = useState(0);
   const [orderNumber, setOrderNumber] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -83,10 +83,11 @@ export default function MultiStepCheckoutForm({
           />
         );
       case 2:
-        return <ReviewOrderForm />;
+        return <ReviewOrderForm setActiveStep={setActiveStep} />;
       case 3:
         return (
           <Confirmation
+            setActiveStep={setActiveStep}
             orderNumber={orderNumber}
             paymentMessage={paymentMessage}
             paymentSucceeded={paymentSucceeded}
@@ -197,21 +198,31 @@ export default function MultiStepCheckoutForm({
   return (
     <FormProvider {...methods}>
       <div className="flex flex-col items-center mt-20  min-h-screen">
-        <div className="w-full max-w-3xl bg-white rounded-lg shadow-lg dark:bg-gray-900">
-          <div className="px-6 py-4 border-b dark:border-gray-800">
+        <div className="w-full max-w-3xl bg-white shadow-lg">
+          <div className="px-6 py-4 border-b bg-gray-200 rounded-t-lg">
             <Breadcrumb className="m-2">
               <>
                 <BreadcrumbList className="flex justify-between">
                   {steps.map((label, index) => (
-                    <BreadcrumbItem key={index}>
-                      <BreadcrumbLink
-                        className={`${
-                          index === activeStep && "text-blue-600"
-                        } hover:underline`}
+                    <div className="flex items-center space-x-2">
+                      <div
+                        className={cn(
+                          index === activeStep ? "bg-gray-900" : "bg-gray-400",
+                          ` text-white rounded-full w-8 h-8 flex items-center justify-center font-medium`
+                        )}
+                      >
+                        {index + 1}
+                      </div>
+                      <span
+                        className={cn(
+                          index === activeStep
+                            ? "text-blue-600"
+                            : "text-gray-600 "
+                        )}
                       >
                         {label}
-                      </BreadcrumbLink>
-                    </BreadcrumbItem>
+                      </span>
+                    </div>
                   ))}
                 </BreadcrumbList>
                 <BreadcrumbSeparator className="last:hidden" />
@@ -247,14 +258,13 @@ export default function MultiStepCheckoutForm({
               >
                 Confirm
               </Button>
-              <Link href="/boardgames">
-                <Button
-                  type="button"
-                  className={`${activeStep !== 3 && "hidden"}`}
-                >
-                  Continue Shopping
-                </Button>
-              </Link>
+              <Button
+                type="button"
+                onClick={() => router.replace("/boardgames")}
+                className={`${activeStep !== 3 && "hidden"} hover:bg-blue-600`}
+              >
+                Continue Shopping
+              </Button>
             </div>
           </form>
         </div>

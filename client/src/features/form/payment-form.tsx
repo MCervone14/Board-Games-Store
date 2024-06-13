@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   CardCvcElement,
   CardExpiryElement,
@@ -63,66 +64,75 @@ const PaymentForm = ({
               </FormItem>
             )}
           />
-          <div className="border p-2 rounded">
-            <CardNumberElement
-              onChange={onCardInputChange}
-              onReady={(element) => element.focus()}
-              options={{
-                style: {
-                  base: {
-                    fontSize: "16px",
-                    color: "#fff",
-                    "::placeholder": {
-                      color: "foreground-muted",
+          <div>
+            <Label>Credit Card</Label>
+            <div className="border p-2 rounded">
+              <CardNumberElement
+                onChange={onCardInputChange}
+                onReady={(element) => element.focus()}
+                options={{
+                  style: {
+                    base: {
+                      fontSize: "16px",
+                      color: "#000",
+                      "::placeholder": {
+                        color: "foreground-muted",
+                      },
                     },
                   },
-                },
-              }}
-            />
+                }}
+              />
+            </div>
+            <p className="text-red-800 px-2">
+              {cardState.elementError.cardNumber || ""}
+            </p>
           </div>
-          <small className="text-red-800 px-2">
-            {cardState.elementError.cardNumber || ""}
-          </small>
-          <div className="border rounded p-2">
-            <CardExpiryElement
-              onChange={onCardInputChange}
-              onReady={(element) => element.focus()}
-              options={{
-                style: {
-                  base: {
-                    fontSize: "16px",
-                    color: "#fff",
-                    "::placeholder": {
-                      color: "foreground-muted",
+          <div>
+            <Label>Exp Date</Label>
+            <div className="border rounded p-2">
+              <CardExpiryElement
+                onChange={onCardInputChange}
+                onReady={(element) => element.focus()}
+                options={{
+                  style: {
+                    base: {
+                      fontSize: "16px",
+                      color: "#000",
+                      "::placeholder": {
+                        color: "foreground-muted",
+                      },
                     },
                   },
-                },
-              }}
-            />
+                }}
+              />
+            </div>
+            <p className="text-red-800 px-2">
+              {cardState.elementError.cardExpiry || ""}
+            </p>
           </div>
-          <small className="text-red-800 px-2">
-            {cardState.elementError.cardExpiry || ""}
-          </small>
-          <div className="border rounded p-2 mb-5">
-            <CardCvcElement
-              onChange={onCardInputChange}
-              onReady={(element) => element.focus()}
-              options={{
-                style: {
-                  base: {
-                    fontSize: "16px",
-                    color: "#fff",
-                    "::placeholder": {
-                      color: "foreground-muted",
+          <div>
+            <Label>CVC </Label>
+            <div className="border rounded p-2">
+              <CardCvcElement
+                onChange={onCardInputChange}
+                onReady={(element) => element.focus()}
+                options={{
+                  style: {
+                    base: {
+                      fontSize: "16px",
+                      color: "#000",
+                      "::placeholder": {
+                        color: "foreground-muted",
+                      },
                     },
                   },
-                },
-              }}
-            />
+                }}
+              />
+            </div>
+            <p className="text-red-800 px-2">
+              {cardState.elementError.cardCvc || ""}
+            </p>
           </div>
-          <small className="text-red-800 px-2">
-            {cardState.elementError.cardCvc || ""}
-          </small>
         </div>
       </div>
     </div>

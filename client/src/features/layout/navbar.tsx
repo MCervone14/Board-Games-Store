@@ -24,6 +24,7 @@ import { BasketItem } from "@/types/basket";
 import { getBasket } from "@/actions/server";
 import { UserMenu } from "./user-menu";
 import { Input } from "@/components/ui/input";
+import BasketDropDownMenu from "../basket/basket-dropdown-menu";
 
 const menuItems = [
   { label: "Board Games", href: "/boardgames" },
@@ -82,7 +83,7 @@ export default async function NavbarLayout() {
           </Sheet>
           <NavbarBrand>
             <Link href="/" className="font-bold text-inherit hidden md:block">
-              TableTopJunkie
+              TableTop_Zealot
             </Link>
           </NavbarBrand>
         </NavbarContent>
@@ -109,17 +110,7 @@ export default async function NavbarLayout() {
         <NavbarContent justify="end" className="gap-6">
           <UserMenu />
           <NavbarItem>
-            <Link href="/basket" className="relative">
-              <Button variant={"link"} className="p-0 group">
-                <ShoppingCartIcon className="w-7 h-7 fill-gray-600 group-hover:fill-gray-800" />
-                <Badge
-                  className="rounded-full bg-blue-600 text-white -bottom-3 -right-3 absolute font-bold px-2 outline-none "
-                  variant={"outline"}
-                >
-                  {sum || 0}
-                </Badge>
-              </Button>
-            </Link>
+            <BasketDropDownMenu sum={sum} basket={basket} />
           </NavbarItem>
         </NavbarContent>
       </div>

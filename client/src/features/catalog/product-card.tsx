@@ -81,13 +81,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
           quantity={1}
           method="POST"
           cookie={true}
+          className="hover:bg-blue-600"
         >
           Add to Cart
         </CartButton>
         <Link href={`/boardgames/${product.id}`} className="w-1/4 h-full">
           <Button
             variant="link"
-            className="rounded-l-none rounded-tr-none hover:bg-primary/90 py-3 hover:text-white w-full h-full border-t-1"
+            className="rounded-l-none rounded-tr-none hover:bg-blue-600 py-3 hover:text-white w-full h-full border-t-1"
           >
             <InformationCircleIcon className="h-6 w-6" />
           </Button>
