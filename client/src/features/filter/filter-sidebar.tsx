@@ -17,7 +17,8 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
 
 interface FilterSideBarProps {
   filters: {
-    types: string[];
+    categories: string[];
+    mechanics: string[];
   };
 }
 
@@ -29,15 +30,29 @@ const sortOptions = [
 
 const FilterSideBar = ({ filters }: FilterSideBarProps) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortItem, setSortItem] = useState("Name");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState({
     sort: false,
     category: false,
+    mechanics: false,
   });
 
   const handleSortingChange = (sortTerm: string) => {
+    switch (sortTerm) {
+      case "name":
+        setSortItem("Name");
+        break;
+      case "priceDesc":
+        setSortItem("Price: High to Low");
+        break;
+      case "price":
+        setSortItem("Price: Low to High");
+        break;
+    }
+
     const params = new URLSearchParams(searchParams);
     params.set("orderBy", sortTerm);
 
@@ -47,17 +62,19 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
 
   const handleCategoryChange = (category: string) => {
     const params = new URLSearchParams(searchParams);
-    const categories = params.getAll("types");
+    const categoriesString = params.get("categoriesSelected") || "";
+    let categories = categoriesString ? categoriesString.split(",") : [];
 
     if (categories.includes(category)) {
-      params.delete("types");
-      categories.forEach((item) => {
-        if (item !== category) {
-          params.append("types", item);
-        }
-      });
+      categories = categories.filter((item) => item !== category);
     } else {
-      params.append("types", category);
+      categories.push(category);
+    }
+
+    if (categories.length > 0) {
+      params.set("categoriesSelected", categories.join(","));
+    } else {
+      params.delete("categoriesSelected");
     }
 
     router.replace(`${pathname}?${params.toString()}`);
@@ -85,7 +102,7 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
         >
           <DropdownMenuTrigger asChild>
             <Button variant="outline">
-              <span className="mr-2">Sort By</span>
+              <span className="mr-2">Sort By: {sortItem}</span>
               {isOpen.sort ? (
                 <ChevronUpIcon className="w-4 h-4" />
               ) : (
@@ -105,7 +122,7 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="bg-primary-foreground">
+      <div className="bg-primary-foreground flex gap-2">
         <DropdownMenu
           open={isOpen.category}
           onOpenChange={(e) =>
@@ -122,8 +139,43 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
               )}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
-            {filters.types.map((item: string) => (
+          <DropdownMenuContent className="w-56 max-h-56 scroll-smooth overflow-auto">
+            {filters.categories.map((item: string) => (
+              <DropdownMenuCheckboxItem
+                key={item}
+                textValue={item}
+                checked={
+                  searchParams.has("categoriesSelected") &&
+                  searchParams
+                    .get("categoriesSelected")
+                    ?.split(",")
+                    .includes(item)
+                }
+                onCheckedChange={() => handleCategoryChange(item)}
+              >
+                {item}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <DropdownMenu
+          open={isOpen.mechanics}
+          onOpenChange={(e) =>
+            setIsOpen({ ...isOpen, mechanics: !isOpen.mechanics })
+          }
+        >
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">
+              <span className="mr-2">Mechanics</span>
+              {isOpen.mechanics ? (
+                <ChevronUpIcon className="w-4 h-4" />
+              ) : (
+                <ChevronDownIcon className="w-4 h-4" />
+              )}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56 max-h-56 scroll-smooth overflow-auto">
+            {filters.mechanics.map((item: string) => (
               <DropdownMenuCheckboxItem
                 key={item}
                 textValue={item}

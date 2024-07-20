@@ -16,45 +16,40 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Product } from "@/types/products";
+import { ProductPrice } from "@/lib/utils";
 
 interface ProductCardProps {
-  product: {
-    id: number;
-    name: string;
-    price: number;
-    description: string;
-    pictureUrl: string;
-  };
+  product: Product;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
   return (
-    <Card className="pt-2 space-y-4 border hover:border-black relative">
+    <Card className="pt-2 space-y-4 border hover:border-black relative flex flex-col justify-between">
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-        <TooltipProvider delayDuration={100}>
-          <Tooltip>
-            <TooltipTrigger className="absolute right-2 top-2 bg-blue-200 p-2 rounded-full">
-              <Image
-                alt={"test Icon"}
-                src="/icons/open-box.png"
-                width={20}
-                height={20}
-                className=""
-              />
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>
-                Condition: Minor Wear to the outer box. No Missing Pieces.
-                Components in Excellent condition.
-              </p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        {product.isUsed && (
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger className="absolute right-2 top-2 bg-blue-200 p-2 rounded-full">
+                <Image
+                  alt={"test Icon"}
+                  src="/icons/open-box.png"
+                  width={20}
+                  height={20}
+                  className=""
+                />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{product.condition}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
         <Link href={`/boardgames/${product.id}`} className="w-full">
           {product.pictureUrl && (
             <Image
               alt={product.name}
-              className="mx-auto object-contain max-h-[300px] h-[300px] w-full"
+              className="mx-auto object-contain max-h-[300px] h-[300px]"
               src={product.pictureUrl}
               width={300}
               height={300}
@@ -62,9 +57,22 @@ const ProductCard = ({ product }: ProductCardProps) => {
           )}
         </Link>
       </CardHeader>
-      <CardContent className="py-2">
+      <CardContent className="">
         <small className="font-semibold text-lg md:text-xl text-blue-600">
-          ${(product.price / 100).toFixed(2)}
+          {product.salePrice ? (
+            <>
+              <span className="line-through text-red-500 mr-2 text-sm">
+                {ProductPrice(product.price)}
+              </span>
+              <span className="text-md">
+                {ProductPrice(product.price, product.salePrice)}
+              </span>
+            </>
+          ) : (
+            <span className="font-bold">
+              ${(product.price / 100).toFixed(2)}
+            </span>
+          )}
         </small>
         <Link href={`/boardgames/${product.id}`} className="group">
           <h3 className="font-bold text-xl line-clamp-1 group-hover:opacity-80">
@@ -75,7 +83,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </h4>
         </Link>
       </CardContent>
-      <CardFooter className="p-0 flex items-end">
+      <CardFooter className="p-0 flex">
         <CartButton
           productId={product.id}
           quantity={1}

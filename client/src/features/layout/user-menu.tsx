@@ -40,7 +40,7 @@ export async function UserMenu() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="p-0 rounded-full">
-                <UserCircleIcon className="w-8 h-8 fill-primary/90" />
+                <UserCircleIcon className="w-8 h-8 fill-primary/90 ring-none" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-fit">
@@ -48,10 +48,11 @@ export async function UserMenu() {
               <DropdownMenuSeparator />
               {user.admin && (
                 <Link href="/inventory">
-                  <DropdownMenuItem>Admin Panel</DropdownMenuItem>
+                  <DropdownMenuItem className="bg-red-500 hover:bg-red-300">
+                    Admin Panel
+                  </DropdownMenuItem>
                 </Link>
               )}
-              <DropdownMenuItem>Profile</DropdownMenuItem>
               <OrdersButton>Orders</OrdersButton>
               <LogoutButton>Logout</LogoutButton>
             </DropdownMenuContent>

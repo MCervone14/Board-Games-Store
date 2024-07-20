@@ -47,10 +47,21 @@ const Confirmation = ({
                 height={128}
                 className="mx-auto"
               />
-              <h2 className="text-2xl text-red-600 font-bold">
-                {paymentMessage}
-              </h2>
-              <Button onClick={() => setActiveStep(1)}></Button>
+              <div className="space-y-6">
+                <h2 className="text-2xl text-red-600 font-bold">
+                  {paymentMessage}
+                </h2>
+                <p className="text-xl">
+                  Unfortunately, your payment was not successful.
+                </p>
+                <p>
+                  Please try again or try contacting us to get this problem
+                  resolved.
+                </p>
+                <Button onClick={() => setActiveStep(1)}>
+                  Restart Payment Process
+                </Button>
+              </div>
             </>
           )}
         </div>

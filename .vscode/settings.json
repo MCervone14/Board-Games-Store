@@ -3,5 +3,6 @@
     "activityBar.background": "#18313A",
     "titleBar.activeBackground": "#224451",
     "titleBar.activeForeground": "#F9FCFD"
-  }
+  },
+  "cSpell.words": ["Cloudinary"]
 }

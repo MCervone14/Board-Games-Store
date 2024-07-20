@@ -15,7 +15,7 @@ interface Props extends UseControllerProps {
 const DropZone = (props: Props) => {
   const [previews, setPreviews] = useState<string[]>([]);
   const [files, setFiles] = useState<Array<File & { preview: string }>>([]);
-  const { fieldState } = useController({ ...props, defaultValue: null });
+  const { field, fieldState } = useController({ ...props, defaultValue: null });
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       const filesWithPreviews = acceptedFiles.map((file: File) =>
@@ -30,10 +30,11 @@ const DropZone = (props: Props) => {
       setFiles((prevFiles) => {
         const newFiles = [...prevFiles, ...filesWithPreviews];
         props.onFilesChange(newFiles);
+        field.onChange(newFiles);
         return newFiles;
       });
     },
-    [props.onFilesChange]
+    [props.onFilesChange, field]
   );
 
   useEffect(() => {
@@ -51,7 +52,10 @@ const DropZone = (props: Props) => {
         isDragActive && "border-blue-600"
       }`}
     >
-      <div {...getRootProps()} className="gap-2">
+      <div
+        {...getRootProps()}
+        className="gap-5 flex flex-wrap justify-center items-center p-4"
+      >
         <Input {...getInputProps()} />
 
         {previews.length > 0 ? (
@@ -60,13 +64,14 @@ const DropZone = (props: Props) => {
               key={preview}
               src={preview}
               alt={preview}
-              width={200}
-              height={200}
+              width={60}
+              height={60}
+              className="object-cover w-16 h-16 rounded-md"
             />
           ))
         ) : isDragActive ? (
           <>
-            <p>Drop the files here!</p>
+            <p className="text-center">Drop the files here!</p>
           </>
         ) : (
           <div className="flex flex-col space-y-3 justify-center items-center mx-auto">

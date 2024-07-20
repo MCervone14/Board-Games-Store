@@ -16,8 +16,11 @@ import { Input } from "@/components/ui/input";
 import { Register } from "@/actions/server";
 import { registerFormSchema } from "@/lib/form-schemas";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
 export function RegisterForm() {
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
@@ -27,6 +30,10 @@ export function RegisterForm() {
       password: "",
     },
   });
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const onSubmit = async (values: z.infer<typeof registerFormSchema>) => {
     const { username, email, password } = values;
@@ -78,7 +85,11 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="Your Username" {...field} />
+                <Input
+                  placeholder="Create a Unique Username"
+                  className="text-primary placeholder:text-black/60 border-black"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -91,7 +102,11 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="JohnDoe@gmail.com" {...field} />
+                <Input
+                  placeholder="JohnDoe@gmail.com"
+                  className="text-primary placeholder:text-black/60 border-black"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -104,13 +119,34 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="**********" {...field} />
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="**********"
+                    className="text-primary placeholder:text-black/60 border-black"
+                    {...field}
+                  />
+                  {showPassword ? (
+                    <EyeIcon
+                      className="absolute top-2.5 right-2 w-4 h-4 cursor-pointer"
+                      onClick={handleShowPassword}
+                    />
+                  ) : (
+                    <EyeSlashIcon
+                      className="absolute top-2.5 right-2 w-4 h-4 cursor-pointer"
+                      onClick={handleShowPassword}
+                    />
+                  )}
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button className="flex justify-center w-full" type="submit">
+        <Button
+          className="flex justify-center w-full  bg-gray-300 text-black hover:bg-blue-600 hover:text-white"
+          type="submit"
+        >
           Register
         </Button>
       </form>

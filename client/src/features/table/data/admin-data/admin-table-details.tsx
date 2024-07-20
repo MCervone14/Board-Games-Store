@@ -3,13 +3,11 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
-import Summary from "../../table-summary";
 import { Product } from "@/types/products";
 
 interface DetailsProps {

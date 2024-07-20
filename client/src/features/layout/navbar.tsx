@@ -1,8 +1,4 @@
-import {
-  Bars3Icon,
-  MagnifyingGlassIcon,
-  ShoppingCartIcon,
-} from "@heroicons/react/24/solid";
+import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import {
   Navbar,
   NavbarBrand,
@@ -11,6 +7,7 @@ import {
   NavbarMenuItem,
 } from "@nextui-org/navbar";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -19,12 +16,11 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Badge } from "@/components/ui/badge";
 import { BasketItem } from "@/types/basket";
-import { getBasket } from "@/actions/server";
+import { getBasket, getFilters } from "@/actions/server";
 import { UserMenu } from "./user-menu";
-import { Input } from "@/components/ui/input";
 import BasketDropDownMenu from "../basket/basket-dropdown-menu";
+import ComboboxSearch from "@/components/reusable/combobox-search";
 
 const menuItems = [
   { label: "Board Games", href: "/boardgames" },
@@ -40,16 +36,17 @@ const menuItems = [
 
 export default async function NavbarLayout() {
   const basket = await getBasket();
+  const { boardGameList } = await getFilters();
 
   const sum =
     basket?.items?.reduce(
-      (acc: number, item: BasketItem) => acc + item.quantity,
+      (acc: number, item: BasketItem) => acc + item.quantityInStock,
       0
     ) || 0;
 
   return (
     <Navbar className="bg-white sticky z-10">
-      <div className="flex max-w-7xl justify-between items-center w-full mx-auto py-6">
+      <div className="flex container justify-between items-center w-full mx-auto py-6 max-h-[100px]">
         <NavbarContent>
           <Sheet>
             <SheetTrigger className="rounded-lg md:hidden flex justify-center items-center">
@@ -83,29 +80,18 @@ export default async function NavbarLayout() {
           </Sheet>
           <NavbarBrand>
             <Link href="/" className="font-bold text-inherit hidden md:block">
-              TableTop_Zealot
+              <Image
+                src="/images/promotionals/TT_Z_logo.png"
+                alt="logo"
+                width={150}
+                height={50}
+              />
             </Link>
           </NavbarBrand>
         </NavbarContent>
 
-        <NavbarContent className="sm:flex w-full" justify="center">
-          <div className="flex-1 max-w-xl md:max-w-sm lg:max-w-xl mx-auto px-5">
-            <div className="relative">
-              <Input
-                className="w-full rounded-full h-12 pr-10"
-                placeholder="Search for board games..."
-                type="search"
-              />
-              <Button
-                className="absolute top-1/2 right-3 -translate-y-1/2"
-                size="icon"
-                variant="ghost"
-              >
-                <MagnifyingGlassIcon className="h-5 w-5" />
-                <span className="sr-only">Search</span>
-              </Button>
-            </div>
-          </div>
+        <NavbarContent className="sm:flex" justify="center">
+          <ComboboxSearch boardGames={boardGameList} />
         </NavbarContent>
         <NavbarContent justify="end" className="gap-6">
           <UserMenu />

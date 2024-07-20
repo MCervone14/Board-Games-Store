@@ -111,13 +111,15 @@ export const fetchProducts = async (
   searchTerm?: string,
   pageNumber?: number,
   pageSize?: number,
-  types?: string[]
+  categoriesSelected?: string,
+  mechanicsSelected?: string
 ) => {
   try {
     if (
       orderBy === "name" &&
       searchTerm === "" &&
-      types?.length === 0 &&
+      categoriesSelected === "" &&
+      mechanicsSelected === "" &&
       pageNumber === 1 &&
       pageSize === 12
     ) {
@@ -131,7 +133,7 @@ export const fetchProducts = async (
       return data;
     } else {
       const response = await fetch(
-        `${baseURL}/products?orderBy=${orderBy}&searchTerm=${searchTerm}&types=${types}&PageNumber=${pageNumber}&PageSize=${pageSize}`,
+        `${baseURL}/products?orderBy=${orderBy}&searchTerm=${searchTerm}&categoriesSelected=${categoriesSelected}&mechanicsSelected=${mechanicsSelected}&PageNumber=${pageNumber}&PageSize=${pageSize}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -316,4 +318,77 @@ export const CreatePaymentIntent = async () => {
 
   const data = await response.json();
   return data;
+};
+
+export const getFilters = async () => {
+  const response = await fetch(`${process.env.BASE_API_URL}/products/filters`);
+
+  return await response.json();
+};
+
+// CREATE A NEW PRODUCT
+
+export const CreateProduct = async (formData: FormData) => {
+  try {
+    const nextCookies = cookies();
+    const token = nextCookies.get("token")?.value;
+
+    const response = await fetch(`${baseURL}/products`, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    console.log(data);
+    revalidatePath("/");
+    revalidatePath("/inventory");
+    return data;
+  } catch (error) {
+    console.log("Error creating product in server action");
+  }
+};
+
+export const UpdateProduct = async (formData: FormData) => {
+  try {
+    const nextCookies = cookies();
+    const token = nextCookies.get("token")?.value;
+
+    const response = await fetch(`${baseURL}/products`, {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    revalidatePath("/");
+    revalidatePath("/inventory");
+    return data;
+  } catch (error) {
+    console.log("Error creating product in server action");
+  }
+};
+
+export const DeleteProduct = async (id: number) => {
+  try {
+    const nextCookies = cookies();
+    const token = nextCookies.get("token")?.value;
+
+    const response = await fetch(`${baseURL}/products/${Number(id)}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    revalidatePath("/inventory");
+  } catch (error) {
+    console.log("Error deleting product in server action");
+  }
 };

@@ -6,6 +6,7 @@ import { DataTable } from "@/features/table/table";
 import { useState } from "react";
 import { AddProductForm } from "../form/add-product-form";
 import { Product } from "@/types/products";
+import { DeleteProduct } from "@/actions/server";
 
 interface InventoryProps {
   products: Product[];
@@ -16,13 +17,6 @@ const Inventory = ({ products }: InventoryProps) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(
     undefined
   );
-
-  const cancelEdit = () => {
-    if (selectedProduct) {
-      setSelectedProduct(undefined);
-    }
-    setEditMode(false);
-  };
 
   if (editMode) {
     return (

@@ -16,8 +16,12 @@ import { Input } from "@/components/ui/input";
 import { Login } from "@/actions/server";
 import { loginFormSchema } from "@/lib/form-schemas";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import EyeSlashIcon from "@heroicons/react/24/solid/EyeSlashIcon";
+import EyeIcon from "@heroicons/react/24/solid/EyeIcon";
 
 export function LoginForm() {
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
@@ -49,6 +53,10 @@ export function LoginForm() {
     }
   };
 
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -59,7 +67,11 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="Your Username" {...field} />
+                <Input
+                  placeholder="Login with your Created Username"
+                  className="text-primary placeholder:text-black/60 border-black"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -72,13 +84,34 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="**********" {...field} />
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="**********"
+                    className="text-primary placeholder:text-black/60 border-black"
+                    {...field}
+                  />
+                  {showPassword ? (
+                    <EyeIcon
+                      className="absolute top-2.5 right-2 w-4 h-4 cursor-pointer"
+                      onClick={handleShowPassword}
+                    />
+                  ) : (
+                    <EyeSlashIcon
+                      className="absolute top-2.5 right-2 w-4 h-4 cursor-pointer"
+                      onClick={handleShowPassword}
+                    />
+                  )}
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button className="flex justify-center w-full" type="submit">
+        <Button
+          className="flex justify-center w-full bg-gray-300 text-black hover:bg-blue-600 hover:text-white"
+          type="submit"
+        >
           Login
         </Button>
       </form>

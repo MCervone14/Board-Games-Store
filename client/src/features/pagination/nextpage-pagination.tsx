@@ -38,6 +38,7 @@ const NextPagePagination = ({ metaData }: NextPagePaginationProps) => {
         </p>
         <div className="flex gap-1">
           <Button
+            variant={"ghost"}
             onClick={() =>
               startTransition(() => {
                 const params = new URLSearchParams(searchParams);
@@ -46,7 +47,7 @@ const NextPagePagination = ({ metaData }: NextPagePaginationProps) => {
                 router.replace(`${pathname}?${params.toString()}`);
               })
             }
-            className="p-0 px-2 disabled:hidden"
+            className="p-0 px-2 disabled:gray-400"
             disabled={currentPage === 1}
           >
             <ChevronLeftIcon className="w-5 h-5" />
@@ -80,6 +81,7 @@ const NextPagePagination = ({ metaData }: NextPagePaginationProps) => {
             );
           })}
           <Button
+            variant={"ghost"}
             onClick={() =>
               startTransition(() => {
                 const params = new URLSearchParams(searchParams);
@@ -88,7 +90,7 @@ const NextPagePagination = ({ metaData }: NextPagePaginationProps) => {
                 router.replace(`${pathname}?${params.toString()}`);
               })
             }
-            className="p-0 px-2 disabled:hidden "
+            className="p-0 px-2 disabled:gray-400"
             disabled={currentPage === totalPages}
           >
             <ChevronRightIcon className="w-5 h-5" />

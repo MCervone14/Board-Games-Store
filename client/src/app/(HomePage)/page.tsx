@@ -1,14 +1,20 @@
 import Image from "next/image";
 import { fetchProducts } from "@/actions/server";
 import Catalog from "@/features/catalog/catalog";
+import { Product } from "@/types/products";
 
 export default async function Home() {
   const { products, paginationMetaData } = await fetchProducts(
-    "name",
-    "",
-    1,
-    12,
-    []
+    "name", // orderBy
+    "", // searchTerm
+    1, // pageNumber
+    1000, // pageSize
+    "", // categoriesSelected
+    "" // mechanicsSelected
+  );
+
+  const featuredProducts = products?.filter(
+    (product: Product) => product.isFeatured === true
   );
 
   return (
@@ -16,11 +22,12 @@ export default async function Home() {
       <section className="w-full">
         <Image
           priority
-          blurDataURL="/images/promotionals/boardgame-with-dice-banner.jpg"
+          blurDataURL="/images/promotionals/Invincible_KeyArt_2560x680.png"
           alt="Promotional Board Game Image found on FreePik.com"
-          className="mx-auto max-h-[500px] w-full object-cover"
-          height="500"
-          src="/images/promotionals/boardgame-with-dice-banner.jpg"
+          className="mx-auto max-h-[680px] w-full"
+          height="680"
+          placeholder="blur"
+          src="/images/promotionals/Invincible_KeyArt_2560x680.png"
           width="1270"
         />
       </section>
@@ -61,7 +68,10 @@ export default async function Home() {
             </div>
           </div>
           <div className="">
-            <Catalog products={products} metaData={paginationMetaData} />
+            <Catalog
+              products={featuredProducts}
+              metaData={paginationMetaData}
+            />
           </div>
         </div>
       </section>

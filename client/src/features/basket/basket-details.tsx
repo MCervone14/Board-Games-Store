@@ -67,7 +67,7 @@ const BasketDetails = async ({ basket }: BasketDetailsProps) => {
                 >
                   <MinusCircleIcon className="w-7 h-7 text-primary/90 hover:text-primary hover:fill-blue-600" />
                 </CartButton>
-                {item.quantity}
+                {item.quantityInStock}
                 <CartButton
                   productId={item.productId}
                   quantity={1}
@@ -81,10 +81,10 @@ const BasketDetails = async ({ basket }: BasketDetailsProps) => {
             </TableCell>
             <TableCell className="w-[150px]">
               <div className="flex items-center justify-end">
-                ${((item.price * item.quantity) / 100).toFixed(2)}
+                ${((item.price * item.quantityInStock) / 100).toFixed(2)}
                 <CartButton
                   productId={item.productId}
-                  quantity={item.quantity}
+                  quantity={item.quantityInStock}
                   method="DELETE"
                   cookie={false}
                   variant="ghost"

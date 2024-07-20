@@ -10,8 +10,22 @@ export interface BasketItem {
   productId: number;
   name: string;
   price: number;
+  salePrice: number;
   pictureUrl: string;
-  publisher: string;
-  type: string;
-  quantity: number;
+  publishers: string[];
+  designers: string[];
+  artists: string[];
+  playerCount: string;
+  playingTime: string;
+  playerAge: string;
+  year: string;
+  condition: string;
+  isUsed: boolean;
+  complexity: string;
+  hasFreeShipping: boolean;
+  description: string;
+  longDescription: string;
+  mechanics: string[];
+  categories: string[];
+  quantityInStock: number;
 }

@@ -59,14 +59,71 @@ export const validationFormSchema = [
 ];
 
 export const AddProductFormSchema = z.object({
-  name: z.string().min(3).max(75),
-  description: z.string().min(10).max(500),
-  price: z.number().min(100),
-  files: z.array(z.object({})),
-  type: z.string(),
-  designer: z.string(),
-  publisher: z.string(),
-  quantityInStock: z.number().min(1),
-  // onSale: z.boolean(),
-  // salePrice: z.number().min(0),
+  name: z.string(),
+  description: z.string(),
+  price: z.coerce.number(),
+  files: z.array(
+    z.object({
+      path: z.string(),
+      preview: z.string(),
+      name: z.string(),
+      size: z.number(),
+      type: z.string(),
+    })
+  ),
+  categories: z.array(
+    z.object({
+      label: z.string(),
+      value: z.string(),
+    })
+  ),
+  mechanics: z.array(
+    z.object({
+      label: z.string(),
+      value: z.string(),
+    })
+  ),
+  designers: z.array(
+    z.object({
+      label: z.string(),
+      value: z.string(),
+    })
+  ),
+  publishers: z.array(
+    z.object({
+      label: z.string(),
+      value: z.string(),
+    })
+  ),
+  artists: z.array(
+    z.object({
+      label: z.string(),
+      value: z.string(),
+    })
+  ),
+  quantityInStock: z.coerce.number(),
+  salePrice: z.coerce.number(),
+  year: z.string(),
+  playingTime: z.string(),
+  playerCount: z.string(),
+  playerAge: z.string(),
+  longDescription: z.string(),
+  complexity: z.string(),
+  isUsed: z.boolean(),
+  hasFreeShipping: z.boolean(),
+  condition: z.string(),
+  pictureUrl: z.string(),
+  isFeatured: z.boolean(),
+  categoryWeights: z.array(
+    z.object({
+      label: z.string(),
+      value: z.string(),
+    })
+  ),
+  mechanicWeights: z.array(
+    z.object({
+      label: z.string(),
+      value: z.string(),
+    })
+  ),
 });

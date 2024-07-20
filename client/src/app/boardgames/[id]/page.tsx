@@ -1,12 +1,19 @@
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getBasket } from "@/actions/server";
 import { BasketItem } from "@/types/basket";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/solid";
 import DetailsViewCartButton from "@/features/buttons/details-view-cart-button";
+import { ProductPrice } from "@/lib/utils";
+import RadarChartComponent from "@/features/charts/radar-chart-component";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface BoardGameDetailsPageProps {
   params: {
@@ -35,46 +42,152 @@ const ProductDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
     return notFound();
   }
 
+  const catData = product.categories.flatMap(
+    (category: string, index: number) => {
+      return {
+        subject: category,
+        A: parseInt(product.categoryWeights[index], 10),
+        fullMark: 10,
+      };
+    }
+  );
+
+  const mecData = product.mechanics.flatMap(
+    (category: string, index: number) => {
+      return {
+        subject: category,
+        A: parseInt(product.mechanicWeights[index], 10),
+        fullMark: 10,
+      };
+    }
+  );
+
+  console.log(product);
+
   return (
-    <div className="flex h-screen max-w-7xl mx-auto justify-center items-center gap-10">
-      <div className="max-w-7xl relative w-[500px] h-[500px]">
-        <Image alt={product.name} src={product.pictureUrl} fill />
+    <div className="container flex flex-col mt-10">
+      <div className="flex gap-6 lg:gap-12">
+        <div className="flex items-center flex-wrap">
+          <div className="mx-auto">
+            <Image
+              alt={product.name}
+              src={product.pictureUrl}
+              width={500}
+              height={500}
+              className="object-contain"
+              placeholder="blur"
+              blurDataURL={product.pictureUrl}
+            />
+          </div>
+          <div className="mx-auto flex flex-col w-1/2 space-y-6">
+            <h1 className="text-4xl text-center">{product.name}</h1>
+            {product.isUsed && (
+              <div className="">
+                <div className="flex justify-center items-center w-full">
+                  <Image
+                    alt={"test Icon"}
+                    src="/icons/open-box.png"
+                    width={50}
+                    height={50}
+                    className="mr-4"
+                  />
+                  <p className="text-red-500 text-bold text-md">
+                    ATTENTION: Please note this is an open-box board game.
+                    <br />
+                    CONDITION: {product.condition}
+                  </p>
+                </div>
+              </div>
+            )}
+            <p className="w-full text-primary/80">{product.longDescription}</p>
+            <div className="w-1/2 mx-auto">
+              <div className="text-2xl text-center">
+                {product?.salePrice ? (
+                  <div className="font-bold">
+                    <span className="line-through text-red-500 text-sm mr-2">
+                      {ProductPrice(Number(product?.price))}
+                    </span>{" "}
+                    <span className="text-blue-600">
+                      {ProductPrice(
+                        Number(product?.price),
+                        Number(product?.salePrice)
+                      )}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="text-2xl font-bold text-blue-600">
+                    {ProductPrice(Number(product?.price))}
+                  </div>
+                )}
+              </div>
+              <div>
+                <DetailsViewCartButton
+                  quantityInStock={product.quantityInStock}
+                  productId={params.id}
+                  basket={basket}
+                />
+                <small>Quantity in Stock: {product.quantityInStock}</small>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="flex-1">
-        <h1 className="text-4xl flex justify-center">{product.name}</h1>
-        <hr className="mt-2" />
-        <p>Player: 1-4</p>
-        <hr className="mt-2" />
-        <p>Playtime: 30-60 minutes</p>
-        <hr className="mt-2" />
-        <p>Age: 14+</p>
-        <hr className="mt-2" />
-        <p>Designer: {product.designer}</p>
-        <hr className="mt-2" />
-        <p>Publisher: {product.publisher}</p>
-        <hr className="mt-2" />
-        <p>Type: {product.type}</p>
-        <hr className="mt-2" />
-        <p>Year: {product.year}</p>
-        <hr className="mt-2" />
-        <p>Category: {product.category}</p>
-        <hr className="mt-2" />
-        <p>Mechanics: {product.mechanics}</p>
-        <hr className="mt-2" />
-        <p>BGG Rating: {product.rating}</p>
-        <hr className="mt-2" />
-        <p>{product.description}</p>
-      </div>
-      <div className="flex flex-col items-center justify-center w-[300px] gap-2">
-        <h4 className="text-4xl flex justify-center">
-          ${(product.price / 100).toFixed(2)}
-        </h4>
-        <DetailsViewCartButton
-          quantityInStock={product.quantityInStock}
-          productId={params.id}
-          basket={basket}
-        />
-        <small>Quantity in Stock: {product.quantityInStock}</small>
+      <div className="border rounded-lg mb-10">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Product Details</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <TableRow>
+              <TableCell>Recommended Age:</TableCell>
+              <TableCell>{product.playerAge}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Number of Players:</TableCell>
+              <TableCell>{product.playerCount}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Playing Time:</TableCell>
+              <TableCell>{product.playingTime}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Year Published</TableCell>
+              <TableCell>{product.year}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Publisher(s)</TableCell>
+              <TableCell>{product.publishers.join(", ")}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Designer(s)</TableCell>
+              <TableCell>{product.designers.join(", ")}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Artists(s)</TableCell>
+              <TableCell>{product.artists.join(", ")}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Category(s)</TableCell>
+              <TableCell>{product.categories.join(", ")}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Mechanic(s)</TableCell>
+              <TableCell>{product.mechanics.join(", ")}</TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+        <div className="flex flex-wrap justify-center">
+          <div className="text-center mt-10">
+            <Label className="text-2xl">Categories</Label>
+            <RadarChartComponent data={catData} />
+          </div>
+          <div className="text-center mt-10">
+            <Label className="text-2xl">Mechanics</Label>
+            <RadarChartComponent data={mecData} />
+          </div>
+        </div>
       </div>
     </div>
   );

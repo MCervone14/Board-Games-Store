@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Product } from "@/types/products";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { DeleteProduct } from "@/actions/server";
+import { revalidatePath } from "next/cache";
 
 export const adminColumns: ColumnDef<Product>[] = [
   {
@@ -49,29 +51,13 @@ export const adminColumns: ColumnDef<Product>[] = [
     },
   },
   {
-    accessorKey: "type",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Type" />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className="flex items-center">
-          <span>{row.getValue("type")}</span>
-        </div>
-      );
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
-  },
-  {
     accessorKey: "quantityInStock",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Quantity in Stock" />
     ),
     cell: ({ row }) => {
       return (
-        <div className="flex items-center">
+        <div className="flex items-center px-10">
           <span>{row.getValue("quantityInStock")}</span>
         </div>
       );
@@ -102,7 +88,7 @@ export const adminColumns: ColumnDef<Product>[] = [
             size="sm"
             variant="ghost"
             onClick={() => {
-              router.push(`/inventory/${row.getValue("id")}`);
+              DeleteProduct(row.getValue("id"));
             }}
           >
             <TrashIcon className="h-5 w-5 fill-red-600" />

@@ -6,9 +6,15 @@ interface ProductCardProps {
 }
 
 const ProductList = ({ products }: ProductCardProps) => {
+  if (products.length === 0)
+    return (
+      <div className="flex justify-center items-center text-3xl mt-10 min-h-[50vh]">
+        No products were found. Try a different search.
+      </div>
+    );
   return (
     <div className="mx-auto grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {products.map((product) => (
+      {products?.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
     </div>

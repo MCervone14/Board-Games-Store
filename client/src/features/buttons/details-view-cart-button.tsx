@@ -33,8 +33,6 @@ const DetailsViewCartButton = ({
   const handleClick = (e: any) => {
     const { id } = e.currentTarget;
 
-    console.log(e.target);
-
     if (id === "plus") {
       setQuantity(quantity + 1);
     } else {
@@ -52,22 +50,24 @@ const DetailsViewCartButton = ({
           <Label htmlFor="quantity">Quantity</Label>
           <div className="flex gap-2 items-center">
             <Button
+              className="hover:text-blue-600"
               type="button"
               variant={"ghost"}
               onClick={handleClick}
               id="minus"
               disabled={quantity <= 1}
             >
-              <MinusCircleIcon className="w-8 text-gray-200 hover:text-gray-100" />
+              <MinusCircleIcon className="w-8 h-8" />
             </Button>
             <Input
               id="quantity"
               name="quantity"
               className="py-5"
-              value={quantity}
+              defaultValue={quantity}
             />
             <Input type="hidden" name="productId" value={productId} />
             <Button
+              className="hover:text-blue-600"
               type="button"
               id="plus"
               variant="ghost"
@@ -77,13 +77,13 @@ const DetailsViewCartButton = ({
                 quantity >= quantityInStock - numberOfProductInBasket
               }
             >
-              <PlusCircleIcon className="w-8 text-gray-200 hover:text-gray-100" />
+              <PlusCircleIcon className="w-8 h-8" />
             </Button>
           </div>
         </div>
         <Button
           type="submit"
-          className="p-5 w-full"
+          className="p-5 w-full hover:bg-blue-600"
           disabled={quantityInStock === numberOfProductInBasket}
         >
           {quantityInStock === 0 ? "Out of Stock" : "Add to Cart"}

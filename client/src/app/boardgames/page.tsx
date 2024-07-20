@@ -12,9 +12,10 @@ interface BoardGamesPageProps {
   searchParams: {
     orderBy: string;
     searchTerm: string;
+    categoriesSelected: string;
+    mechanicsSelected: string;
     pageNumber: number;
     pageSize: number;
-    types: string[];
   };
 }
 
@@ -24,7 +25,8 @@ const BoardGamesPage = async ({ searchParams }: BoardGamesPageProps) => {
     searchParams.searchTerm || "",
     searchParams?.pageNumber || 1,
     searchParams?.pageSize || 12,
-    searchParams.types || []
+    searchParams?.categoriesSelected || "",
+    searchParams?.mechanicsSelected || ""
   );
   const filters = await getFilters();
   return (

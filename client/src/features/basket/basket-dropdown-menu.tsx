@@ -6,13 +6,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Basket } from "@/types/basket";
-import {
-  MinusCircleIcon,
-  PlusCircleIcon,
-  ShoppingCartIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/solid";
-import React, { useEffect } from "react";
+import { ShoppingCartIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import React from "react";
 import Image from "next/image";
 import CartButton from "../buttons/cart-button";
 import { cn } from "@/lib/utils";
@@ -60,17 +55,17 @@ const BasketDropDownMenu = ({ sum, basket }: BasketDropDownMenuProps) => {
             <div className="space-y-1">
               <h4 className="font-medium">{item.name}</h4>
               <p className="text-sm text-gray-500">
-                ${((item.price * item.quantity) / 100).toFixed(2)}
+                ${((item.price * item.quantityInStock) / 100).toFixed(2)}
               </p>
             </div>
 
             <div className="flex items-center">
               <Label>Quantity:</Label>
-              <span className="text-lg ml-2">{item.quantity}</span>
+              <span className="text-lg ml-2">{item.quantityInStock}</span>
 
               <CartButton
                 productId={item.productId}
-                quantity={item.quantity}
+                quantity={item.quantityInStock}
                 method="DELETE"
                 cookie={false}
                 variant={"ghost"}
@@ -86,10 +81,10 @@ const BasketDropDownMenu = ({ sum, basket }: BasketDropDownMenuProps) => {
             No items in your shopping cart!
           </div>
         )}
-        <div className="flex justify-around">
+        <div className="flex gap-3 justify-around">
           <Button
             disabled={basket?.items?.length === 0}
-            className="hover:bg-blue-600 w-1/2 rounded-none"
+            className="hover:bg-blue-600 w-1/2"
           >
             <Link className="" href="/basket">
               See Basket Summary
@@ -97,7 +92,7 @@ const BasketDropDownMenu = ({ sum, basket }: BasketDropDownMenuProps) => {
           </Button>
           <Button
             disabled={basket?.items?.length === 0}
-            className="hover:bg-blue-600 w-1/2 rounded-none"
+            className="hover:bg-blue-600 w-1/2"
           >
             <Link className="" href="/checkout">
               Go to Checkout
