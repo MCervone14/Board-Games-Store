@@ -336,17 +336,26 @@ export const CreateProduct = async (formData: FormData) => {
     const response = await fetch(`${baseURL}/products`, {
       method: "POST",
       headers: {
+        "Content-Type": "multipart/form-data",
         Authorization: "Bearer " + token,
       },
       body: formData,
     });
 
-    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-    console.log(data);
-    revalidatePath("/");
-    revalidatePath("/inventory");
-    return data;
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json();
+      revalidatePath("/");
+      revalidatePath("/inventory");
+      return data;
+    } else {
+      const text = await response.text();
+      throw new Error(`Unexpected response format: ${text}`);
+    }
   } catch (error) {
     console.log("Error creating product in server action");
   }
@@ -360,16 +369,26 @@ export const UpdateProduct = async (formData: FormData) => {
     const response = await fetch(`${baseURL}/products`, {
       method: "PUT",
       headers: {
+        "Content-Type": "multipart/form-data",
         Authorization: "Bearer " + token,
       },
       body: formData,
     });
 
-    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-    revalidatePath("/");
-    revalidatePath("/inventory");
-    return data;
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json();
+      revalidatePath("/");
+      revalidatePath("/inventory");
+      return data;
+    } else {
+      const text = await response.text();
+      throw new Error(`Unexpected response format: ${text}`);
+    }
   } catch (error) {
     console.log("Error creating product in server action");
   }
@@ -380,7 +399,7 @@ export const DeleteProduct = async (id: number) => {
     const nextCookies = cookies();
     const token = nextCookies.get("token")?.value;
 
-    const response = await fetch(`${baseURL}/products/${Number(id)}`, {
+    await fetch(`${baseURL}/products/${Number(id)}`, {
       method: "DELETE",
       headers: {
         Authorization: "Bearer " + token,

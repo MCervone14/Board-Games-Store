@@ -13,6 +13,14 @@ export default async function Home() {
     "" // mechanicsSelected
   );
 
+  if (!products) {
+    return [];
+  }
+
+  if (!paginationMetaData) {
+    return null;
+  }
+
   const featuredProducts = products?.filter(
     (product: Product) => product.isFeatured === true
   );
@@ -67,7 +75,7 @@ export default async function Home() {
               </p>
             </div>
           </div>
-          <div className="">
+          <div>
             <Catalog
               products={featuredProducts}
               metaData={paginationMetaData}

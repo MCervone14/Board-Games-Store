@@ -28,7 +28,7 @@ const DetailsViewCartButton = ({
 
   const numberOfProductInBasket =
     basket?.items?.find((item) => item.productId === Number(productId))
-      ?.quantity || 0;
+      ?.quantityInStock || 0;
 
   const handleClick = (e: any) => {
     const { id } = e.currentTarget;

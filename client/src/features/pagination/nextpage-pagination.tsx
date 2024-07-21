@@ -8,7 +8,7 @@ import {
   PaginationLink,
 } from "@/components/ui/pagination";
 import { MetaData } from "@/types/metaData";
-import { useTransition } from "react";
+import { Suspense, useTransition } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
@@ -37,21 +37,23 @@ const NextPagePagination = ({ metaData }: NextPagePaginationProps) => {
           {` ${startIndex} - ${endIndex} of ${totalCount} `}
         </p>
         <div className="flex gap-1">
-          <Button
-            variant={"ghost"}
-            onClick={() =>
-              startTransition(() => {
-                const params = new URLSearchParams(searchParams);
-                params.set("pageNumber", (currentPage - 1).toString());
-                fetchProducts();
-                router.replace(`${pathname}?${params.toString()}`);
-              })
-            }
-            className="p-0 px-2 disabled:gray-400"
-            disabled={currentPage === 1}
-          >
-            <ChevronLeftIcon className="w-5 h-5" />
-          </Button>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Button
+              variant={"ghost"}
+              onClick={() =>
+                startTransition(() => {
+                  const params = new URLSearchParams(searchParams);
+                  params.set("pageNumber", (currentPage - 1).toString());
+                  fetchProducts();
+                  router.replace(`${pathname}?${params.toString()}`);
+                })
+              }
+              className="p-0 px-2 disabled:gray-400"
+              disabled={currentPage === 1}
+            >
+              <ChevronLeftIcon className="w-5 h-5" />
+            </Button>
+          </Suspense>
           {Array.from({ length: totalPages }).map((_, index) => {
             const pageNumber = index + 1;
             return (

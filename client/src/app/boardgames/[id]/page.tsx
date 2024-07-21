@@ -42,6 +42,10 @@ const ProductDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
     return notFound();
   }
 
+  if (!basket) {
+    return null;
+  }
+
   const catData = product.categories.flatMap(
     (category: string, index: number) => {
       return {

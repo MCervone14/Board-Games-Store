@@ -12,6 +12,10 @@ export const metadata: Metadata = {
 export default async function TaskPage() {
   const orders = await getOrders();
 
+  if (!orders) {
+    return [];
+  }
+
   return (
     <div className="flex h-full flex-1 flex-col space-y-8 p-8 max-w-7xl mx-auto">
       <div className="flex items-center justify-between space-y-2">

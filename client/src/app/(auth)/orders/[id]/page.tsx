@@ -28,6 +28,10 @@ interface OrdersDetailPageProps {
 const OrdersDetailPage = async ({ params }: OrdersDetailPageProps) => {
   const order = await getOrder(params.id);
 
+  if (!order) {
+    return null;
+  }
+
   return (
     <div className="flex h-full flex-1 flex-col space-y-8 p-8">
       <div className="text-center">
