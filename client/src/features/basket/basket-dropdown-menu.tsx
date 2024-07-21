@@ -15,7 +15,7 @@ import Link from "next/link";
 import { Label } from "@/components/ui/label";
 
 interface BasketDropDownMenuProps {
-  basket: Basket;
+  basket: Basket | null;
   sum: number;
 }
 

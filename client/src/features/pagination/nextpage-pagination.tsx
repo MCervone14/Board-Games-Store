@@ -31,13 +31,13 @@ const NextPagePagination = ({ metaData }: NextPagePaginationProps) => {
 
   return (
     <Pagination className={`my-10 ${pathname == "/" && "hidden"}`}>
-      <div className="flex gap-4 w-full justify-between items-center">
-        <p className="text-center text-lg">
-          <span className="font-bold">Showing</span>
-          {` ${startIndex} - ${endIndex} of ${totalCount} `}
-        </p>
-        <div className="flex gap-1">
-          <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <div className="flex gap-4 w-full justify-between items-center">
+          <p className="text-center text-lg">
+            <span className="font-bold">Showing</span>
+            {` ${startIndex} - ${endIndex} of ${totalCount} `}
+          </p>
+          <div className="flex gap-1">
             <Button
               variant={"ghost"}
               onClick={() =>
@@ -53,52 +53,52 @@ const NextPagePagination = ({ metaData }: NextPagePaginationProps) => {
             >
               <ChevronLeftIcon className="w-5 h-5" />
             </Button>
-          </Suspense>
-          {Array.from({ length: totalPages }).map((_, index) => {
-            const pageNumber = index + 1;
-            return (
-              <PaginationContent key={index}>
-                <PaginationItem>
-                  <PaginationLink
-                    className={`${
-                      currentPage === pageNumber
-                        ? "bg-blue-500 text-white"
-                        : "text-black"
-                    }`}
-                    href="#"
-                    isActive={currentPage === pageNumber}
-                    onClick={() =>
-                      startTransition(() => {
-                        const params = new URLSearchParams(searchParams);
-                        params.set("pageNumber", pageNumber.toString());
-                        fetchProducts();
-                        router.replace(`${pathname}?${params.toString()}`);
-                      })
-                    }
-                  >
-                    {pageNumber}
-                  </PaginationLink>
-                </PaginationItem>
-              </PaginationContent>
-            );
-          })}
-          <Button
-            variant={"ghost"}
-            onClick={() =>
-              startTransition(() => {
-                const params = new URLSearchParams(searchParams);
-                params.set("pageNumber", (currentPage + 1).toString());
-                fetchProducts();
-                router.replace(`${pathname}?${params.toString()}`);
-              })
-            }
-            className="p-0 px-2 disabled:gray-400"
-            disabled={currentPage === totalPages}
-          >
-            <ChevronRightIcon className="w-5 h-5" />
-          </Button>
+            {Array.from({ length: totalPages }).map((_, index) => {
+              const pageNumber = index + 1;
+              return (
+                <PaginationContent key={index}>
+                  <PaginationItem>
+                    <PaginationLink
+                      className={`${
+                        currentPage === pageNumber
+                          ? "bg-blue-500 text-white"
+                          : "text-black"
+                      }`}
+                      href="#"
+                      isActive={currentPage === pageNumber}
+                      onClick={() =>
+                        startTransition(() => {
+                          const params = new URLSearchParams(searchParams);
+                          params.set("pageNumber", pageNumber.toString());
+                          fetchProducts();
+                          router.replace(`${pathname}?${params.toString()}`);
+                        })
+                      }
+                    >
+                      {pageNumber}
+                    </PaginationLink>
+                  </PaginationItem>
+                </PaginationContent>
+              );
+            })}
+            <Button
+              variant={"ghost"}
+              onClick={() =>
+                startTransition(() => {
+                  const params = new URLSearchParams(searchParams);
+                  params.set("pageNumber", (currentPage + 1).toString());
+                  fetchProducts();
+                  router.replace(`${pathname}?${params.toString()}`);
+                })
+              }
+              className="p-0 px-2 disabled:gray-400"
+              disabled={currentPage === totalPages}
+            >
+              <ChevronRightIcon className="w-5 h-5" />
+            </Button>
+          </div>
         </div>
-      </div>
+      </Suspense>
     </Pagination>
   );
 };

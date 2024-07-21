@@ -5,7 +5,6 @@ import { Toaster } from "@/components/ui/toaster";
 import Footer from "@/features/footer/footer";
 import NavbarLayout from "@/features/layout/navbar";
 import CategoriesNavbar from "@/features/layout/categories-navbar";
-import NotificationBar from "@/features/layout/notification-bar";
 
 const archivo = Archivo({
   subsets: ["latin"],

@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { useCallback, useState } from "react";
+import { Suspense, useCallback, useState } from "react";
 import debounce from "lodash.debounce";
 import {
   DropdownMenu,
@@ -110,16 +110,18 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
               )}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
-            {sortOptions.map((item) => (
-              <DropdownMenuItem
-                key={item.label}
-                onClick={() => handleSortingChange(item.value)}
-              >
-                {item.label}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
+          <Suspense fallback={<Button>Loading...</Button>}>
+            <DropdownMenuContent className="w-56">
+              {sortOptions.map((item) => (
+                <DropdownMenuItem
+                  key={item.label}
+                  onClick={() => handleSortingChange(item.value)}
+                >
+                  {item.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </Suspense>
         </DropdownMenu>
       </div>
       <div className="bg-primary-foreground flex gap-2">
@@ -139,24 +141,26 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
               )}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 max-h-56 scroll-smooth overflow-auto">
-            {filters.categories.map((item: string) => (
-              <DropdownMenuCheckboxItem
-                key={item}
-                textValue={item}
-                checked={
-                  searchParams.has("categoriesSelected") &&
-                  searchParams
-                    .get("categoriesSelected")
-                    ?.split(",")
-                    .includes(item)
-                }
-                onCheckedChange={() => handleCategoryChange(item)}
-              >
-                {item}
-              </DropdownMenuCheckboxItem>
-            ))}
-          </DropdownMenuContent>
+          <Suspense fallback={<Button>Loading...</Button>}>
+            <DropdownMenuContent className="w-56 max-h-56 scroll-smooth overflow-auto">
+              {filters.categories.map((item: string) => (
+                <DropdownMenuCheckboxItem
+                  key={item}
+                  textValue={item}
+                  checked={
+                    searchParams.has("categoriesSelected") &&
+                    searchParams
+                      .get("categoriesSelected")
+                      ?.split(",")
+                      .includes(item)
+                  }
+                  onCheckedChange={() => handleCategoryChange(item)}
+                >
+                  {item}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </Suspense>
         </DropdownMenu>
         <DropdownMenu
           open={isOpen.mechanics}
@@ -174,21 +178,23 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
               )}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 max-h-56 scroll-smooth overflow-auto">
-            {filters.mechanics.map((item: string) => (
-              <DropdownMenuCheckboxItem
-                key={item}
-                textValue={item}
-                checked={
-                  searchParams.has("types") &&
-                  searchParams.getAll("types").includes(item)
-                }
-                onCheckedChange={() => handleCategoryChange(item)}
-              >
-                {item}
-              </DropdownMenuCheckboxItem>
-            ))}
-          </DropdownMenuContent>
+          <Suspense fallback={<Button>Loading...</Button>}>
+            <DropdownMenuContent className="w-56 max-h-56 scroll-smooth overflow-auto">
+              {filters.mechanics.map((item: string) => (
+                <DropdownMenuCheckboxItem
+                  key={item}
+                  textValue={item}
+                  checked={
+                    searchParams.has("types") &&
+                    searchParams.getAll("types").includes(item)
+                  }
+                  onCheckedChange={() => handleCategoryChange(item)}
+                >
+                  {item}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </Suspense>
         </DropdownMenu>
       </div>
       <Label className="mr-2">Search</Label>

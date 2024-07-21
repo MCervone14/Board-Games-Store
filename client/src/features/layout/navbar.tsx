@@ -1,4 +1,4 @@
-import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import { Bars3Icon } from "@heroicons/react/24/solid";
 import {
   Navbar,
   NavbarBrand,
@@ -8,7 +8,6 @@ import {
 } from "@nextui-org/navbar";
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetTrigger,
@@ -20,7 +19,14 @@ import { BasketItem } from "@/types/basket";
 import { getBasket, getFilters } from "@/actions/server";
 import { UserMenu } from "./user-menu";
 import BasketDropDownMenu from "../basket/basket-dropdown-menu";
-import ComboboxSearch from "@/components/reusable/combobox-search";
+import dynamic from "next/dynamic";
+
+const ComboboxSearch = dynamic(
+  () => import("@/components/reusable/combobox-search"),
+  {
+    ssr: false,
+  }
+);
 
 const menuItems = [
   { label: "Board Games", href: "/boardgames" },
@@ -36,7 +42,8 @@ const menuItems = [
 
 export default async function NavbarLayout() {
   const basket = await getBasket();
-  const { boardGameList } = await getFilters();
+
+  const boardGameList = await getFilters();
 
   const sum =
     basket?.items?.reduce(
