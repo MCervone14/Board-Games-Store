@@ -3,6 +3,7 @@ import { orderColumns } from "@/features/table/data/orders-data/order-columns";
 
 import { getOrders } from "@/actions/server";
 import { DataTable } from "@/features/table/table";
+import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Orders",
@@ -13,7 +14,7 @@ export default async function TaskPage() {
   const orders = await getOrders();
 
   if (!orders) {
-    return [];
+    return notFound();
   }
 
   return (

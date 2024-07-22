@@ -1,6 +1,7 @@
 import BackButton from "@/features/buttons/back-button";
 import OrderTableDetails from "@/features/table/data/orders-data/order-table-details";
 import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 
 const getOrder = async (id: string) => {
   const nextCookies = cookies();
@@ -29,7 +30,7 @@ const OrdersDetailPage = async ({ params }: OrdersDetailPageProps) => {
   const order = await getOrder(params.id);
 
   if (!order) {
-    return null;
+    return notFound();
   }
 
   return (

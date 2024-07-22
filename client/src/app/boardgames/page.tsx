@@ -1,6 +1,7 @@
 import { fetchProducts } from "@/actions/server";
 import Catalog from "@/features/catalog/catalog";
 import FilterSideBar from "@/features/filter/filter-sidebar";
+import { notFound } from "next/navigation";
 
 const getFilters = async () => {
   // const response = await fetch(`${process.env.BASE_API_URL}/products/filters`);
@@ -52,15 +53,13 @@ const BoardGamesPage = async ({ searchParams }: BoardGamesPageProps) => {
     searchParams?.mechanicsSelected || ""
   );
   if (!products) {
-    return [];
+    return notFound();
   }
-  if (!paginationMetaData) {
-    return null;
-  }
+
   const filters = await getFilters();
 
   if (!filters) {
-    return null;
+    return notFound();
   }
 
   return (

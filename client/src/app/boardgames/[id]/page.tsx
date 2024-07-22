@@ -43,7 +43,7 @@ const ProductDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
   }
 
   if (!basket) {
-    return null;
+    return notFound();
   }
 
   const catData = product.categories.flatMap(
@@ -65,8 +65,6 @@ const ProductDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
       };
     }
   );
-
-  console.log(product);
 
   return (
     <div className="container flex flex-col mt-10">

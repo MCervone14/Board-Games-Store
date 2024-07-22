@@ -1,4 +1,5 @@
 import Inventory from "@/features/inventory/Inventory";
+import { notFound } from "next/navigation";
 
 const getProducts = async () => {
   try {
@@ -16,10 +17,10 @@ const InventoryPage = async () => {
   const { products } = await getProducts();
 
   if (!products) {
-    return null;
+    return notFound();
   }
 
-  return <Inventory products={products || []} />;
+  return <Inventory products={products} />;
 };
 
 export default InventoryPage;
