@@ -17,7 +17,7 @@ const LoginPage = () => {
     <div className="flex w-full justify-center bg-white">
       <div className="w-1/2 flex flex-col items-center">
         <Image
-          src="/images/promotionals/TT_Z_logo.png"
+          src="/images/promotionals/TT_Z_Logo.png"
           alt="Logo"
           width={300}
           height={300}

@@ -675,7 +675,7 @@ export function AddProductForm({ setEditMode, product }: AddProductFormProps) {
                 <Button
                   onClick={() => {
                     if (setEditMode === undefined) {
-                      router.push("/inventory");
+                      router.replace("/inventory");
                     } else {
                       setEditMode(false);
                     }

@@ -97,7 +97,7 @@ export default async function NavbarLayout() {
           <NavbarBrand>
             <Link href="/" className="font-bold text-inherit hidden md:block">
               <Image
-                src="/images/promotionals/TT_Z_logo.png"
+                src="/images/promotionals/TT_Z_Logo.png"
                 alt="logo"
                 width={150}
                 height={50}

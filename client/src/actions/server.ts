@@ -346,16 +346,10 @@ export const CreateProduct = async (formData: FormData) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const contentType = response.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
-      const data = await response.json();
-      revalidatePath("/");
-      revalidatePath("/inventory");
-      return data;
-    } else {
-      const text = await response.text();
-      throw new Error(`Unexpected response format: ${text}`);
-    }
+    const data = await response.json();
+    revalidatePath("/");
+    revalidatePath("/inventory");
+    return data;
   } catch (error) {
     console.log("Error creating product in server action");
   }
@@ -379,16 +373,10 @@ export const UpdateProduct = async (formData: FormData) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const contentType = response.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
-      const data = await response.json();
-      revalidatePath("/");
-      revalidatePath("/inventory");
-      return data;
-    } else {
-      const text = await response.text();
-      throw new Error(`Unexpected response format: ${text}`);
-    }
+    const data = await response.json();
+    revalidatePath("/");
+    revalidatePath("/inventory");
+    return data;
   } catch (error) {
     console.log("Error creating product in server action");
   }
