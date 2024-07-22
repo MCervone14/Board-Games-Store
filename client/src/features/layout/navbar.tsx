@@ -20,6 +20,7 @@ import { getBasket, getFilters } from "@/actions/server";
 import { UserMenu } from "./user-menu";
 import BasketDropDownMenu from "../basket/basket-dropdown-menu";
 import dynamic from "next/dynamic";
+import { notFound } from "next/navigation";
 
 const ComboboxSearch = dynamic(
   () => import("@/components/reusable/combobox-search"),
@@ -43,7 +44,15 @@ const menuItems = [
 export default async function NavbarLayout() {
   const basket = await getBasket();
 
-  const boardGameList = await getFilters();
+  const { boardGameList } = await getFilters();
+
+  if (!boardGameList) {
+    return [];
+  }
+
+  if (!basket) {
+    return notFound();
+  }
 
   const sum =
     basket?.items?.reduce(

@@ -45,6 +45,8 @@ const ComboboxSearch = ({ boardGames }: ComboboxSearchProps) => {
     }
   };
 
+  console.log("boardGames", boardGames);
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -55,7 +57,7 @@ const ComboboxSearch = ({ boardGames }: ComboboxSearchProps) => {
           className="w-[375px] h-12 rounded-2xl justify-between"
         >
           {value
-            ? boardGames.find((boardgame) => boardgame === value)
+            ? boardGames?.find((boardgame) => boardgame === value)
             : "Quick Search..."}
           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
