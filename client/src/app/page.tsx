@@ -2,7 +2,6 @@ import Image from "next/image";
 import { fetchProducts } from "@/actions/server";
 import Catalog from "@/features/catalog/catalog";
 import { Product } from "@/types/products";
-import { notFound } from "next/navigation";
 
 export default async function Home() {
   const { products, paginationMetaData } = await fetchProducts(
@@ -13,10 +12,6 @@ export default async function Home() {
     "", // categoriesSelected
     "" // mechanicsSelected
   );
-
-  if (!products) {
-    return notFound();
-  }
 
   const featuredProducts = products?.filter(
     (product: Product) => product.isFeatured
