@@ -136,11 +136,10 @@ export function AddProductForm({ setEditMode, product }: AddProductFormProps) {
     try {
       if (product) {
         await UpdateProduct(formData);
-        router.replace("/inventory");
       } else {
         await CreateProduct(formData);
-        router.replace("/inventory");
       }
+      router.replace("/inventory");
     } catch (error) {
       console.error(error);
     }
@@ -675,7 +674,7 @@ export function AddProductForm({ setEditMode, product }: AddProductFormProps) {
                 <Button
                   onClick={() => {
                     if (setEditMode === undefined) {
-                      router.replace("/inventory");
+                      router.refresh();
                     } else {
                       setEditMode(false);
                     }

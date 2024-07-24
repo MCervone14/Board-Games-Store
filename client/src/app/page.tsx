@@ -19,7 +19,7 @@ export default async function Home() {
   }
 
   const featuredProducts = products?.filter(
-    (product: Product) => product.isFeatured === true
+    (product: Product) => product.isFeatured
   );
 
   return (

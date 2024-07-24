@@ -16,12 +16,14 @@ import { Input } from "@/components/ui/input";
 import { Register } from "@/actions/server";
 import { registerFormSchema } from "@/lib/form-schemas";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import LoadingIndicator from "../layout/loading-indicator";
 
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
@@ -77,7 +79,14 @@ export function RegisterForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit((data) =>
+          startTransition(() => {
+            onSubmit(data);
+          })
+        )}
+        className="space-y-8"
+      >
         <FormField
           control={form.control}
           name="username"
@@ -147,7 +156,7 @@ export function RegisterForm() {
           className="flex justify-center w-full  bg-gray-300 text-black hover:bg-blue-600 hover:text-white"
           type="submit"
         >
-          Register
+          {isPending ? <LoadingIndicator /> : "Register"}
         </Button>
       </form>
     </Form>

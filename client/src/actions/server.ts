@@ -336,7 +336,6 @@ export const CreateProduct = async (formData: FormData) => {
     const response = await fetch(`${baseURL}/products`, {
       method: "POST",
       headers: {
-        "Content-Type": "multipart/form-data",
         Authorization: "Bearer " + token,
       },
       body: formData,
@@ -363,7 +362,6 @@ export const UpdateProduct = async (formData: FormData) => {
     const response = await fetch(`${baseURL}/products`, {
       method: "PUT",
       headers: {
-        "Content-Type": "multipart/form-data",
         Authorization: "Bearer " + token,
       },
       body: formData,
@@ -374,6 +372,8 @@ export const UpdateProduct = async (formData: FormData) => {
     }
 
     const data = await response.json();
+
+    console.log(data);
     revalidatePath("/");
     revalidatePath("/inventory");
     return data;

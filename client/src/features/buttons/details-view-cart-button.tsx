@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BasketItem } from "@/types/basket";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/solid";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import LoadingIndicator from "../layout/loading-indicator";
 
 interface DetailsViewCartButtonProps {
   quantityInStock: number;
@@ -24,6 +25,7 @@ const DetailsViewCartButton = ({
   productId,
   basket,
 }: DetailsViewCartButtonProps) => {
+  const [isPending, startTransition] = useTransition();
   const [quantity, setQuantity] = useState(1);
 
   const numberOfProductInBasket =
@@ -43,7 +45,12 @@ const DetailsViewCartButton = ({
   return (
     <>
       <form
-        action={handleAddToCart}
+        onSubmit={(event) => {
+          event.preventDefault();
+          startTransition(() => {
+            handleAddToCart;
+          });
+        }}
         className="flex flex-col gap-3 items-center justify-center"
       >
         <div className="flex flex-col w-full gap-2">
@@ -86,7 +93,13 @@ const DetailsViewCartButton = ({
           className="p-5 w-full hover:bg-blue-600"
           disabled={quantityInStock === numberOfProductInBasket}
         >
-          {quantityInStock === 0 ? "Out of Stock" : "Add to Cart"}
+          {isPending ? (
+            <LoadingIndicator />
+          ) : quantityInStock === 0 ? (
+            "Out of Stock"
+          ) : (
+            "Add to Cart"
+          )}
         </Button>
       </form>
     </>

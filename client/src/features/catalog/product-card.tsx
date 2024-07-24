@@ -18,12 +18,22 @@ import {
 } from "@/components/ui/tooltip";
 import { Product } from "@/types/products";
 import { ProductPrice } from "@/lib/utils";
+import { getPlaiceholder } from "plaiceholder";
 
 interface ProductCardProps {
   product: Product;
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = async ({ product }: ProductCardProps) => {
+  const buffer = await fetch(product.pictureUrl).then(async (res) => {
+    return Buffer.from(await res.arrayBuffer());
+  });
+  const { base64 } = await getPlaiceholder(buffer, { size: 10 });
+
+  if (!base64) {
+    return null;
+  }
+
   return (
     <Card className="pt-2 space-y-4 border hover:border-black relative flex flex-col justify-between">
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
@@ -51,13 +61,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
               alt={product.name}
               className="mx-auto object-contain max-h-[300px] h-[300px]"
               src={product.pictureUrl}
+              placeholder="blur"
+              blurDataURL={base64}
               width={300}
               height={300}
             />
           )}
         </Link>
       </CardHeader>
-      <CardContent className="">
+      <CardContent>
         <small className="font-semibold text-lg md:text-xl text-blue-600">
           {product.salePrice ? (
             <>
@@ -75,10 +87,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
           )}
         </small>
         <Link href={`/boardgames/${product.id}`} className="group">
-          <h3 className="font-bold text-xl line-clamp-1 group-hover:opacity-80">
+          <h3 className="font-bold text-xl line-clamp-2 group-hover:opacity-80 mb-2">
             {product.name}
           </h3>
-          <h4 className="text-sm text-wrap group-hover:opacity-80 line-clamp-2">
+          <h4 className="text-sm text-wrap group-hover:opacity-80 line-clamp-7">
             {product.description}
           </h4>
         </Link>

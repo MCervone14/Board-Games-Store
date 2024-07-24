@@ -67,8 +67,8 @@ const ProductDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
   );
 
   return (
-    <div className="container flex flex-col mt-10">
-      <div className="flex gap-6 lg:gap-12">
+    <div className="container flex flex-col py-10 bg-white">
+      <div className="flex gap-6 lg:gap-12 ">
         <div className="flex items-center flex-wrap">
           <div className="mx-auto">
             <Image
@@ -134,7 +134,7 @@ const ProductDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
           </div>
         </div>
       </div>
-      <div className="border rounded-lg mb-10">
+      <div className="border rounded-lg">
         <Table>
           <TableHeader>
             <TableRow>

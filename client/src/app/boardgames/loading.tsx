@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const ProductsLoadingPage = () => {
   return (
-    <div className="max-w-7xl mx-auto flex flex-wrap justify-center items-center gap-5 mt-10">
+    <div className="container mx-auto flex flex-wrap justify-center items-center gap-4 mt-10">
       {Array.from({ length: 9 }).map((_, index) => (
         <Card className="py-4 space-y-4" key={index}>
           <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">

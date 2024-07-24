@@ -16,12 +16,14 @@ import { Input } from "@/components/ui/input";
 import { Login } from "@/actions/server";
 import { loginFormSchema } from "@/lib/form-schemas";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import EyeSlashIcon from "@heroicons/react/24/solid/EyeSlashIcon";
 import EyeIcon from "@heroicons/react/24/solid/EyeIcon";
+import LoadingIndicator from "../layout/loading-indicator";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
@@ -59,7 +61,14 @@ export function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        className="space-y-8"
+        onSubmit={form.handleSubmit((data) =>
+          startTransition(() => {
+            onSubmit(data);
+          })
+        )}
+      >
         <FormField
           control={form.control}
           name="username"
@@ -112,7 +121,7 @@ export function LoginForm() {
           className="flex justify-center w-full bg-gray-300 text-black hover:bg-blue-600 hover:text-white"
           type="submit"
         >
-          Login
+          {isPending ? <LoadingIndicator /> : "Login"}
         </Button>
       </form>
     </Form>

@@ -14,7 +14,7 @@ const archivo = Archivo({
 
 export const metadata: Metadata = {
   title: "Board Games",
-  description: "Buy board games online",
+  description: "Buy new and used board games online",
 };
 
 export default async function RootLayout(props: {
