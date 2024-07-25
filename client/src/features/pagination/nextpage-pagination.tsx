@@ -27,8 +27,6 @@ const NextPagePagination = ({ metaData }: NextPagePaginationProps) => {
   const startIndex = (currentPage - 1) * pageSize + 1;
   const endIndex = Math.min(currentPage * pageSize, totalCount);
 
-  console.log("metaData", metaData);
-
   return (
     <Pagination className={`my-10 ${pathname == "/" && "hidden"}`}>
       <Suspense fallback={<div>Loading...</div>}>

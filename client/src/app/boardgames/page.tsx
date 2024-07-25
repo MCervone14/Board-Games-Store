@@ -4,9 +4,6 @@ import FilterSideBar from "@/features/filter/filter-sidebar";
 import { notFound } from "next/navigation";
 
 const getFilters = async () => {
-  // const response = await fetch(`${process.env.BASE_API_URL}/products/filters`);
-
-  // return await response.json();
   try {
     const response = await fetch(
       `${process.env.BASE_API_URL}/products/filters`
@@ -14,7 +11,7 @@ const getFilters = async () => {
 
     // Check if response is ok (status in the range 200-299)
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`Error! status: ${response.status}`);
     }
 
     // Ensure the response content type is JSON

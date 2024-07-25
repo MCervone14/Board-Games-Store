@@ -136,7 +136,6 @@ export default function MultiStepCheckoutForm({
           name: methods.getValues("nameOnCard"),
         },
       });
-      console.log(paymentCreation?.paymentMethod);
       if (!paymentCreation) {
         console.log("Payment creation failed");
         return;
@@ -168,12 +167,10 @@ export default function MultiStepCheckoutForm({
   const onSubmit = async (values: FieldValues) => {
     setIsLoading(true);
     if (!stripe) return;
-    console.log(clientSecret, paymentId);
     try {
       const paymentResult = await stripe.confirmCardPayment(clientSecret!, {
         payment_method: paymentId,
       });
-      console.log(paymentResult);
       if (paymentResult?.paymentIntent?.status === "succeeded") {
         const orderNumber = await handleSubmitOrder(values);
         setOrderNumber(orderNumber);

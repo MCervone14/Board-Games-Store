@@ -106,9 +106,9 @@ export default async function NavbarLayout() {
           </NavbarBrand>
         </NavbarContent>
 
-        <NavbarContent className="sm:flex" justify="center">
+        {/* <NavbarContent className="sm:flex" justify="center">
           <ComboboxSearch boardGames={boardGameList} />
-        </NavbarContent>
+        </NavbarContent> */}
         <NavbarContent justify="end" className="gap-6">
           <UserMenu />
           <NavbarItem>

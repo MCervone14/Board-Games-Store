@@ -5,12 +5,12 @@ import { Product } from "@/types/products";
 
 export default async function Home() {
   const { products, paginationMetaData } = await fetchProducts(
-    "name", // orderBy
-    "", // searchTerm
-    1, // pageNumber
-    1000, // pageSize
-    "", // categoriesSelected
-    "" // mechanicsSelected
+    "name",
+    "",
+    1,
+    12,
+    "",
+    ""
   );
 
   const featuredProducts = products?.filter(

@@ -37,7 +37,6 @@ const BoardDetailsPageModal = ({ params }: BoardDetailsPageModalProps) => {
 
     getProduct(params.id);
   }, [params.id]);
-  console.log(product);
 
   return (
     <Dialog

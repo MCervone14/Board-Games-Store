@@ -172,8 +172,6 @@ export const Login = async (username: string, password: string) => {
       nextCookies.set("buyerId", user?.basket?.buyerId);
     }
 
-    console.log(data);
-
     if (data.token) {
       nextCookies.set(`token`, data.token);
     }
@@ -239,7 +237,6 @@ export const removeCookie = (name: string) => {
 export const handleSubmitOrder = async (values: FieldValues) => {
   try {
     const { nameOnCard, saveAddress, ...shippingAddress } = values;
-    console.log(saveAddress, shippingAddress);
     const nextCookies = cookies();
     const buyerId = nextCookies.get("buyerId")?.value;
     const token = nextCookies.get("token")?.value;
@@ -255,7 +252,6 @@ export const handleSubmitOrder = async (values: FieldValues) => {
     });
 
     const data = await response.json();
-    console.log(data);
     revalidatePath("/basket");
     return data;
   } catch (error) {
@@ -373,7 +369,6 @@ export const UpdateProduct = async (formData: FormData) => {
 
     const data = await response.json();
 
-    console.log(data);
     revalidatePath("/");
     revalidatePath("/inventory");
     return data;

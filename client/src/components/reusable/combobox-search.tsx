@@ -45,8 +45,6 @@ const ComboboxSearch = ({ boardGames }: ComboboxSearchProps) => {
     }
   };
 
-  console.log("boardGames", boardGames);
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
