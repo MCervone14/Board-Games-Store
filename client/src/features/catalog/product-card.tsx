@@ -25,14 +25,14 @@ interface ProductCardProps {
 }
 
 const ProductCard = async ({ product }: ProductCardProps) => {
-  const buffer = await fetch(product.pictureUrl).then(async (res) => {
-    return Buffer.from(await res.arrayBuffer());
-  });
-  const { base64 } = await getPlaiceholder(buffer, { size: 10 });
+  // const buffer = await fetch(product.pictureUrl).then(async (res) => {
+  //   return Buffer.from(await res.arrayBuffer());
+  // });
+  // const { base64 } = await getPlaiceholder(buffer, { size: 10 });
 
-  if (!base64) {
-    return null;
-  }
+  // if (!base64) {
+  //   return null;
+  // }
 
   return (
     <Card className="pt-2 space-y-4 border hover:border-black relative flex flex-col justify-between">
@@ -61,8 +61,6 @@ const ProductCard = async ({ product }: ProductCardProps) => {
               alt={product.name}
               className="mx-auto object-contain max-h-[300px] h-[300px]"
               src={product.pictureUrl}
-              placeholder="blur"
-              blurDataURL={base64}
               width={300}
               height={300}
             />
