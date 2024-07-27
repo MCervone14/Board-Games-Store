@@ -26,7 +26,13 @@ const BoardDetailsPageModal = ({ params }: BoardDetailsPageModalProps) => {
     const getProduct = async (id: string) => {
       try {
         const response = await fetch(
-          `${process.env.BASE_API_URL}/products/${id}`
+          `${process.env.BASE_API_URL}/products/${id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
         const data = await response.json();
         setProduct(data);
