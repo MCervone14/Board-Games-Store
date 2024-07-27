@@ -26,7 +26,7 @@ const BoardDetailsPageModal = ({ params }: BoardDetailsPageModalProps) => {
     const getProduct = async (idParam: string) => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_API_URL}/products/${idParam}`,
+          `https://tabletopzealots.azurewebsites.net/api/products/${idParam}`,
           {
             method: "GET",
             headers: {
@@ -43,10 +43,6 @@ const BoardDetailsPageModal = ({ params }: BoardDetailsPageModalProps) => {
 
     getProduct(params.id);
   }, [params.id]);
-
-  if (!product) {
-    return notFound();
-  }
 
   return (
     <Dialog
