@@ -7,7 +7,7 @@ import CartButton from "@/features/buttons/cart-button";
 import { ProductPrice } from "@/lib/utils";
 import { Product } from "@/types/products";
 
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, notFound } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
@@ -23,10 +23,10 @@ const BoardDetailsPageModal = ({ params }: BoardDetailsPageModalProps) => {
   const pathname = usePathname();
 
   useEffect(() => {
-    const getProduct = async (id: string) => {
+    const getProduct = async (idParam: string) => {
       try {
         const response = await fetch(
-          `${process.env.BASE_API_URL}/products/${id}`,
+          `${process.env.NEXT_PUBLIC_BASE_API_URL}/products/${idParam}`,
           {
             method: "GET",
             headers: {
@@ -44,7 +44,9 @@ const BoardDetailsPageModal = ({ params }: BoardDetailsPageModalProps) => {
     getProduct(params.id);
   }, [params.id]);
 
-  console.log(product);
+  if (!product) {
+    return notFound();
+  }
 
   return (
     <Dialog
