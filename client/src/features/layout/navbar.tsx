@@ -61,8 +61,8 @@ export default async function NavbarLayout() {
     ) || 0;
 
   return (
-    <Navbar className="bg-white sticky z-10">
-      <div className="flex container justify-between items-center w-full mx-auto py-6 max-h-[100px]">
+    <Navbar className="bg-white">
+      <div className="flex container justify-between items-center w-full mx-auto">
         <NavbarContent>
           <Sheet>
             <SheetTrigger className="rounded-lg md:hidden flex justify-center items-center">
@@ -99,11 +99,20 @@ export default async function NavbarLayout() {
               <Image
                 src="/images/promotionals/TT_Z_Logo.png"
                 alt="logo"
-                width={150}
+                width={125}
                 height={50}
               />
             </Link>
           </NavbarBrand>
+          <Link href={"/boardgames"} className="hover:text-blue-600">
+            Boardgames
+          </Link>
+          <Link
+            href={"/boardgames?categoriesSelected=Card+Game"}
+            className="hover:text-blue-600"
+          >
+            Card Games
+          </Link>
         </NavbarContent>
 
         {/* <NavbarContent className="sm:flex" justify="center">

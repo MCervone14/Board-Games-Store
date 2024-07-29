@@ -134,7 +134,7 @@ const ProductDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
           </div>
         </div>
       </div>
-      <div className="border rounded-lg">
+      <div className="border rounded-lg mt-2">
         <Table>
           <TableHeader>
             <TableRow>
@@ -155,38 +155,38 @@ const ProductDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
               <TableCell>{product.playingTime}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>Year Published</TableCell>
+              <TableCell>Year Published:</TableCell>
               <TableCell>{product.year}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>Publisher(s)</TableCell>
+              <TableCell>Publisher(s):</TableCell>
               <TableCell>{product.publishers.join(", ")}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>Designer(s)</TableCell>
+              <TableCell>Designer(s):</TableCell>
               <TableCell>{product.designers.join(", ")}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>Artists(s)</TableCell>
+              <TableCell>Artists(s):</TableCell>
               <TableCell>{product.artists.join(", ")}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>Category(s)</TableCell>
+              <TableCell>Category(s):</TableCell>
               <TableCell>{product.categories.join(", ")}</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>Mechanic(s)</TableCell>
+              <TableCell>Mechanic(s):</TableCell>
               <TableCell>{product.mechanics.join(", ")}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
         <div className="flex flex-wrap justify-center">
           <div className="text-center mt-10">
-            <Label className="text-2xl">Categories</Label>
+            <Label className="text-2xl">Categories:</Label>
             <RadarChartComponent data={catData} />
           </div>
           <div className="text-center mt-10">
-            <Label className="text-2xl">Mechanics</Label>
+            <Label className="text-2xl">Mechanics:</Label>
             <RadarChartComponent data={mecData} />
           </div>
         </div>
