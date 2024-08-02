@@ -33,9 +33,9 @@ export default async function Home() {
       </section>
       <section className="w-full">
         <div className="flex flex-col lg:flex-row justify-center items-center gap-10 py-6 border shadow-lg">
-          <div className=" flex flex-col items-center justify-center space-y-4 text-2xl">
+          <div className=" flex flex-col items-center justify-center space-y-4 text-2xl p-4">
             <p>
-              We sell <span className="text-blue-600">NEW </span> and{" "}
+              We sell <span className="text-blue-600">NEW </span> and
               <span className="text-blue-600">USED</span> board games!
             </p>
             <p>Look for the open-box icon in the top-right corner.</p>
@@ -71,6 +71,7 @@ export default async function Home() {
             <Catalog
               products={featuredProducts}
               metaData={paginationMetaData}
+              hidden={true}
             />
           </div>
         </div>

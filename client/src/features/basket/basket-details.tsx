@@ -1,9 +1,6 @@
 import {
   Table,
-  TableCaption,
-  TableHeader,
   TableRow,
-  TableHead,
   TableBody,
   TableCell,
   TableFooter,
@@ -17,6 +14,7 @@ import {
 } from "@heroicons/react/24/solid";
 import CartButton from "../buttons/cart-button";
 import BasketSummary from "./basket-summary";
+import { ProductPrice } from "@/lib/utils";
 
 interface BasketDetailsProps {
   basket: Basket;
@@ -24,24 +22,24 @@ interface BasketDetailsProps {
 
 const BasketDetails = async ({ basket }: BasketDetailsProps) => {
   return (
-    <Table className="max-w-5xl mx-auto min-h-screen">
-      <TableCaption>Product(s) in your Cart</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]"></TableHead>
-          <TableHead className="" colSpan={3}>
-            Product Name
-          </TableHead>
-          <TableHead>Price</TableHead>
-          <TableHead className="text-center">Quantity</TableHead>
-          <TableHead className="text-center">Subtotal</TableHead>
-          <TableHead></TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody className="bg-gray-100">
+    <Table className="container mx-auto w-[375px] sm:w-full flex flex-col py-10">
+      <TableBody>
         {basket?.items?.map((item) => (
-          <TableRow key={item.productId}>
-            <TableCell>
+          <TableRow
+            key={item.productId}
+            className="flex flex-col sm:flex-row relative"
+          >
+            <CartButton
+              productId={item.productId}
+              quantity={item.quantityInStock}
+              method="DELETE"
+              cookie={false}
+              variant="ghost"
+              className="p-0 max-w-[50px] absolute top-1 right-1 sm:top-6 "
+            >
+              <XMarkIcon className="w-5 h-5 rounded-full  hover:text-red-600 hover:bg-red-100" />
+            </CartButton>
+            <TableCell className="m-auto">
               <Image
                 src={item.pictureUrl}
                 width={84}
@@ -50,22 +48,23 @@ const BasketDetails = async ({ basket }: BasketDetailsProps) => {
                 className="min-w-[84px] min-h-[84px] max-w-[84px] max-h-[84px]"
               />
             </TableCell>
-            <TableCell className="font-medium w-full" colSpan={3}>
+            <TableCell className="font-medium m-auto text-center flex-1">
               {item.name}
             </TableCell>
-            <TableCell className="w-[100px]">
-              ${(item.price / 100).toFixed(2)}
+            <TableCell className="m-auto">
+              Price: {ProductPrice(Number(item?.price))}
             </TableCell>
-            <TableCell className="text-center w-[100px]">
-              <div className="flex items-center justify-center">
+            <TableCell className="text-center m-auto">
+              <div className="min-w-[200px] flex items-center justify-center">
                 <CartButton
                   productId={item.productId}
                   quantity={1}
                   method="DELETE"
                   cookie={false}
                   variant="ghost"
+                  className="p-0 max-w-[50px]"
                 >
-                  <MinusCircleIcon className="w-7 h-7 text-primary/90 hover:text-primary hover:fill-blue-600" />
+                  <MinusCircleIcon className="w-6 h-6 text-primary/90" />
                 </CartButton>
                 {item.quantityInStock}
                 <CartButton
@@ -74,24 +73,15 @@ const BasketDetails = async ({ basket }: BasketDetailsProps) => {
                   method="POST"
                   cookie={true}
                   variant="ghost"
+                  className="p-0 max-w-[50px]"
                 >
-                  <PlusCircleIcon className="w-7 h-7 text-primary/90 hover:text-primary hover:fill-blue-600" />
+                  <PlusCircleIcon className="w-6 h-6 text-primary/90" />
                 </CartButton>
               </div>
             </TableCell>
-            <TableCell className="w-[150px]">
-              <div className="flex items-center justify-end">
-                ${((item.price * item.quantityInStock) / 100).toFixed(2)}
-                <CartButton
-                  productId={item.productId}
-                  quantity={item.quantityInStock}
-                  method="DELETE"
-                  cookie={false}
-                  variant="ghost"
-                >
-                  <XMarkIcon className="w-5 h-5 rounded-full  hover:text-red-600 hover:bg-red-100" />
-                </CartButton>
-              </div>
+            <TableCell className="font-bold m-auto w-[200px]">
+              Subtotal: $
+              {((item.price * item.quantityInStock) / 100).toFixed(2)}
             </TableCell>
           </TableRow>
         ))}
@@ -103,11 +93,9 @@ const BasketDetails = async ({ basket }: BasketDetailsProps) => {
           </TableRow>
         )}
       </TableBody>
-      {basket?.items?.length > 0 && (
-        <TableFooter className="mx-auto bg-gray-100">
-          <BasketSummary basket={basket} />
-        </TableFooter>
-      )}
+      <TableFooter className="bg-gray-100 m-auto sm:w-full flex flex-col justify-center items-end ">
+        {basket?.items?.length > 0 && <BasketSummary basket={basket} />}
+      </TableFooter>
     </Table>
   );
 };

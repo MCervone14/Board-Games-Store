@@ -25,7 +25,7 @@ interface ProductCardProps {
 
 const ProductCard = async ({ product }: ProductCardProps) => {
   return (
-    <Card className="pt-2 space-y-4 border hover:border-black relative flex flex-col justify-between">
+    <Card className="pt-2 space-y-4 border hover:border-black rounded-lg relative flex flex-col justify-between min-w-[300px]">
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
         {product.isUsed && (
           <TooltipProvider delayDuration={100}>
@@ -83,7 +83,7 @@ const ProductCard = async ({ product }: ProductCardProps) => {
           </h4>
         </Link>
       </CardContent>
-      <CardFooter className="p-0 flex">
+      <CardFooter className="p-0">
         <CartButton
           productId={product.id}
           quantity={1}
@@ -93,12 +93,15 @@ const ProductCard = async ({ product }: ProductCardProps) => {
         >
           Add to Cart
         </CartButton>
-        <Link href={`/boardgames/${product.id}`} className="w-1/4 h-full">
+        <Link
+          href={`/boardgames/snippet/${product.id}`}
+          className="h-full md:w-1/4"
+        >
           <Button
             variant="link"
-            className="rounded-l-none rounded-tr-none hover:bg-blue-600 py-3 hover:text-white w-full h-full border-t-1"
+            className="rounded-l-none rounded-tr-none hover:bg-blue-600 py-3 hover:text-white w-full h-full border-t-1 hidden md:block"
           >
-            <InformationCircleIcon className="h-6 w-6" />
+            <InformationCircleIcon className="h-5 w-5 mx-auto" />
           </Button>
         </Link>
       </CardFooter>

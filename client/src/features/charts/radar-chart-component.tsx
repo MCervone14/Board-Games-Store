@@ -11,7 +11,14 @@ const RadarChartComponent = ({ data }: any) => {
   const renderCustomizedTick = (props: any) => {
     const { x, y, payload } = props;
     return (
-      <text x={x} y={y} textAnchor="middle" fill="#050505" dy={-10}>
+      <text
+        x={x}
+        y={y}
+        textAnchor="middle"
+        fill="#050505"
+        dy={-10}
+        fontSize={12}
+      >
         {payload.value}
       </text>
     );
@@ -31,7 +38,7 @@ const RadarChartComponent = ({ data }: any) => {
       <RadarChart
         cx={250}
         cy={220}
-        outerRadius={160}
+        outerRadius={130}
         width={500}
         height={500}
         data={data}
@@ -39,7 +46,7 @@ const RadarChartComponent = ({ data }: any) => {
         <PolarGrid />
         <PolarAngleAxis
           dataKey="subject"
-          style={{ fontSize: "16px" }}
+          style={{ fontSize: "14px" }}
           tick={renderCustomizedTick}
         />
         <PolarRadiusAxis

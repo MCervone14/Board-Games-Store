@@ -4,7 +4,6 @@ import { CartActionButton } from "@/actions/server";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTransition } from "react";
-import LoadingIndicator from "../layout/loading-indicator";
 
 interface AddProductButtonProps {
   productId: number;
@@ -31,13 +30,14 @@ const CartButton = ({
     <Button
       className={cn(className, "w-full py-6 rounded-tl-none rounded-r-none")}
       variant={variant}
+      disabled={isPending}
       onClick={() =>
         startTransition(() =>
           CartActionButton(productId, quantity, method, cookie)
         )
       }
     >
-      {isPending ? <LoadingIndicator /> : children}
+      {children}
     </Button>
   );
 };

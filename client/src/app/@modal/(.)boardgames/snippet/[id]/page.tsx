@@ -51,10 +51,10 @@ const BoardDetailsPageModal = ({ params }: BoardDetailsPageModalProps) => {
 
   return (
     <Dialog
-      open={pathname === `/boardgames/${params.id}`}
+      open={pathname === `/boardgames/snippet/${params.id}`}
       onOpenChange={() => router.back()}
     >
-      <DialogContent className="sm:max-w-[375px] md:max-w-[800px] ">
+      <DialogContent className="md:max-w-[800px] ">
         {!isLoading ? (
           <div className="grid md:grid-cols-2 gap-6">
             <div className="flex flex-col items-center justify-center gap-2">
@@ -83,7 +83,7 @@ const BoardDetailsPageModal = ({ params }: BoardDetailsPageModalProps) => {
             </div>
             <div className="grid gap-6">
               <div className="space-y-6">
-                <h2 className="text-4xl font-bold text-center">
+                <h2 className="text-4xl font-bold text-center p-2">
                   {product?.name}
                 </h2>
                 <p className="text-gray-500 dark:text-gray-400">
@@ -127,15 +127,7 @@ const BoardDetailsPageModal = ({ params }: BoardDetailsPageModalProps) => {
                         </div>
                       )}
                     </div>
-                    <Button
-                      onClick={() => {
-                        window.location.reload();
-                        window.scrollTo(0, 0);
-                      }}
-                      className="my-auto"
-                    >
-                      See More Details
-                    </Button>
+                    <Button className="my-auto">See More Details</Button>
                   </div>
                   <CartButton
                     productId={Number(product?.id)}

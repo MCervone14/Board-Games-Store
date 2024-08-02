@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Archivo } from "next/font/google";
+import { Archivo, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import Footer from "@/features/footer/footer";
 import NavbarLayout from "@/features/layout/navbar";
 
-const archivo = Archivo({
+const SourceSans = Source_Sans_3({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-archivo",
+  variable: "--font-SourceSans",
 });
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ export default async function RootLayout(props: {
 }) {
   return (
     <html lang="en">
-      <body className={archivo.className}>
+      <body className={SourceSans.className}>
         <NavbarLayout />
         <main>
           {props.children}

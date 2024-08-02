@@ -77,8 +77,8 @@ export function LoginForm() {
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Login with your Created Username"
-                  className="text-primary placeholder:text-black/60 border-black"
+                  placeholder="Username"
+                  className="text-primary placeholder:text-black/60 border-black/30 py-6 focus:border-blue-600"
                   {...field}
                 />
               </FormControl>
@@ -96,18 +96,18 @@ export function LoginForm() {
                 <div className="relative">
                   <Input
                     type={showPassword ? "text" : "password"}
-                    placeholder="**********"
-                    className="text-primary placeholder:text-black/60 border-black"
+                    placeholder="Password"
+                    className="text-primary placeholder:text-black/60 border-black/30 py-6 focus:border-blue-600"
                     {...field}
                   />
                   {showPassword ? (
                     <EyeIcon
-                      className="absolute top-2.5 right-2 w-4 h-4 cursor-pointer"
+                      className="absolute top-2.5 right-2 w-4 h-7 cursor-pointer"
                       onClick={handleShowPassword}
                     />
                   ) : (
                     <EyeSlashIcon
-                      className="absolute top-2.5 right-2 w-4 h-4 cursor-pointer"
+                      className="absolute top-2.5 right-2 w-4 h-7 cursor-pointer"
                       onClick={handleShowPassword}
                     />
                   )}

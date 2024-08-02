@@ -54,8 +54,7 @@ const DetailsViewCartButton = ({
         className="flex flex-col gap-3 items-center justify-center"
       >
         <div className="flex flex-col w-full gap-2">
-          <Label htmlFor="quantity">Quantity</Label>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-1 items-center">
             <Button
               className="hover:text-blue-600"
               type="button"
@@ -64,12 +63,12 @@ const DetailsViewCartButton = ({
               id="minus"
               disabled={quantity <= 1}
             >
-              <MinusCircleIcon className="w-8 h-8" />
+              <MinusCircleIcon className="w-7 h-7" />
             </Button>
             <Input
               id="quantity"
               name="quantity"
-              className="py-5"
+              className="py-5 min-w-[35px] mx-auto"
               defaultValue={quantity}
             />
             <Input type="hidden" name="productId" value={productId} />
@@ -84,7 +83,7 @@ const DetailsViewCartButton = ({
                 quantity >= quantityInStock - numberOfProductInBasket
               }
             >
-              <PlusCircleIcon className="w-8 h-8" />
+              <PlusCircleIcon className="w-7 h-7" />
             </Button>
           </div>
         </div>

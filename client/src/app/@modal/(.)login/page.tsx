@@ -6,10 +6,10 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog";
 import { LoginForm } from "@/features/form/login-form";
 import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -17,12 +17,15 @@ const LoginPage = () => {
 
   return (
     <Dialog open={pathname === "/login"} onOpenChange={() => router.back()}>
-      <DialogContent>
+      <DialogContent className="w-[375px] sm:w-full">
         <DialogHeader>
-          <DialogTitle>Login</DialogTitle>
-          <DialogDescription>
-            Please enter your information to login to your account.
-          </DialogDescription>
+          <Image
+            src="/images/promotionals/TT_Z_Logo.png"
+            alt="logo"
+            width={150}
+            height={50}
+            className="mx-auto object-cover rounded-full border-2 border-blue-800"
+          />
         </DialogHeader>
         <LoginForm />
         <DialogDescription>

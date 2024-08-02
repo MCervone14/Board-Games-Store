@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
+import { redirect } from "next/navigation";
 
 const baseURL = process.env.BASE_API_URL;
 
@@ -393,4 +394,7 @@ export const DeleteProduct = async (id: number) => {
   } catch (error) {
     console.log("Error deleting product in server action");
   }
+};
+export const redirectHard = async (url: string) => {
+  redirect(url);
 };

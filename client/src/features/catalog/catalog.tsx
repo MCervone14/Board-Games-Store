@@ -6,13 +6,14 @@ import { MetaData } from "@/types/metaData";
 interface CatalogProps {
   products: Product[];
   metaData: MetaData;
+  hidden?: boolean;
 }
 
-const Catalog = async ({ products, metaData }: CatalogProps) => {
+const Catalog = async ({ products, metaData, hidden }: CatalogProps) => {
   return (
     <>
       <ProductList products={products} />
-      <NextPagePagination metaData={metaData} />
+      <NextPagePagination metaData={metaData} hidden={hidden} />
     </>
   );
 };

@@ -81,21 +81,22 @@ const ProductDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
               blurDataURL={product.pictureUrl}
             />
           </div>
-          <div className="mx-auto flex flex-col w-1/2 space-y-6">
-            <h1 className="text-4xl text-center">{product.name}</h1>
+          <div className="mx-auto flex flex-col space-y-6">
+            <h1 className="text-4xl text-center mt-5">{product.name}</h1>
             {product.isUsed && (
               <div className="">
-                <div className="flex justify-center items-center w-full">
+                <div className="flex-col justify-center items-center w-full">
                   <Image
                     alt={"test Icon"}
                     src="/icons/open-box.png"
                     width={50}
                     height={50}
-                    className="mr-4"
+                    className="mx-auto"
                   />
-                  <p className="text-red-500 text-bold text-md">
+                  <p className="text-red-500 text-bold text-md mb-2">
                     ATTENTION: Please note this is an open-box board game.
-                    <br />
+                  </p>
+                  <p className="text-red-500 text-bold text-md">
                     CONDITION: {product.condition}
                   </p>
                 </div>
@@ -122,7 +123,7 @@ const ProductDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
                   </div>
                 )}
               </div>
-              <div>
+              <div className="w-full max-w-[250px] mx-auto">
                 <DetailsViewCartButton
                   quantityInStock={product.quantityInStock}
                   productId={params.id}

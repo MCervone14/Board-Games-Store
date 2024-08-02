@@ -27,7 +27,7 @@ const BasketDropDownMenu = ({ sum, basket }: BasketDropDownMenuProps) => {
           variant="ghost"
           className="relative hover:bg-transparent focus:outline-none"
         >
-          <ShoppingCartIcon className="h-7 w-7 fill-primary/90 group-hover:fill-primary" />
+          <ShoppingCartIcon className="h-6 w-6 fill-primary/90 group-hover:fill-primary" />
           <Badge
             className={cn(
               `${
@@ -39,7 +39,7 @@ const BasketDropDownMenu = ({ sum, basket }: BasketDropDownMenuProps) => {
           </Badge>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[400px] p-4 space-y-4">
+      <DropdownMenuContent className="max-w-[375px] p-4 space-y-4">
         {basket?.items?.map((item) => (
           <div
             className="grid grid-cols-[auto_1fr_auto] items-center gap-4"

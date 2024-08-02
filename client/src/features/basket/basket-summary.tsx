@@ -23,17 +23,17 @@ const BasketSummary = ({ basket }: BasketSummaryProps) => {
   const tableInfo = [
     {
       id: "001",
-      Label: "Subtotal",
+      Label: "Subtotal:",
       Value: subtotal,
     },
     {
       id: "002",
-      Label: "Shipping",
+      Label: "Shipping:",
       Value: shipping,
     },
     {
       id: "003",
-      Label: "Total",
+      Label: "Total:",
       Value: total,
     },
   ];
@@ -41,23 +41,25 @@ const BasketSummary = ({ basket }: BasketSummaryProps) => {
   return (
     <>
       {tableInfo.map((info) => (
-        <TableRow className="" key={info.id}>
-          <TableCell colSpan={4}></TableCell>
-          <TableCell className="font-bold border-b">{info.Label}</TableCell>
-          <TableCell colSpan={2} className="pl-[88px] text-center border-b">
+        <TableRow key={info.id}>
+          <TableCell className="font-bold border-b w-[100px]">
+            {info.Label}
+          </TableCell>
+          <TableCell className="text-center border-b w-[100px]">
             ${info.Value?.toFixed(2) || 0}
           </TableCell>
         </TableRow>
       ))}
       <TableRow>
-        <TableCell colSpan={4}></TableCell>
-        <TableCell colSpan={3} className="italic text-sm text-center border-b">
+        <TableCell
+          colSpan={2}
+          className="italic text-sm w-full text-center border-b"
+        >
           *Orders over $100 qualify for free shipping!
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell colSpan={4}></TableCell>
-        <TableCell colSpan={3} className="text-center p-10">
+        <TableCell colSpan={2} className="text-center p-10">
           <Link href="/checkout">
             <Button className="w-full">Checkout</Button>
           </Link>

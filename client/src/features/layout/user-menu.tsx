@@ -8,20 +8,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { NavbarItem } from "@nextui-org/navbar";
-import { getCurrentUser } from "@/actions/server";
-import { cookies } from "next/headers";
 import LogoutButton from "../buttons/logout-button";
 import OrdersButton from "../buttons/orders-button";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
+import { User } from "@/types/user";
 
-export async function UserMenu() {
-  const authToken = cookies().get("token")?.value;
-  let user = await getCurrentUser(authToken);
+interface UserMenuProps {
+  user?: User;
+}
 
+export async function UserMenu({ user }: UserMenuProps) {
   return (
     <>
       {!user ? (
-        <div className="hidden md:flex gap-2">
+        <div className="hidden sm:flex gap-3">
           <NavbarItem className="hidden lg:flex">
             <Link href="/login">
               <Button variant="outline">Login</Button>
@@ -36,17 +36,17 @@ export async function UserMenu() {
           </NavbarItem>
         </div>
       ) : (
-        <NavbarItem className="hidden md:flex gap-2">
+        <NavbarItem className="flex justify-center items-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="p-0 rounded-full">
-                <UserCircleIcon className="w-8 h-8 fill-primary/90 ring-none" />
+                <UserCircleIcon className="w-7 h-7 fill-primary/90" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-fit">
               <p className="text-sm px-2">{user.email}</p>
               <DropdownMenuSeparator />
-              {user.admin && (
+              {user.isAdmin && (
                 <Link href="/inventory">
                   <DropdownMenuItem className="bg-red-500 hover:bg-red-300">
                     Admin Panel

@@ -6,22 +6,25 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog";
 import { RegisterForm } from "@/features/form/register-form";
 import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
 
 const RegisterPage = () => {
   const router = useRouter();
   const pathname = usePathname();
   return (
     <Dialog open={pathname === "/register"} onOpenChange={() => router.back()}>
-      <DialogContent>
+      <DialogContent className="w-[375px] sm:w-full">
         <DialogHeader>
-          <DialogTitle>Register</DialogTitle>
-          <DialogDescription>
-            Please enter the required information to sign up.
-          </DialogDescription>
+          <Image
+            src="/images/promotionals/TT_Z_Logo.png"
+            alt="logo"
+            width={150}
+            height={50}
+            className="mx-auto object-cover rounded-full border-blue-800 border-2"
+          />
         </DialogHeader>
         <RegisterForm />
         <DialogDescription>
