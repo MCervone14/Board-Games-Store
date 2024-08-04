@@ -1,9 +1,9 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { Suspense, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import debounce from "lodash.debounce";
 import {
   DropdownMenu,
@@ -75,6 +75,26 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
       params.set("categoriesSelected", categories.join(","));
     } else {
       params.delete("categoriesSelected");
+    }
+
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+
+  const handleMechanicChange = (mechanic: string) => {
+    const params = new URLSearchParams(searchParams);
+    const mechanicsString = params.get("mechanicsSelected") || "";
+    let mechanics = mechanicsString ? mechanicsString.split(",") : [];
+
+    if (mechanics.includes(mechanic)) {
+      mechanics = mechanics.filter((item) => item !== mechanic);
+    } else {
+      mechanics.push(mechanic);
+    }
+
+    if (mechanics.length > 0) {
+      params.set("mechanicsSelected", mechanics.join(","));
+    } else {
+      params.delete("mechanicsSelected");
     }
 
     router.replace(`${pathname}?${params.toString()}`);
@@ -181,10 +201,13 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
                 key={item}
                 textValue={item}
                 checked={
-                  searchParams.has("types") &&
-                  searchParams.getAll("types").includes(item)
+                  searchParams.has("mechanicsSelected") &&
+                  searchParams
+                    .get("mechanicsSelected")
+                    ?.split(",")
+                    .includes(item)
                 }
-                onCheckedChange={() => handleCategoryChange(item)}
+                onCheckedChange={() => handleMechanicChange(item)}
               >
                 {item}
               </DropdownMenuCheckboxItem>
@@ -202,6 +225,21 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
         }}
         value={searchTerm || ""}
       />
+      <Button
+        className="bg-red-600 py-3 hover:bg-blue-600"
+        onClick={() => {
+          setSearchTerm("");
+          setSortItem("Name");
+          const params = new URLSearchParams(searchParams);
+          params.delete("searchTerm");
+          params.delete("orderBy");
+          params.delete("categoriesSelected");
+          params.delete("mechanicsSelected");
+          router.replace(`${pathname}?${params.toString()}`);
+        }}
+      >
+        Reset
+      </Button>
     </div>
   );
 };

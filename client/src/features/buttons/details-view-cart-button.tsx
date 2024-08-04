@@ -47,8 +47,9 @@ const DetailsViewCartButton = ({
       <form
         onSubmit={(event) => {
           event.preventDefault();
+          const formData = new FormData(event.currentTarget);
           startTransition(() => {
-            handleAddToCart;
+            handleAddToCart(formData);
           });
         }}
         className="flex flex-col gap-3 items-center justify-center"
@@ -70,6 +71,7 @@ const DetailsViewCartButton = ({
               name="quantity"
               className="py-5 min-w-[35px] mx-auto"
               defaultValue={quantity}
+              value={quantity}
             />
             <Input type="hidden" name="productId" value={productId} />
             <Button

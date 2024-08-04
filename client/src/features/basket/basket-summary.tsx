@@ -41,12 +41,12 @@ const BasketSummary = ({ basket }: BasketSummaryProps) => {
   return (
     <>
       {tableInfo.map((info) => (
-        <TableRow key={info.id}>
+        <TableRow key={info?.id}>
           <TableCell className="font-bold border-b w-[100px]">
-            {info.Label}
+            {info?.Label}
           </TableCell>
           <TableCell className="text-center border-b w-[100px]">
-            ${info.Value?.toFixed(2) || 0}
+            ${info?.Value?.toFixed(2) || 0}
           </TableCell>
         </TableRow>
       ))}

@@ -2,10 +2,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getBasket } from "@/actions/server";
 import { BasketItem } from "@/types/basket";
-import { Label } from "@/components/ui/label";
 import DetailsViewCartButton from "@/features/buttons/details-view-cart-button";
 import { ProductPrice } from "@/lib/utils";
-import RadarChartComponent from "@/features/charts/radar-chart-component";
 import {
   Table,
   TableBody,
@@ -42,34 +40,10 @@ const ProductDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
     return notFound();
   }
 
-  if (!basket) {
-    return notFound();
-  }
-
-  const catData = product.categories.flatMap(
-    (category: string, index: number) => {
-      return {
-        subject: category,
-        A: parseInt(product.categoryWeights[index], 10),
-        fullMark: 10,
-      };
-    }
-  );
-
-  const mecData = product.mechanics.flatMap(
-    (category: string, index: number) => {
-      return {
-        subject: category,
-        A: parseInt(product.mechanicWeights[index], 10),
-        fullMark: 10,
-      };
-    }
-  );
-
   return (
     <div className="container flex flex-col py-10 bg-white">
       <div className="flex gap-6 lg:gap-12 ">
-        <div className="flex items-center flex-wrap">
+        <div className="items-center flex flex-col md:flex-row w-full">
           <div className="mx-auto">
             <Image
               alt={product.name}
@@ -81,7 +55,7 @@ const ProductDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
               blurDataURL={product.pictureUrl}
             />
           </div>
-          <div className="mx-auto flex flex-col space-y-6">
+          <div className="mx-auto flex flex-col space-y-6 w-full md:w-1/2">
             <h1 className="text-4xl text-center mt-5">{product.name}</h1>
             {product.isUsed && (
               <div className="">
@@ -181,16 +155,6 @@ const ProductDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
             </TableRow>
           </TableBody>
         </Table>
-        <div className="flex flex-wrap justify-center">
-          <div className="text-center mt-10">
-            <Label className="text-2xl">Categories:</Label>
-            <RadarChartComponent data={catData} />
-          </div>
-          <div className="text-center mt-10">
-            <Label className="text-2xl">Mechanics:</Label>
-            <RadarChartComponent data={mecData} />
-          </div>
-        </div>
       </div>
     </div>
   );

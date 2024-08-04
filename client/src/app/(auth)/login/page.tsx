@@ -14,25 +14,29 @@ import { RegisterForm } from "@/features/form/register-form";
 
 const LoginPage = () => {
   return (
-    <div className="flex w-full justify-center bg-white">
-      <div className="w-1/2 flex flex-col items-center">
+    <div className="flex w-full justify-center bg-slate-300 py-10">
+      <div className="w-[360px] lg:w-1/2 flex flex-col items-center">
         <Image
           src="/images/promotionals/TT_Z_Logo.png"
           alt="Logo"
           width={300}
           height={300}
-          className="w-1/4"
+          className="w-1/2 lg:w-1/4 rounded-full border-2 border-blue-800 mb-6"
         />
         <Tabs
           defaultValue="Login In"
           className="w-full mx-auto flex flex-col justify-center"
         >
-          <TabsList className="grid w-1/2 mx-auto grid-cols-2">
-            <TabsTrigger value="Login In">Login In</TabsTrigger>
-            <TabsTrigger value="Sign Up">Sign Up</TabsTrigger>
+          <TabsList className="grid w-full lg:w-1/2 mx-auto grid-cols-2">
+            <TabsTrigger value="Login In" className="">
+              Login In
+            </TabsTrigger>
+            <TabsTrigger value="Sign Up" className="">
+              Sign Up
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="Login In">
-            <Card className="z-50 bg-gray-400 text-primary/90 w-1/2 mx-auto">
+            <Card className="z-50 text-primary/90 w-full lg:w-1/2 mx-auto">
               <CardHeader>
                 <CardTitle>Login In</CardTitle>
                 <CardDescription className="text-primary/90">
@@ -45,7 +49,7 @@ const LoginPage = () => {
             </Card>
           </TabsContent>
           <TabsContent value="Sign Up">
-            <Card className="z-50 bg-gray-400 text-primary/90 w-1/2 mx-auto">
+            <Card className="z-50 text-primary/90 w-full lg:w-1/2 mx-auto">
               <CardHeader>
                 <CardTitle>Sign Up</CardTitle>
                 <CardDescription className="text-primary/90">
@@ -59,7 +63,7 @@ const LoginPage = () => {
           </TabsContent>
         </Tabs>
       </div>
-      <div className="w-1/2">
+      <div className="w-1/2 hidden lg:flex">
         <Image
           priority
           src="/images/promotionals/zealots-playing-board-game.jpg"

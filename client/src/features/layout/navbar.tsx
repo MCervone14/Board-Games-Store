@@ -159,8 +159,8 @@ export default async function NavbarLayout() {
         </NavbarContent>
         <NavbarContent className="hidden md:flex"></NavbarContent>
         <NavbarContent>
+          <UserMenu user={user} />
           <NavbarItem className="flex">
-            <UserMenu user={user} />
             <BasketDropDownMenu sum={sum} basket={basket} />
           </NavbarItem>
         </NavbarContent>

@@ -93,17 +93,6 @@ const ProductCard = async ({ product }: ProductCardProps) => {
         >
           Add to Cart
         </CartButton>
-        <Link
-          href={`/boardgames/snippet/${product.id}`}
-          className="h-full md:w-1/4"
-        >
-          <Button
-            variant="link"
-            className="rounded-l-none rounded-tr-none hover:bg-blue-600 py-3 hover:text-white w-full h-full border-t-1 hidden md:block"
-          >
-            <InformationCircleIcon className="h-5 w-5 mx-auto" />
-          </Button>
-        </Link>
       </CardFooter>
     </Card>
   );

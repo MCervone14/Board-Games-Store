@@ -76,7 +76,7 @@ const BasketDropDownMenu = ({ sum, basket }: BasketDropDownMenuProps) => {
             </div>
           </div>
         ))}
-        {(basket?.items?.length === 0 || basket === null) && (
+        {basket?.items?.length === 0 && (
           <div className="flex justify-center">
             No items in your shopping cart!
           </div>
