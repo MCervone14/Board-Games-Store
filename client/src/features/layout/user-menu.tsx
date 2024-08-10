@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import { NavbarItem } from "@nextui-org/navbar";
 import LogoutButton from "../buttons/logout-button";
-import OrdersButton from "../buttons/orders-button";
+import AccountButton from "../buttons/account-button";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { User } from "@/types/user";
 
@@ -46,14 +46,14 @@ export async function UserMenu({ user }: UserMenuProps) {
             <DropdownMenuContent className="w-fit">
               <p className="text-sm px-2">{user.email}</p>
               <DropdownMenuSeparator />
-              {user.isAdmin && (
+              {user.admin && (
                 <Link href="/inventory">
                   <DropdownMenuItem className="bg-red-500 hover:bg-red-300">
                     Admin Panel
                   </DropdownMenuItem>
                 </Link>
               )}
-              <OrdersButton>Orders</OrdersButton>
+              <AccountButton>Account</AccountButton>
               <LogoutButton>Logout</LogoutButton>
             </DropdownMenuContent>
           </DropdownMenu>

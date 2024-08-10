@@ -4,11 +4,11 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 
-interface OrdersButtonProps {
+interface AccountButtonProps {
   children: React.ReactNode;
 }
 
-const OrdersButton = ({ children }: OrdersButtonProps) => {
+const AccountButton = ({ children }: AccountButtonProps) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -16,7 +16,7 @@ const OrdersButton = ({ children }: OrdersButtonProps) => {
     <DropdownMenuItem
       onClick={() =>
         startTransition(async () => {
-          router.push("/orders");
+          router.push("/account");
         })
       }
     >
@@ -25,4 +25,4 @@ const OrdersButton = ({ children }: OrdersButtonProps) => {
   );
 };
 
-export default OrdersButton;
+export default AccountButton;

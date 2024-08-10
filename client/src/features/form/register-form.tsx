@@ -73,7 +73,7 @@ export function RegisterForm() {
 
     if (data.token) {
       form.reset();
-      router.replace("/boardgames");
+      router.push("/");
     }
   };
 

@@ -127,3 +127,77 @@ export const AddProductFormSchema = z.object({
     })
   ),
 });
+
+export const ProfileSettingsSchema = z.object({
+  username: z
+    .string()
+    .min(3, { message: "Username must be at least 3 characters." })
+    .max(20, { message: "Username cannot be more than 20 characters long." }),
+  email: z.string().email(),
+  currentPassword: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters." })
+    .max(32, { message: "Password cannot be more than 32 characters long." })
+    .optional()
+    .or(z.literal("")),
+  newPassword: z
+    .string()
+    .optional()
+    .refine((val) => !val || val.length >= 8, {
+      message: "Password must be at least 8 characters.",
+    })
+    .refine((val) => !val || val.length <= 32, {
+      message: "Password cannot be more than 32 characters long.",
+    })
+    .refine(
+      (val) => {
+        if (!val) return true;
+        const containsUppercase = /[A-Z]/.test(val);
+        const containsLowercase = /[a-z]/.test(val);
+        const containsNumber = /[0-9]/.test(val);
+        const containsSpecialChar =
+          /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(val);
+        return (
+          containsUppercase &&
+          containsLowercase &&
+          containsNumber &&
+          containsSpecialChar
+        );
+      },
+      {
+        message:
+          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+      }
+    )
+    .or(z.literal("")),
+  confirmPassword: z
+    .string()
+    .optional()
+    .refine((val) => !val || val.length >= 8, {
+      message: "Password must be at least 8 characters.",
+    })
+    .refine((val) => !val || val.length <= 32, {
+      message: "Password cannot be more than 32 characters long.",
+    })
+    .refine(
+      (val) => {
+        if (!val) return true;
+        const containsUppercase = /[A-Z]/.test(val);
+        const containsLowercase = /[a-z]/.test(val);
+        const containsNumber = /[0-9]/.test(val);
+        const containsSpecialChar =
+          /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(val);
+        return (
+          containsUppercase &&
+          containsLowercase &&
+          containsNumber &&
+          containsSpecialChar
+        );
+      },
+      {
+        message:
+          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+      }
+    )
+    .or(z.literal("")),
+});

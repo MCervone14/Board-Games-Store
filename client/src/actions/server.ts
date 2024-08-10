@@ -211,13 +211,18 @@ export const Register = async (
   }
 };
 
-export const getCurrentUser = async (token: string | undefined) => {
-  if (!token) return null;
+export const getCurrentUser = async (token?: string | undefined) => {
+  const cookie = cookies().get("token")?.value;
+
+  if (!token && !cookie) {
+    return null;
+  }
+
   const response = await fetch(`${baseURL}/Account/currentUser`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + (token || cookie),
     },
     credentials: "include",
   });
@@ -295,8 +300,12 @@ export const getOrders = async () => {
     },
   });
 
-  const data = await response.json();
-  return data;
+  if (!response.ok) {
+    return { orders: [] };
+  } else {
+    const data = await response.json();
+    return data;
+  }
 };
 
 export const CreatePaymentIntent = async () => {
@@ -397,4 +406,53 @@ export const DeleteProduct = async (id: number) => {
 };
 export const redirectHard = async (url: string) => {
   redirect(url);
+};
+
+export const DeleteAccount = async () => {
+  try {
+    const nextCookies = cookies();
+    const token = nextCookies.get("token")?.value;
+
+    await fetch(`${baseURL}/account/deleteAccount`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    cookies().delete("token");
+    return { ok: 200 };
+  } catch (error) {
+    console.log("Error deleting account in server action");
+  }
+};
+
+export const UpdateProfileSettings = async (formData: FormData) => {
+  try {
+    const nextCookies = cookies();
+    const token = nextCookies.get("token")?.value;
+
+    const response = await fetch(`${baseURL}/account/updateProfile`, {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+      body: formData,
+    });
+
+    if (response.status === 400) {
+      return { status: response.status, message: "Invalid Password" };
+    }
+
+    const data = await response.json();
+    console.log(data);
+
+    cookies().delete("token");
+    cookies().set("token", data.token);
+
+    revalidatePath("/account");
+    return data;
+  } catch (error) {
+    console.log("Error updating profile in server action");
+  }
 };
