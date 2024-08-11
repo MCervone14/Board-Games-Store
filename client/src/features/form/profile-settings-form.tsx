@@ -19,6 +19,7 @@ import { z } from "zod";
 import { User } from "@/types/user";
 import { DeleteAccount, UpdateProfileSettings } from "@/actions/server";
 import DeleteConfirmationModal from "@/components/modals/delete-confirmation-modal";
+import { toast } from "sonner";
 
 interface ProfileSettingsFormProps {
   user: User;
@@ -87,6 +88,8 @@ const ProfileSettingsForm = ({ user }: ProfileSettingsFormProps) => {
         newPassword: "",
         confirmPassword: "",
       });
+
+      toast("Profile updated successfully!");
     }
   };
 

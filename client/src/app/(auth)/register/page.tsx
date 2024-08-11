@@ -14,14 +14,14 @@ import { RegisterForm } from "@/features/form/register-form";
 
 const RegisterPage = () => {
   return (
-    <div className="flex w-full justify-center bg-white">
-      <div className="w-[360px] lg:w-1/2 flex flex-col items-center justify-center">
+    <div className="flex w-full justify-center bg-slate-300">
+      <div className="w-[360px] lg:w-1/2 flex flex-col items-center justify-center py-10">
         <Image
           src="/images/promotionals/TT_Z_Logo.png"
           alt="Logo"
           width={300}
           height={300}
-          className="w-1/2 lg:w-1/4"
+          className="w-1/2 lg:w-1/4 rounded-full border-2 border-blue-800 mb-6"
         />
         <Tabs
           defaultValue="Sign Up"
@@ -64,9 +64,8 @@ const RegisterPage = () => {
           priority
           src="/images/promotionals/zealots-playing-board-game.jpg"
           alt="Hero"
-          width={1920}
-          height={1080}
-          layout="responsive"
+          width={2048}
+          height={1925}
           placeholder="blur"
           blurDataURL="/images/promotionals/zealots-playing-board-game.jpg"
         />

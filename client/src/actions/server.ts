@@ -421,7 +421,7 @@ export const DeleteAccount = async () => {
     });
 
     cookies().delete("token");
-    return { ok: 200 };
+    return { status: 200 };
   } catch (error) {
     console.log("Error deleting account in server action");
   }
@@ -445,7 +445,6 @@ export const UpdateProfileSettings = async (formData: FormData) => {
     }
 
     const data = await response.json();
-    console.log(data);
 
     cookies().delete("token");
     cookies().set("token", data.token);

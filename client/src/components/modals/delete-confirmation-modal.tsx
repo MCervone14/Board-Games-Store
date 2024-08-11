@@ -1,3 +1,5 @@
+"use client";
+
 import { DeleteAccount } from "@/actions/server";
 import {
   AlertDialog,
@@ -10,13 +12,17 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const DeleteConfirmationModal = () => {
+  const router = useRouter();
+
   const handleDelete = async () => {
     const res = await DeleteAccount();
-
-    if (res?.ok === 200) {
-      window.location.href = "/";
+    if (res?.status === 200) {
+      router.push("/");
+      toast.success("Account deleted successfully!");
     }
   };
 

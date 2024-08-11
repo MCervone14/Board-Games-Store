@@ -14,8 +14,8 @@ import { RegisterForm } from "@/features/form/register-form";
 
 const LoginPage = () => {
   return (
-    <div className="flex w-full justify-center bg-slate-300 py-10">
-      <div className="w-[360px] lg:w-1/2 flex flex-col items-center">
+    <div className="flex w-full justify-center bg-slate-300">
+      <div className="w-[360px] lg:w-1/2 flex flex-col items-center py-10">
         <Image
           src="/images/promotionals/TT_Z_Logo.png"
           alt="Logo"
@@ -68,9 +68,8 @@ const LoginPage = () => {
           priority
           src="/images/promotionals/zealots-playing-board-game.jpg"
           alt="Hero"
-          width={1920}
-          height={1080}
-          layout="responsive"
+          width={2048}
+          height={1925}
           placeholder="blur"
           blurDataURL="/images/promotionals/zealots-playing-board-game.jpg"
         />

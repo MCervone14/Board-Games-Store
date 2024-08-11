@@ -5,12 +5,12 @@ import { Product } from "@/types/products";
 
 export default async function Home() {
   const { products, paginationMetaData } = await fetchProducts(
-    "name",
-    "",
-    1,
-    12,
-    "",
-    ""
+    "name", // OrderBy
+    "", // searchTerm
+    1, // pageNumber
+    12, // pageSize
+    "", // category
+    "" // mechanics
   );
 
   const featuredProducts = products?.filter(
@@ -23,19 +23,20 @@ export default async function Home() {
         <Image
           priority
           blurDataURL="/images/promotionals/Invincible_KeyArt_2560x680.png"
-          alt="Promotional Board Game Image found on FreePik.com"
-          className="mx-auto max-h-[680px] w-full"
-          height="680"
           placeholder="blur"
           src="/images/promotionals/Invincible_KeyArt_2560x680.png"
-          width="1270"
+          alt="Promotional Board Game Image found on FreePik.com"
+          className="mx-auto max-h-[680px] object-cover"
+          height={680}
+          width={2560}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
         />
       </section>
       <section className="w-full">
         <div className="flex flex-col lg:flex-row justify-center items-center gap-10 py-6 border shadow-lg">
           <div className=" flex flex-col items-center justify-center space-y-4 text-2xl p-4">
             <p>
-              We sell <span className="text-blue-600">NEW </span> and
+              We sell <span className="text-blue-600">NEW</span> and
               <span className="text-blue-600">USED</span> board games!
             </p>
             <p>Look for the open-box icon in the top-right corner.</p>

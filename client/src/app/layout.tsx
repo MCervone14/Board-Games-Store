@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Archivo, Source_Sans_3 } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 import Footer from "@/features/footer/footer";
 import NavbarLayout from "@/features/layout/navbar";
 
@@ -27,8 +28,9 @@ export default async function RootLayout(props: {
         <main>
           {props.children}
           {props.modal}
+          <SpeedInsights />
         </main>
-        <Toaster />
+        <Toaster position="top-center" />
         <Footer />
       </body>
     </html>
