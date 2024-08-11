@@ -21,15 +21,11 @@ export default async function Home() {
     <>
       <section className="w-full">
         <Image
-          priority
-          blurDataURL="/images/promotionals/Invincible_KeyArt_2560x680.png"
-          placeholder="blur"
-          src="/images/promotionals/Invincible_KeyArt_2560x680.png"
-          alt="Promotional Board Game Image found on FreePik.com"
-          className="mx-auto max-h-[680px] object-cover"
-          height={680}
-          width={2560}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+          src="https://res.cloudinary.com/de6dbo646/image/upload/v1723405540/Invincible_KeyArt_2560x680_odluq6.png"
+          alt="Promotional Board Game Image for Invincible The-Hero-Building-Game"
+          className="mx-auto max-h-[500px]"
+          width={1440}
+          height={500}
         />
       </section>
       <section className="w-full">

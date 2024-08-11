@@ -34,15 +34,21 @@ const Footer = () => {
         </div>
         <div className="grid gap-1">
           <h3 className="font-semibold underline">Sitemap</h3>
-          <Link href="/">Home</Link>
-          <Link href="#">Contact Us - (Coming Soon)</Link>
+          <Link prefetch={false} href="/">
+            Home
+          </Link>
+          <Link prefetch={false} href="#">
+            Contact Us - (Coming Soon)
+          </Link>
         </div>
         <div className="grid gap-1">
           <h3 className="font-semibold underline">Legal</h3>
           <p className="text-gray-500 dark:text-gray-400">
             © {new Date().getFullYear()} Tabletop Zealot. All rights reserved.
           </p>
-          <Link href="/terms-of-service">Terms of Service</Link>
+          <Link prefetch={false} href="/terms-of-service">
+            Terms of Service
+          </Link>
         </div>
       </div>
     </footer>
