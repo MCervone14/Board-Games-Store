@@ -67,10 +67,10 @@ const ProductDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
                     height={50}
                     className="mx-auto"
                   />
-                  <p className="text-red-500 text-bold text-md mb-2">
+                  <p className="text-red-800 text-bold text-md mb-2">
                     ATTENTION: Please note this is an open-box board game.
                   </p>
-                  <p className="text-red-500 text-bold text-md">
+                  <p className="text-red-800 text-bold text-md">
                     CONDITION: {product.condition}
                   </p>
                 </div>
@@ -81,7 +81,7 @@ const ProductDetailsPage = async ({ params }: BoardGameDetailsPageProps) => {
               <div className="text-2xl text-center">
                 {product?.salePrice ? (
                   <div className="font-bold">
-                    <span className="line-through text-red-500 text-sm mr-2">
+                    <span className="line-through text-red-800 text-sm mr-2">
                       {ProductPrice(Number(product?.price))}
                     </span>{" "}
                     <span className="text-blue-600">

@@ -19,13 +19,14 @@ export default async function Home() {
           className="mx-auto max-h-[500px]"
           width={1440}
           height={500}
+          sizes="(max-width: 1440px) 100vw, (max-width 768px) 50vw"
         />
       </section>
-      <section className="w-full">
+      <section>
         <div className="flex flex-col lg:flex-row justify-center items-center gap-10 py-6 border-t-none shadow-lg">
-          <div className=" flex flex-col items-center justify-center space-y-4 text-2xl p-4">
+          <div className=" flex flex-col items-center justify-center space-y-4 text-2xl p-10">
             <p>
-              We sell <span className="text-blue-600">NEW</span> and
+              We sell <span className="text-blue-600">NEW</span> and{" "}
               <span className="text-blue-600">USED</span> board games!
             </p>
             <p>Look for the open-box icon in the top-right corner.</p>

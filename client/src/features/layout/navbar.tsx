@@ -1,11 +1,7 @@
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 import Image from "next/image";
@@ -41,11 +37,11 @@ const menuItemsAuth = [
 export default async function NavbarLayout() {
   const authToken = cookies().get("token")?.value;
   const buyerId = cookies().get("buyerId")?.value;
+
   let sum = undefined;
   let basket = null;
 
   if (buyerId) {
-    console.log("buyerId", buyerId);
     basket = await getBasket();
     sum =
       basket?.items?.reduce(
@@ -90,53 +86,59 @@ export default async function NavbarLayout() {
       <NavigationMenuItem className="flex-1 list-none">
         <Sheet>
           <SheetTrigger className="rounded-lg md:hidden flex justify-center items-center">
-            <Bars3Icon aria-hidden="true" className=" w-6 h-6" />
+            <Bars3Icon
+              aria-hidden="true"
+              className=" w-6 h-6"
+              aria-label="3-bars popout menu button"
+            />
           </SheetTrigger>
           <SheetContent className="flex flex-col items-start">
             <SheetHeader>
               <SheetTitle className="mb-5">Menu</SheetTitle>
             </SheetHeader>
-            {authToken
-              ? menuItemsAuth.map((item, index) => (
-                  <SheetClose>
-                    <Link
-                      color={
-                        index === 2
-                          ? "primary"
-                          : index === menuItemsAuth.length - 1
-                          ? "danger"
-                          : "foreground"
-                      }
-                      className="w-full hover:bg-white hover:bg-opacity-20 rounded-lg px-4 py-2"
-                      href={item.href}
-                      prefetch={false}
-                      key={`${item.label}-${index}`}
-                    >
-                      {item.label}
-                    </Link>
-                  </SheetClose>
-                ))
-              : menuItemsNoAuth.map((item, index) => (
-                  <SheetClose
-                    key={`${item.label}-${index}`}
-                    className="list-none mb-2"
-                  >
-                    <Link
-                      prefetch={false}
-                      color={
-                        index === 2
-                          ? "primary"
-                          : index === menuItemsNoAuth.length - 1
-                          ? "danger"
-                          : "foreground"
-                      }
-                      className="w-full hover:bg-white hover:bg-opacity-20 rounded-lg px-4 py-2"
-                      href={item.href}
-                    >
-                      {item.label}
-                    </Link>
-                  </SheetClose>
-                ))}
+            <ul>
+              {authToken
+                ? menuItemsAuth.map((item, index) => (
+                    <li key={`${item.label}-${index}`}>
+                      <Link
+                        color={
+                          index === 2
+                            ? "primary"
+                            : index === menuItemsAuth.length - 1
+                            ? "danger"
+                            : "foreground"
+                        }
+                        className="w-full hover:bg-white hover:bg-opacity-20 rounded-lg px-4 py-2"
+                        href={item.href}
+                        prefetch={false}
+                        key={`${item.label}-${index}`}
+                      >
+                        <SheetClose>{item.label}</SheetClose>
+                      </Link>
+                    </li>
+                  ))
+                : menuItemsNoAuth.map((item, index) => (
+                    <li key={`${item.label}-${index}`}>
+                      <Link
+                        prefetch={false}
+                        key={`${item.label}-${index}`}
+                        color={
+                          index === 2
+                            ? "primary"
+                            : index === menuItemsNoAuth.length - 1
+                            ? "danger"
+                            : "foreground"
+                        }
+                        className="w-full hover:bg-white hover:bg-opacity-20 rounded-lg px-4 py-2"
+                        href={item.href}
+                      >
+                        <SheetClose className="list-none mb-2">
+                          {item.label}
+                        </SheetClose>
+                      </Link>
+                    </li>
+                  ))}
+            </ul>
           </SheetContent>
         </Sheet>
       </NavigationMenuItem>

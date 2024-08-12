@@ -110,7 +110,7 @@ const ProfileSettingsForm = ({ user }: ProfileSettingsFormProps) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Username <span className="text-red-500">*</span>
+                    Username <span className="text-red-800">*</span>
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -134,7 +134,7 @@ const ProfileSettingsForm = ({ user }: ProfileSettingsFormProps) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Email <span className="text-red-500">*</span>
+                    Email <span className="text-red-800">*</span>
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -158,7 +158,7 @@ const ProfileSettingsForm = ({ user }: ProfileSettingsFormProps) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Current Password <span className="text-red-500">*</span>
+                    Current Password <span className="text-red-800">*</span>
                   </FormLabel>
                   <FormControl>
                     <div className="relative">

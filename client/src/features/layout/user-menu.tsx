@@ -10,6 +10,7 @@ import Link from "next/link";
 import LogoutButton from "../buttons/logout-button";
 import AccountButton from "../buttons/account-button";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
+import { cookies } from "next/headers";
 import { User } from "@/types/user";
 
 interface UserMenuProps {
@@ -17,6 +18,13 @@ interface UserMenuProps {
 }
 
 export async function UserMenu({ token }: UserMenuProps) {
+  let userId = undefined;
+  const user = cookies().get("user")?.value;
+
+  if (user) {
+    userId = JSON.parse(user) as User;
+  }
+
   return (
     <>
       {!token ? (
@@ -40,13 +48,13 @@ export async function UserMenu({ token }: UserMenuProps) {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-fit">
               <DropdownMenuSeparator />
-              {/* {user.admin && (
+              {userId?.admin && (
                 <Link href="/inventory">
                   <DropdownMenuItem className="bg-red-500 hover:bg-red-300">
                     Admin Panel
                   </DropdownMenuItem>
                 </Link>
-              )} */}
+              )}
               <AccountButton>Account</AccountButton>
               <LogoutButton>Logout</LogoutButton>
             </DropdownMenuContent>

@@ -26,13 +26,14 @@ const BasketDropDownMenu = ({ sum, basket }: BasketDropDownMenuProps) => {
         <Button
           variant="ghost"
           className="relative hover:bg-transparent focus:outline-none"
+          aria-label="Shopping Cart button"
         >
           <ShoppingCartIcon className="h-6 w-6 fill-primary/90 group-hover:fill-primary" />
           <Badge
             className={cn(
               `${
                 sum > 0 ? "visible" : "hidden"
-              } absolute -top-1 right-1 h-4  min-w-[1rem] rounded-full bg-blue-600 px-1 text-white group-hover:text-white group-hover:bg-blue-600`
+              } absolute -top-1 right-1 h-4  min-w-[1rem] rounded-full bg-blue-600 px-2 text-white group-hover:text-white group-hover:bg-blue-600`
             )}
           >
             {sum}

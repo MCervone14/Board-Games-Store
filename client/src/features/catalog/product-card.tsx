@@ -58,7 +58,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <small className="font-semibold text-lg md:text-xl text-blue-600">
           {product.salePrice ? (
             <>
-              <span className="line-through text-red-500 mr-2 text-sm">
+              <span className="line-through text-red-800 mr-2 text-sm">
                 {ProductPrice(product.price)}
               </span>
               <span className="text-md">

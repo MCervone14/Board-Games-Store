@@ -163,6 +163,14 @@ export const Login = async (username: string, password: string) => {
     if (data.token) {
       const user = await getCurrentUser(data.token);
       nextCookies.set("buyerId", user?.basket?.buyerId);
+
+      nextCookies.set("user", JSON.stringify(user), {
+        path: "/",
+        httpOnly: true, // Ensures the cookie is sent only in HTTP requests, not accessible via JavaScript
+        secure: process.env.NODE_ENV === "production", // Secure in production
+        maxAge: 60 * 60 * 24 * 7, // Optional: 1 week
+        sameSite: "lax", // Prevents CSRF attacks
+      });
     }
 
     if (data.token) {

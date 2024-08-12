@@ -14,7 +14,7 @@ const categories = [
 const Footer = () => {
   const router = useRouter();
   return (
-    <footer className="bg-gray-100 p-6 md:py-12 dark:bg-gray-800">
+    <footer className="bg-gray-100 p-6 md:py-12">
       <div className="mx-auto max-w-7xl grid grid-cols-1 sm:grid-cols-3 gap-8 text-sm">
         <div className="grid gap-1">
           <h3 className="font-semibold underline">Categories</h3>
@@ -43,7 +43,7 @@ const Footer = () => {
         </div>
         <div className="grid gap-1">
           <h3 className="font-semibold underline">Legal</h3>
-          <p className="text-gray-500 dark:text-gray-400">
+          <p className="text-gray-900">
             © {new Date().getFullYear()} Tabletop Zealot. All rights reserved.
           </p>
           <Link prefetch={false} href="/terms-of-service">
