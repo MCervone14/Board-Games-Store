@@ -108,45 +108,36 @@ export const handleAddToCart = async (formData: FormData) => {
 };
 
 export const fetchProducts = async (
-  orderBy?: string,
-  searchTerm?: string,
-  pageNumber?: number,
-  pageSize?: number,
-  categoriesSelected?: string,
-  mechanicsSelected?: string
+  orderBy = "name",
+  searchTerm = "",
+  pageNumber = 1,
+  pageSize = 12,
+  categoriesSelected = "",
+  mechanicsSelected = ""
 ) => {
   try {
-    if (
-      orderBy === "name" &&
-      searchTerm === "" &&
-      categoriesSelected === "" &&
-      mechanicsSelected === "" &&
-      pageNumber === 1 &&
-      pageSize === 12
-    ) {
-      const response = await fetch(`${baseURL}/products`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      return data;
-    } else {
-      const response = await fetch(
-        `${baseURL}/products?orderBy=${orderBy}&searchTerm=${searchTerm}&categoriesSelected=${categoriesSelected}&mechanicsSelected=${mechanicsSelected}&PageNumber=${pageNumber}&PageSize=${pageSize}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.json();
+    const params = new URLSearchParams({
+      orderBy,
+      searchTerm,
+      pageNumber: pageNumber.toString(),
+      pageSize: pageSize.toString(),
+      categoriesSelected,
+      mechanicsSelected,
+    });
 
-      revalidatePath("/boardgames");
+    const response = await fetch(`${baseURL}/products`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-      return data;
+    if (!response.ok) {
+      throw new Error(`Failed to fetch: ${response.status}`);
     }
+
+    const data = await response.json();
+    return data;
   } catch (error) {
     return { products: [], paginationMetaData: {} };
   }

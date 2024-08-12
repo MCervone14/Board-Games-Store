@@ -1,32 +1,26 @@
 import Image from "next/image";
 import { fetchProducts } from "@/actions/server";
 import Catalog from "@/features/catalog/catalog";
-import { Product } from "@/types/products";
 
 export default async function Home() {
-  const { products, paginationMetaData } = await fetchProducts(
-    "name", // OrderBy
-    "", // searchTerm
-    1, // pageNumber
-    12, // pageSize
-    "", // category
-    "" // mechanics
-  );
+  // const { products, paginationMetaData } = await fetchProducts();
 
-  const featuredProducts = products?.filter(
-    (product: Product) => product.isFeatured
-  );
+  // const featuredProducts = products?.filter(
+  //   (product: Product) => product.isFeatured
+  // );
 
   return (
     <>
       <section className="w-full">
-        <Image
+        {/* <Image
+          placeholder="blur"
+          blurDataURL="https://res.cloudinary.com/de6dbo646/image/upload/v1723405540/Invincible_KeyArt_2560x680_odluq6.png"
           src="https://res.cloudinary.com/de6dbo646/image/upload/v1723405540/Invincible_KeyArt_2560x680_odluq6.png"
           alt="Promotional Board Game Image for Invincible The-Hero-Building-Game"
           className="mx-auto max-h-[500px]"
           width={1440}
           height={500}
-        />
+        /> */}
       </section>
       <section className="w-full">
         <div className="flex flex-col lg:flex-row justify-center items-center gap-10 py-6 border shadow-lg">
@@ -65,11 +59,7 @@ export default async function Home() {
             </div>
           </div>
           <div>
-            <Catalog
-              products={featuredProducts}
-              metaData={paginationMetaData}
-              hidden={true}
-            />
+            {/* <Catalog products={[]} metaData={{}} hidden={true} /> */}
           </div>
         </div>
       </section>

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
@@ -8,8 +7,8 @@ import NavbarLayout from "@/features/layout/navbar";
 
 const SourceSans = Source_Sans_3({
   subsets: ["latin"],
+  weight: "400",
   display: "swap",
-  variable: "--font-SourceSans",
 });
 
 export const metadata: Metadata = {
@@ -28,7 +27,6 @@ export default async function RootLayout(props: {
         <main>
           {props.children}
           {props.modal}
-          <SpeedInsights />
         </main>
         <Toaster position="top-center" />
         <Footer />

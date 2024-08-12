@@ -9,7 +9,7 @@ interface CatalogProps {
   hidden?: boolean;
 }
 
-const Catalog = async ({ products, metaData, hidden }: CatalogProps) => {
+const Catalog = ({ products, metaData, hidden }: CatalogProps) => {
   return (
     <>
       <ProductList products={products} />

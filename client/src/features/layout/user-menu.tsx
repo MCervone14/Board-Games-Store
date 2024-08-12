@@ -23,12 +23,12 @@ export async function UserMenu({ user }: UserMenuProps) {
       {!user ? (
         <div className="hidden sm:flex gap-3">
           <NavbarItem className="hidden lg:flex">
-            <Link href="/login">
+            <Link href="/login" scroll={false}>
               <Button variant="outline">Login</Button>
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link href="/register">
+            <Link href="/register" scroll={false}>
               <Button variant="default" className="bg-blue-600">
                 Sign Up
               </Button>

@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-
 import {
   Card,
   CardHeader,
@@ -9,7 +7,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import CartButton from "../buttons/cart-button";
-import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import {
   Tooltip,
   TooltipContent,
@@ -23,7 +20,7 @@ interface ProductCardProps {
   product: Product;
 }
 
-const ProductCard = async ({ product }: ProductCardProps) => {
+const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <Card className="pt-2 space-y-4 border hover:border-black rounded-lg relative flex flex-col justify-between min-w-[300px]">
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
