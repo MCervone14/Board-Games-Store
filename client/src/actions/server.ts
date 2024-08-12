@@ -125,7 +125,7 @@ export const fetchProducts = async (
       mechanicsSelected,
     });
 
-    const response = await fetch(`${baseURL}/products`, {
+    const response = await fetch(`${baseURL}/products?${params}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -137,6 +137,7 @@ export const fetchProducts = async (
     }
 
     const data = await response.json();
+
     return data;
   } catch (error) {
     return { products: [], paginationMetaData: {} };

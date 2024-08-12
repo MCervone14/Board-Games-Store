@@ -1,15 +1,8 @@
 import type { Metadata } from "next";
-import { Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import Footer from "@/features/footer/footer";
 import NavbarLayout from "@/features/layout/navbar";
-
-const SourceSans = Source_Sans_3({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Board Games",
@@ -22,8 +15,10 @@ export default async function RootLayout(props: {
 }) {
   return (
     <html lang="en">
-      <body className={SourceSans.className}>
-        <NavbarLayout />
+      <body>
+        <div className="bg-white w-full sticky top-0 left-0 z-10 min-h-[60px]">
+          <NavbarLayout />
+        </div>
         <main>
           {props.children}
           {props.modal}

@@ -6,7 +6,6 @@ import {
   CardHeader,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import Image from "next/image";
 
 const HomePageLoading = () => {
   return (
@@ -23,19 +22,8 @@ const HomePageLoading = () => {
             </p>
             <p>Look for the open-box icon in the top-right corner.</p>
           </div>
-          <Image
-            alt="Next icons created by Roundicons - Flaticon"
-            src="/icons/right-arrow.png"
-            width={64}
-            height={64}
-            className="transform rotate-90 lg:rotate-0"
-          />
-          <Image
-            alt="Open box icons created by Freepik - Flaticon"
-            src="/icons/open-box.png"
-            width={128}
-            height={128}
-          />
+          <Skeleton className="w-16 h-16" />
+          <Skeleton className="w-16 h-16" />
         </div>
       </section>
       <section className="w-full py-8 md:py-16 lg:py-24">
@@ -51,7 +39,7 @@ const HomePageLoading = () => {
             </div>
           </div>
           <div className="flex gap-4 flex-wrap">
-            {Array.from({ length: 8 }).map((_, index) => (
+            {Array.from({ length: 6 }).map((_, index) => (
               <Card className="py-4 space-y-4" key={index}>
                 <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
                   <Skeleton className="mx-auto object-contain max-h-[300px] h-[300px] w-full" />

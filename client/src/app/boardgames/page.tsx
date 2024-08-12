@@ -49,6 +49,7 @@ const BoardGamesPage = async ({ searchParams }: BoardGamesPageProps) => {
     searchParams?.categoriesSelected || "",
     searchParams?.mechanicsSelected || ""
   );
+
   if (!products) {
     return notFound();
   }

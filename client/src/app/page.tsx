@@ -1,29 +1,28 @@
-import Image from "next/image";
 import { fetchProducts } from "@/actions/server";
 import Catalog from "@/features/catalog/catalog";
+import { Product } from "@/types/products";
+import Image from "next/image";
 
 export default async function Home() {
-  // const { products, paginationMetaData } = await fetchProducts();
+  const { products, paginationMetaData } = await fetchProducts();
 
-  // const featuredProducts = products?.filter(
-  //   (product: Product) => product.isFeatured
-  // );
+  const featuredProducts = products?.filter(
+    (product: Product) => product.isFeatured
+  );
 
   return (
     <>
       <section className="w-full">
-        {/* <Image
-          placeholder="blur"
-          blurDataURL="https://res.cloudinary.com/de6dbo646/image/upload/v1723405540/Invincible_KeyArt_2560x680_odluq6.png"
-          src="https://res.cloudinary.com/de6dbo646/image/upload/v1723405540/Invincible_KeyArt_2560x680_odluq6.png"
+        <Image
+          src="/images/promotionals/Invincible_KeyArt_2560x680.png"
           alt="Promotional Board Game Image for Invincible The-Hero-Building-Game"
           className="mx-auto max-h-[500px]"
           width={1440}
           height={500}
-        /> */}
+        />
       </section>
       <section className="w-full">
-        <div className="flex flex-col lg:flex-row justify-center items-center gap-10 py-6 border shadow-lg">
+        <div className="flex flex-col lg:flex-row justify-center items-center gap-10 py-6 border-t-none shadow-lg">
           <div className=" flex flex-col items-center justify-center space-y-4 text-2xl p-4">
             <p>
               We sell <span className="text-blue-600">NEW</span> and
@@ -59,7 +58,11 @@ export default async function Home() {
             </div>
           </div>
           <div>
-            {/* <Catalog products={[]} metaData={{}} hidden={true} /> */}
+            <Catalog
+              products={featuredProducts}
+              metaData={paginationMetaData}
+              hidden={true}
+            />
           </div>
         </div>
       </section>
