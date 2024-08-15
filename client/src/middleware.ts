@@ -20,13 +20,14 @@ export default async function middleware(req: NextRequest) {
   // let user = null;
   // 3. Decrypt the session from the cookie
   const token = cookies().get("token")?.value;
+  const user = cookies().get("user")?.value;
 
   // if (cookies().get("token")?.value) {
   //   user = await getCurrentUser(cookie);
   // }
 
   // 5. Redirect to /login if the user is not authenticated
-  if (isProtectedRoute && !token) {
+  if (isProtectedRoute && (!token || !user)) {
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 

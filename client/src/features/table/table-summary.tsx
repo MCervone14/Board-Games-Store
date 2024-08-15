@@ -35,7 +35,7 @@ const Summary = ({ items }: SummaryProps) => {
     <>
       {tableInfo.map((info) => (
         <TableRow className="" key={info.id}>
-          <TableCell colSpan={4} className="bg-background"></TableCell>
+          <TableCell colSpan={4}></TableCell>
           <TableCell className="font-bold border-b">{info.Label}</TableCell>
           <TableCell colSpan={2} className="pl-[88px] text-center border-b">
             ${info.Value?.toFixed(2) || 0}

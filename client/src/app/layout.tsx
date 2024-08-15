@@ -5,7 +5,7 @@ import Footer from "@/features/footer/footer";
 import NavbarLayout from "@/features/layout/navbar";
 
 export const metadata: Metadata = {
-  title: "Board Games",
+  title: "Home | Tabletop_Zealots",
   description: "Buy new and used board games online",
 };
 

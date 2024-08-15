@@ -1,5 +1,6 @@
 import BackButton from "@/features/buttons/back-button";
 import OrderTableDetails from "@/features/table/data/orders-data/order-table-details";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
@@ -26,6 +27,11 @@ interface OrdersDetailPageProps {
   };
 }
 
+export const metadata: Metadata = {
+  title: "Orders | Tabletop_Zealots",
+  description: "View your recent orders and change your profile settings.",
+};
+
 const OrdersDetailPage = async ({ params }: OrdersDetailPageProps) => {
   const order = await getOrder(params.id);
 
@@ -34,13 +40,11 @@ const OrdersDetailPage = async ({ params }: OrdersDetailPageProps) => {
   }
 
   return (
-    <div className="flex h-full flex-1 flex-col space-y-8 p-8">
+    <div className="flex flex-col space-y-8 p-8 h-screen">
       <div className="text-center">
-        <div>
+        <div className="">
           <h2 className="text-2xl font-bold tracking-tight">Order Details</h2>
-          <p className="text-muted-foreground">
-            Order information for order # {order.id}
-          </p>
+          <p className="">Order information for order # {order.id}</p>
         </div>
         <div className="mt-2">
           <BackButton>Back to Orders</BackButton>

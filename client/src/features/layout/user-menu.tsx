@@ -13,11 +13,7 @@ import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { cookies } from "next/headers";
 import { User } from "@/types/user";
 
-interface UserMenuProps {
-  token?: string;
-}
-
-export async function UserMenu({ token }: UserMenuProps) {
+export async function UserMenu() {
   let userId = undefined;
   const user = cookies().get("user")?.value;
 
@@ -27,7 +23,7 @@ export async function UserMenu({ token }: UserMenuProps) {
 
   return (
     <>
-      {!token ? (
+      {!user ? (
         <div className="hidden sm:flex gap-3">
           <Link href="/login" scroll={false} className="hidden lg:flex">
             <Button variant="outline">Login</Button>
@@ -47,6 +43,7 @@ export async function UserMenu({ token }: UserMenuProps) {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-fit">
+              <p className="text-center font-bold">{userId?.username}</p>
               <DropdownMenuSeparator />
               {userId?.admin && (
                 <Link href="/inventory">

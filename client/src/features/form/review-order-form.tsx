@@ -28,7 +28,7 @@ const ReviewOrderForm = ({ setActiveStep }: ReviewOrderFormProps) => {
   let subtotal = 0;
   if (basket?.items) {
     subtotal = basket?.items.reduce(
-      (acc, item) => acc + item.price * item.quantityInStock,
+      (acc, item) => acc + (item.salePrice || item.price) * item.quantity,
       0
     );
   }

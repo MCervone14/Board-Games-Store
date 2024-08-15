@@ -76,7 +76,7 @@ export const orderColumns: ColumnDef<Order>[] = [
             size="sm"
             variant="ghost"
             onClick={() => {
-              router.push(`/orders/${row.getValue("id")}`);
+              router.push(`account/orders/${row.getValue("id")}`);
             }}
           >
             View

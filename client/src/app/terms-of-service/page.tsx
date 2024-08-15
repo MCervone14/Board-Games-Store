@@ -1,3 +1,10 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms of Service | Tabletop_Zealots",
+  description: "Terms of Service for Tabletop Zealot.",
+};
+
 const PrivacyPolicyPage = () => {
   return (
     <div className="max-w-5xl mx-auto my-10">

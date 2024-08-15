@@ -1,7 +1,13 @@
 import { fetchProducts } from "@/actions/server";
 import Catalog from "@/features/catalog/catalog";
 import FilterSideBar from "@/features/filter/filter-sidebar";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Board Games | Tabletop_Zealots",
+  description: "Browse our collection of board games.",
+};
 
 const getFilters = async () => {
   try {

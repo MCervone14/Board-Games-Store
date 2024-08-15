@@ -4,6 +4,7 @@ export interface Basket {
   items: BasketItem[];
   paymentIntentId?: string;
   clientSecret?: string;
+  status?: number;
 }
 
 export interface BasketItem {
@@ -27,5 +28,6 @@ export interface BasketItem {
   longDescription: string;
   mechanics: string[];
   categories: string[];
+  quantity: number;
   quantityInStock: number;
 }

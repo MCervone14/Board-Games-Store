@@ -10,6 +10,12 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import ProfileSettingsForm from "@/features/form/profile-settings-form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Orders | Tabletop_Zealots",
+  description: "View your recent orders and change your profile settings.",
+};
 
 const AccountPage = async () => {
   const orders = await getOrders();

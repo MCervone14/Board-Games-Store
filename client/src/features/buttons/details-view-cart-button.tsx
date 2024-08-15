@@ -3,7 +3,6 @@
 import { handleAddToCart } from "@/actions/server";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { BasketItem } from "@/types/basket";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/solid";
 import { useState, useTransition } from "react";
@@ -30,7 +29,7 @@ const DetailsViewCartButton = ({
 
   const numberOfProductInBasket =
     basket?.items?.find((item) => item.productId === Number(productId))
-      ?.quantityInStock || 0;
+      ?.quantity || 0;
 
   const handleClick = (e: any) => {
     const { id } = e.currentTarget;
@@ -71,7 +70,6 @@ const DetailsViewCartButton = ({
               name="quantity"
               className="py-5 min-w-[35px] mx-auto"
               defaultValue={quantity}
-              value={quantity}
             />
             <Input type="hidden" name="productId" value={productId} />
             <Button

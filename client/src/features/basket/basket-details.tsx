@@ -22,6 +22,7 @@ interface BasketDetailsProps {
 }
 
 const BasketDetails = async ({ basket }: BasketDetailsProps) => {
+  console.log(basket);
   return (
     <>
       <TableBody>
@@ -33,7 +34,7 @@ const BasketDetails = async ({ basket }: BasketDetailsProps) => {
             <TableCell className="m-auto">
               <CartButton
                 productId={item.productId}
-                quantity={item.quantityInStock}
+                quantity={item.quantity}
                 method="DELETE"
                 cookie={false}
                 variant="ghost"
@@ -68,7 +69,7 @@ const BasketDetails = async ({ basket }: BasketDetailsProps) => {
               >
                 <MinusCircleIcon className="w-6 h-6 text-primary/90" />
               </CartButton>
-              {item.quantityInStock}
+              {item.quantity}
               <CartButton
                 productId={item.productId}
                 quantity={1}
@@ -82,10 +83,9 @@ const BasketDetails = async ({ basket }: BasketDetailsProps) => {
             </TableCell>
             <TableCell className="font-bold m-auto w-[200px]">
               $
-              {(
-                ((item.salePrice || item.price) * item.quantityInStock) /
-                100
-              ).toFixed(2)}
+              {(((item.salePrice || item.price) * item.quantity) / 100).toFixed(
+                2
+              )}
             </TableCell>
           </TableRow>
         ))}
@@ -104,7 +104,7 @@ const BasketDetails = async ({ basket }: BasketDetailsProps) => {
           </TableRow>
         )}
       </TableBody>
-      <TableFooter className="bg-secondary sm:w-full flex flex-col justify-center items-center sm:items-end">
+      <TableFooter className="sm:w-full flex flex-col justify-center items-center sm:items-end">
         {basket?.items?.length > 0 && <BasketSummary basket={basket} />}
       </TableFooter>
     </>

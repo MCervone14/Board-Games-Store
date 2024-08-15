@@ -45,7 +45,7 @@ export default async function NavbarLayout() {
     basket = await getBasket();
     sum =
       basket?.items?.reduce(
-        (acc: number, item: BasketItem) => acc + item.quantityInStock,
+        (acc: number, item: BasketItem) => acc + item.quantity,
         0
       ) || 0;
   }
@@ -143,7 +143,7 @@ export default async function NavbarLayout() {
         </Sheet>
       </NavigationMenuItem>
       <NavigationMenuItem className="list-none flex">
-        <UserMenu token={authToken} />
+        <UserMenu />
         <div className="flex">
           <BasketDropDownMenu sum={sum} basket={basket} />
         </div>

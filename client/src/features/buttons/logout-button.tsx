@@ -17,9 +17,9 @@ const LogoutButton = ({ children }: AddProductButtonProps) => {
     <DropdownMenuItem
       onClick={() =>
         startTransition(async () => {
-          removeCookie("buyerId");
-          removeCookie("token");
-          removeCookie("user");
+          await removeCookie("buyerId");
+          await removeCookie("token");
+          await removeCookie("user");
           router.push("/");
         })
       }

@@ -16,18 +16,17 @@ export const CartActionButton = async (
   try {
     const nextCookies = cookies();
     const buyerId = nextCookies.get("buyerId")?.value;
-    const token = nextCookies.get("token")?.value;
-    let user = null;
+    const user = nextCookies.get("user")?.value;
 
-    if (token) {
-      user = await getCurrentUser(token);
+    if (user) {
+      const userObject = await JSON.parse(user);
       const response = await fetch(
         `${baseURL}/basket?productId=${productId}&quantity=${quantity}`,
         {
           method: method,
           headers: {
             contentType: "application/json",
-            Authorization: "Bearer " + user.token,
+            Authorization: "Bearer " + userObject?.token,
           },
           body: JSON.stringify({ productId, quantity }),
         }

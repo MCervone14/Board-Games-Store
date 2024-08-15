@@ -1,4 +1,5 @@
 import { AddProductForm } from "@/features/form/add-product-form";
+import { Metadata } from "next";
 import React from "react";
 
 const getProduct = async (id: string) => {
@@ -16,6 +17,11 @@ interface InventoryDetailsPageProps {
     id: string;
   };
 }
+
+export const metadata: Metadata = {
+  title: "Inventory | Tabletop_Zealots",
+  description: "View current inventory of products.",
+};
 
 const InventoryDetailsPage = async ({ params }: InventoryDetailsPageProps) => {
   const product = await getProduct(params.id);

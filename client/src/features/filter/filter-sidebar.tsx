@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
+import { set } from "lodash";
 
 interface FilterSideBarProps {
   filters: {
@@ -31,6 +32,8 @@ const sortOptions = [
 const FilterSideBar = ({ filters }: FilterSideBarProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortItem, setSortItem] = useState("Name");
+  const [categoriesSelected, setCategoriesSelected] = useState<string[]>([]);
+  const [mechanicsSelected, setMechanicsSelected] = useState<string[]>([]);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -152,7 +155,12 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
         >
           <DropdownMenuTrigger asChild>
             <Button variant="outline">
-              <span className="mr-2">Categories</span>
+              <span className="mr-2">
+                Categories:{" "}
+                <span className="text-blue-400">
+                  {categoriesSelected.join(", ")}
+                </span>
+              </span>
               {isOpen.category ? (
                 <ChevronUpIcon className="w-4 h-4" />
               ) : (
@@ -172,7 +180,15 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
                     ?.split(",")
                     .includes(item)
                 }
-                onCheckedChange={() => handleCategoryChange(item)}
+                onCheckedChange={() => {
+                  handleCategoryChange(item);
+                  setCategoriesSelected(() => {
+                    if (categoriesSelected.includes(item)) {
+                      return categoriesSelected.filter((i) => i !== item);
+                    }
+                    return [...categoriesSelected, item];
+                  });
+                }}
               >
                 {item}
               </DropdownMenuCheckboxItem>
@@ -187,7 +203,12 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
         >
           <DropdownMenuTrigger asChild>
             <Button variant="outline">
-              <span className="mr-2">Mechanics</span>
+              <span className="mr-2">
+                Mechanics:{" "}
+                <span className="text-blue-400">
+                  {mechanicsSelected.join(", ")}
+                </span>
+              </span>
               {isOpen.mechanics ? (
                 <ChevronUpIcon className="w-4 h-4" />
               ) : (
@@ -207,7 +228,15 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
                     ?.split(",")
                     .includes(item)
                 }
-                onCheckedChange={() => handleMechanicChange(item)}
+                onCheckedChange={() => {
+                  handleMechanicChange(item);
+                  setMechanicsSelected(() => {
+                    if (mechanicsSelected.includes(item)) {
+                      return mechanicsSelected.filter((i) => i !== item);
+                    }
+                    return [...mechanicsSelected, item];
+                  });
+                }}
               >
                 {item}
               </DropdownMenuCheckboxItem>
@@ -229,12 +258,15 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
         className="bg-red-600 py-3 hover:bg-blue-600"
         onClick={() => {
           setSearchTerm("");
+          setCategoriesSelected([]);
+          setMechanicsSelected([]);
           setSortItem("Name");
           const params = new URLSearchParams(searchParams);
           params.delete("searchTerm");
           params.delete("orderBy");
           params.delete("categoriesSelected");
           params.delete("mechanicsSelected");
+
           router.replace(`${pathname}?${params.toString()}`);
         }}
       >

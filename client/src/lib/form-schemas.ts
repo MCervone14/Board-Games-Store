@@ -1,22 +1,8 @@
 import { z } from "zod";
 
 export const loginFormSchema = z.object({
-  username: z
-    .string()
-    .min(3, {
-      message: "Username must be at least 4 characters.",
-    })
-    .max(20, {
-      message: "Username can not be more than 20 characters long.",
-    }),
-  password: z
-    .string()
-    .min(8, {
-      message: "Password must be at least 8 characters.",
-    })
-    .max(32, {
-      message: "Password can not be more than 32 characters long.",
-    }),
+  username: z.string(),
+  password: z.string(),
 });
 
 export const registerFormSchema = z.object({
@@ -31,12 +17,32 @@ export const registerFormSchema = z.object({
   email: z.string().email(),
   password: z
     .string()
-    .min(8, {
+    .refine((val) => !val || val.length >= 8, {
       message: "Password must be at least 8 characters.",
     })
-    .max(32, {
-      message: "Password can not be more than 32 characters long.",
-    }),
+    .refine((val) => !val || val.length <= 32, {
+      message: "Password cannot be more than 32 characters long.",
+    })
+    .refine(
+      (val) => {
+        if (!val) return true;
+        const containsUppercase = /[A-Z]/.test(val);
+        const containsLowercase = /[a-z]/.test(val);
+        const containsNumber = /[0-9]/.test(val);
+        const containsSpecialChar =
+          /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(val);
+        return (
+          containsUppercase &&
+          containsLowercase &&
+          containsNumber &&
+          containsSpecialChar
+        );
+      },
+      {
+        message:
+          "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+      }
+    ),
 });
 
 export const validationFormSchema = [

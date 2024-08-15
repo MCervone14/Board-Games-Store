@@ -14,7 +14,8 @@ interface BasketSummaryProps {
 const BasketSummary = ({ basket }: BasketSummaryProps) => {
   const subtotal =
     basket?.items?.reduce(
-      (acc, item) => acc + (item.price * item.quantityInStock) / 100,
+      (acc, item) =>
+        acc + ((item.salePrice || item.price) * item.quantity) / 100,
       0
     ) || 0;
   const shipping = subtotal > 100 || subtotal === 0 ? 0 : 5;

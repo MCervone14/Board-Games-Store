@@ -176,13 +176,13 @@ export default function MultiStepCheckoutForm({
         setOrderNumber(orderNumber);
         setPaymentSucceeded(true);
         setPaymentMessage("Payment successful");
-        setActiveStep((prev) => prev + 1);
+        setActiveStep(3);
         setIsLoading(false);
         setClientSecret(null);
         setPaymentId("");
       } else {
         setPaymentMessage(paymentResult?.error?.message!);
-        setActiveStep((prev) => prev + 1);
+        setActiveStep(3);
         setPaymentSucceeded(false);
         setIsLoading(false);
       }

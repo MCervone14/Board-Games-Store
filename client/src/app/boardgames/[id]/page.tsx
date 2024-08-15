@@ -12,12 +12,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Metadata } from "next";
 
 interface BoardGameDetailsPageProps {
   params: {
     id: string;
   };
 }
+
+export const metadata: Metadata = {
+  title: "Board Games | Tabletop_Zealots",
+  description: "View board games and add them to your cart.",
+};
 
 const getProduct = async (id: string) => {
   try {

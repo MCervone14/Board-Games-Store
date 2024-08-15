@@ -1,5 +1,11 @@
 import Inventory from "@/features/inventory/Inventory";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Inventory | Tabletop_Zealots",
+  description: "View current inventory of products.",
+};
 
 const getProducts = async () => {
   try {

@@ -11,6 +11,12 @@ import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LoginForm } from "@/features/form/login-form";
 import { RegisterForm } from "@/features/form/register-form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Login | Tabletop_Zealots",
+  description: "Login to your account.",
+};
 
 const LoginPage = () => {
   return (
