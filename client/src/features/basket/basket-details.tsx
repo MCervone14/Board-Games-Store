@@ -22,7 +22,6 @@ interface BasketDetailsProps {
 }
 
 const BasketDetails = async ({ basket }: BasketDetailsProps) => {
-  console.log(basket);
   return (
     <>
       <TableBody>

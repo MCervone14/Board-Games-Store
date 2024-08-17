@@ -133,6 +133,17 @@ const PaymentForm = ({
               {cardState.elementError.cardCvc || ""}
             </p>
           </div>
+          <div className="flex flex-col items-end gap-5">
+            <p className="text-center text-red-600">
+              NOTE: This is a demo application. Use the following test card {""}
+              <span className="font-bold text-green-500">
+                4242-4242-4242-4242{" "}
+              </span>{" "}
+              for "successful" payment &{" "}
+              <span className="font-bold">4000-0000-0000-9995</span> for
+              "unsuccessful" payment.
+            </p>
+          </div>
         </div>
       </div>
     </div>

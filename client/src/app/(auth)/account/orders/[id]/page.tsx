@@ -7,14 +7,19 @@ import { notFound } from "next/navigation";
 const getOrder = async (id: string) => {
   const nextCookies = cookies();
   const buyerId = nextCookies.get("buyerId")?.value;
-  const token = nextCookies.get("token")?.value;
+  const user = nextCookies.get("user")?.value;
+  let userObject = null;
+
+  if (user) {
+    userObject = await JSON.parse(user);
+  }
 
   const response = await fetch(`${process.env.BASE_API_URL}/Orders/${id}`, {
     method: "GET",
     headers: {
       contentType: "application/json",
       Cookie: `buyerId=${buyerId}`,
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + userObject.token,
     },
   });
   const data = await response.json();

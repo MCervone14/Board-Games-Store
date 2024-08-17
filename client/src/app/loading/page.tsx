@@ -1,20 +1,36 @@
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const OrdersLoadingPage = () => {
   return (
-    <div className="flex items-center flex-col space-y-8 p-8 max-w-7xl mx-auto h-screen">
-      <div className="flex items-center justify-between">
-        <div>
-          <p>
-            <Skeleton className="w-48 h-8 mb-2" />
-          </p>
-          <p>
+    <Table className="flex flex-col items-center h-screen py-10">
+      <TableHeader>
+        <TableRow>
+          <TableHead>
             <Skeleton className="w-48 h-4" />
-          </p>
-        </div>
-      </div>
-      <Skeleton className="w-3/4 h-screen" />
-    </div>
+          </TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {Array.from({ length: 10 }).map((_, index) => (
+          <TableRow key={index}>
+            <TableCell>
+              <Skeleton className="w-48 h-4" />
+            </TableCell>
+            <TableCell>
+              <Skeleton className="w-[700px] h-4" />
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 };
 

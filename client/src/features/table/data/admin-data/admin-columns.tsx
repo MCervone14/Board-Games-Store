@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 import { Product } from "@/types/products";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { DeleteProduct } from "@/actions/server";
-import { revalidatePath } from "next/cache";
 
 export const adminColumns: ColumnDef<Product>[] = [
   {

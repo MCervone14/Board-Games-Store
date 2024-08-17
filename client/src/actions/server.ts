@@ -10,8 +10,7 @@ const baseURL = process.env.BASE_API_URL;
 export const CartActionButton = async (
   productId: number,
   quantity: number,
-  method: string,
-  cookie?: boolean
+  method: string
 ) => {
   try {
     const nextCookies = cookies();
@@ -31,10 +30,15 @@ export const CartActionButton = async (
           body: JSON.stringify({ productId, quantity }),
         }
       );
-      const data = await response.json();
-      cookies().set("buyerId", data.buyerId);
-      revalidatePath("/basket");
-      return data;
+
+      if (!response.ok) {
+        return { products: [] };
+      } else {
+        const data = await response.json();
+        cookies().set("buyerId", data.buyerId);
+        revalidatePath("/basket");
+        return data;
+      }
     } else if (buyerId) {
       const response = await fetch(
         `${baseURL}/basket?productId=${productId}&quantity=${quantity}`,
@@ -47,9 +51,14 @@ export const CartActionButton = async (
           body: JSON.stringify({ productId, quantity }),
         }
       );
-      const data = await response.json();
-      revalidatePath("/basket");
-      return data;
+
+      if (!response.ok) {
+        return { products: [] };
+      } else {
+        const data = await response.json();
+        revalidatePath("/basket");
+        return data;
+      }
     } else {
       const response = await fetch(
         `${baseURL}/basket?productId=${productId}&quantity=${quantity}`,
@@ -61,10 +70,15 @@ export const CartActionButton = async (
           body: JSON.stringify({ productId, quantity }),
         }
       );
-      const data = await response.json();
-      cookies().set("buyerId", data.buyerId);
-      revalidatePath("/basket");
-      return data;
+
+      if (!response.ok) {
+        return { products: [] };
+      } else {
+        const data = await response.json();
+        cookies().set("buyerId", data.buyerId);
+        revalidatePath("/basket");
+        return data;
+      }
     }
   } catch (error) {
     return { products: [] };
@@ -83,8 +97,12 @@ export const getBasket = async () => {
       },
     });
 
-    const data = await response.json();
-    return data;
+    if (!response.ok) {
+      return { products: [] };
+    } else {
+      const data = await response.json();
+      return data;
+    }
   } catch (error) {
     return { products: [] };
   }
@@ -101,8 +119,7 @@ export const handleAddToCart = async (formData: FormData) => {
   await CartActionButton(
     Number(rawFormData.productId),
     Number(rawFormData.quantity),
-    "POST",
-    true
+    "POST"
   );
 };
 
@@ -133,11 +150,11 @@ export const fetchProducts = async (
 
     if (!response.ok) {
       throw new Error(`Failed to fetch: ${response.status}`);
+    } else {
+      const data = await response.json();
+
+      return data;
     }
-
-    const data = await response.json();
-
-    return data;
   } catch (error) {
     return { products: [], paginationMetaData: {} };
   }
@@ -170,10 +187,6 @@ export const Login = async (username: string, password: string) => {
         maxAge: 60 * 60 * 24 * 7, // Optional: 1 week
         sameSite: "lax", // Prevents CSRF attacks
       });
-    }
-
-    if (data.token) {
-      nextCookies.set(`token`, data.token);
     }
 
     return data;
@@ -244,21 +257,29 @@ export const handleSubmitOrder = async (values: FieldValues) => {
     const { nameOnCard, saveAddress, ...shippingAddress } = values;
     const nextCookies = cookies();
     const buyerId = nextCookies.get("buyerId")?.value;
-    const token = nextCookies.get("token")?.value;
+    const user = nextCookies.get("user")?.value;
+    let userObject = null;
+
+    if (user) {
+      userObject = await JSON.parse(user);
+    }
 
     const response = await fetch(`${baseURL}/Orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Cookie: `buyerId=${buyerId}`,
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + userObject.token,
       },
       body: JSON.stringify({ saveAddress, shippingAddress }),
     });
 
-    const data = await response.json();
-    revalidatePath("/basket");
-    return data;
+    if (!response.ok) {
+      return { message: "Error with submitting order" };
+    } else {
+      const data = await response.json();
+      return data;
+    }
   } catch (error) {
     return { message: "Error with submitting order" };
   }
@@ -267,14 +288,19 @@ export const handleSubmitOrder = async (values: FieldValues) => {
 export const getAddress = async () => {
   const nextCookies = cookies();
   const buyerId = nextCookies.get("buyerId")?.value;
-  const token = nextCookies.get("token")?.value;
+  const user = nextCookies.get("user")?.value;
+  let userObject = null;
+
+  if (user) {
+    userObject = await JSON.parse(user);
+  }
 
   const response = await fetch(`${baseURL}/Account/savedAddress`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Cookie: `buyerId=${buyerId}`,
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + userObject.token,
     },
   });
 
@@ -289,13 +315,18 @@ export const getAddress = async () => {
 export const getOrders = async () => {
   const nextCookies = cookies();
   const buyerId = nextCookies.get("buyerId")?.value;
-  const token = nextCookies.get("token")?.value;
+  const user = nextCookies.get("user")?.value;
+  let userObject = null;
+
+  if (user) {
+    userObject = await JSON.parse(user);
+  }
 
   const response = await fetch(`${baseURL}/Orders`, {
     headers: {
       "Content-Type": "application/json",
       Cookie: `buyerId=${buyerId}`,
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + userObject.token,
     },
   });
 
@@ -310,19 +341,28 @@ export const getOrders = async () => {
 export const CreatePaymentIntent = async () => {
   const nextCookies = cookies();
   const buyerId = nextCookies.get("buyerId")?.value;
-  const token = nextCookies.get("token")?.value;
+  const user = nextCookies.get("user")?.value;
+  let userObject = null;
+
+  if (user) {
+    userObject = await JSON.parse(user);
+  }
 
   const response = await fetch(`${baseURL}/Payments`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Cookie: `buyerId=${buyerId}`,
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + userObject?.token,
     },
   });
 
-  const data = await response.json();
-  return data;
+  if (!response.ok) {
+    return { message: "Error creating payment intent" };
+  } else {
+    const data = await response.json();
+    return data;
+  }
 };
 
 export const getFilters = async () => {
@@ -336,12 +376,17 @@ export const getFilters = async () => {
 export const CreateProduct = async (formData: FormData) => {
   try {
     const nextCookies = cookies();
-    const token = nextCookies.get("token")?.value;
+    const user = nextCookies.get("user")?.value;
+    let userObject = null;
+
+    if (user) {
+      userObject = await JSON.parse(user);
+    }
 
     const response = await fetch(`${baseURL}/products`, {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + userObject.token,
       },
       body: formData,
     });
@@ -351,7 +396,6 @@ export const CreateProduct = async (formData: FormData) => {
     }
 
     const data = await response.json();
-    revalidatePath("/");
     revalidatePath("/inventory");
     return data;
   } catch (error) {
@@ -362,25 +406,29 @@ export const CreateProduct = async (formData: FormData) => {
 export const UpdateProduct = async (formData: FormData) => {
   try {
     const nextCookies = cookies();
-    const token = nextCookies.get("token")?.value;
+    const user = nextCookies.get("user")?.value;
+    let userObject = null;
+
+    if (user) {
+      userObject = await JSON.parse(user);
+    }
 
     const response = await fetch(`${baseURL}/products`, {
       method: "PUT",
       headers: {
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + userObject.token,
       },
       body: formData,
     });
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
+    } else {
+      const data = await response.json();
+
+      revalidatePath("/inventory");
+      return data;
     }
-
-    const data = await response.json();
-
-    revalidatePath("/");
-    revalidatePath("/inventory");
-    return data;
   } catch (error) {
     console.log("Error creating product in server action");
   }
@@ -389,12 +437,17 @@ export const UpdateProduct = async (formData: FormData) => {
 export const DeleteProduct = async (id: number) => {
   try {
     const nextCookies = cookies();
-    const token = nextCookies.get("token")?.value;
+    const user = nextCookies.get("user")?.value;
+    let userObject = null;
+
+    if (user) {
+      userObject = await JSON.parse(user);
+    }
 
     await fetch(`${baseURL}/products/${Number(id)}`, {
       method: "DELETE",
       headers: {
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + userObject.token,
       },
     });
 
@@ -410,16 +463,21 @@ export const redirectHard = async (url: string) => {
 export const DeleteAccount = async () => {
   try {
     const nextCookies = cookies();
-    const token = nextCookies.get("token")?.value;
+    const user = nextCookies.get("user")?.value;
+    let userObject = null;
+
+    if (user) {
+      userObject = await JSON.parse(user);
+    }
 
     await fetch(`${baseURL}/account/deleteAccount`, {
       method: "DELETE",
       headers: {
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + userObject.token,
       },
     });
 
-    cookies().delete("token");
+    cookies().delete("user");
     return { status: 200 };
   } catch (error) {
     console.log("Error deleting account in server action");
@@ -429,12 +487,17 @@ export const DeleteAccount = async () => {
 export const UpdateProfileSettings = async (formData: FormData) => {
   try {
     const nextCookies = cookies();
-    const token = nextCookies.get("token")?.value;
+    const user = nextCookies.get("user")?.value;
+    let userObject = null;
+
+    if (user) {
+      userObject = await JSON.parse(user);
+    }
 
     const response = await fetch(`${baseURL}/account/updateProfile`, {
       method: "PUT",
       headers: {
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + userObject.token,
       },
       body: formData,
     });
@@ -445,8 +508,8 @@ export const UpdateProfileSettings = async (formData: FormData) => {
 
     const data = await response.json();
 
-    cookies().delete("token");
-    cookies().set("token", data.token);
+    cookies().delete("user");
+    cookies().set("user", JSON.stringify(data));
 
     revalidatePath("/account");
     return data;

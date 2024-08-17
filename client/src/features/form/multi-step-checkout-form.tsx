@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import ShippingForm from "./shipping-form";
 import ReviewOrderForm from "./review-order-form";
 import PaymentForm from "./payment-form";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { FieldValues, FormProvider, useForm } from "react-hook-form";
 import { validationFormSchema } from "@/lib/form-schemas";
 import { z } from "zod";
@@ -25,6 +25,7 @@ import {
 import { Basket } from "@/types/basket";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import LoadingIndicator from "../layout/loading-indicator";
 
 interface MultoStepCheckoutFormProps {
   basket: Basket;
@@ -253,7 +254,7 @@ export default function MultiStepCheckoutForm({
                 type="submit"
                 className={`${activeStep !== steps.length - 1 && "hidden"}`}
               >
-                Confirm
+                {isLoading ? <LoadingIndicator /> : "Confirm"}
               </Button>
               <Button
                 type="button"

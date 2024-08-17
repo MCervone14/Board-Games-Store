@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   FormControl,
@@ -13,6 +14,17 @@ import { useFormContext } from "react-hook-form";
 
 const ShippingForm = () => {
   const form = useFormContext();
+
+  const handleShippingInfo = () => {
+    form.setValue("fullName", "John Doe", { shouldValidate: true });
+    form.setValue("address1", "123 Main St", { shouldValidate: true });
+    form.setValue("address2", "Apt B", { shouldValidate: true });
+    form.setValue("city", "New York City", { shouldValidate: true });
+    form.setValue("state", "NY", { shouldValidate: true });
+    form.setValue("zipCode", "10001", { shouldValidate: true });
+    form.setValue("country", "US", { shouldValidate: true });
+  };
+
   return (
     <div className="p-6">
       <div className="space-y-6">
@@ -22,7 +34,7 @@ const ShippingForm = () => {
             Enter your shipping address.
           </p>
         </div>
-        <div className="gap-4">
+        <div>
           <div className="space-y-2">
             <FormField
               control={form.control}
@@ -156,6 +168,15 @@ const ShippingForm = () => {
               </FormItem>
             )}
           />
+        </div>
+        <div className="flex justify-end">
+          <Button
+            type="button"
+            onClick={handleShippingInfo}
+            className="bg-blue-600 text-white"
+          >
+            Fill in Shipping Info
+          </Button>
         </div>
       </div>
     </div>

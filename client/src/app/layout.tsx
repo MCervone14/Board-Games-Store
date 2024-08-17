@@ -17,6 +17,12 @@ export default async function RootLayout(props: {
     <html lang="en">
       <body>
         <div className="bg-white w-full sticky top-0 left-0 z-10 min-h-[60px]">
+          <div className="sticky h-6 bg-blue-600">
+            <p className="text-white text-center">
+              *Note: This is a portfolio piece website. The payment system is in
+              test mode.
+            </p>
+          </div>
           <NavbarLayout />
         </div>
         <main>

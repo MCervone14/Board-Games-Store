@@ -20,7 +20,6 @@ interface BasketDropDownMenuProps {
 }
 
 const BasketDropDownMenu = ({ sum, basket }: BasketDropDownMenuProps) => {
-  console.log(basket);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="group">
@@ -78,20 +77,14 @@ const BasketDropDownMenu = ({ sum, basket }: BasketDropDownMenuProps) => {
             </div>
           </div>
         ))}
-        {basket?.items?.length === 0 ||
-          basket?.status === 404 ||
-          (basket === null && (
-            <div className="flex justify-center">
-              No items in your shopping cart!
-            </div>
-          ))}
+        {sum === 0 && (
+          <div className="flex justify-center">
+            No items in your shopping cart!
+          </div>
+        )}
         <div className="flex gap-3 justify-around">
           <Button
-            disabled={
-              basket?.items?.length === 0 ||
-              basket?.status === 404 ||
-              basket === null
-            }
+            disabled={sum === 0 || basket?.status === 404 || basket === null}
             className="hover:bg-blue-600 w-1/2"
           >
             <Link className="" href="/basket">
@@ -99,11 +92,7 @@ const BasketDropDownMenu = ({ sum, basket }: BasketDropDownMenuProps) => {
             </Link>
           </Button>
           <Button
-            disabled={
-              basket?.items?.length === 0 ||
-              basket?.status === 404 ||
-              basket === null
-            }
+            disabled={sum === 0 || basket?.status === 404 || basket === null}
             className="hover:bg-blue-600 w-1/2"
           >
             <Link className="" href="/checkout">

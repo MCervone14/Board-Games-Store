@@ -10,10 +10,12 @@ import {
 
 const InventoryLoadingPage = () => {
   return (
-    <Table>
+    <Table className="flex flex-col items-center h-screen py-10">
       <TableHeader>
         <TableRow>
-          <TableHead>Product Details</TableHead>
+          <TableHead>
+            <Skeleton className="w-48 h-4" />
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

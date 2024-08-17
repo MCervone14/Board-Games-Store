@@ -35,7 +35,7 @@ const menuItemsAuth = [
 ];
 
 export default async function NavbarLayout() {
-  const authToken = cookies().get("token")?.value;
+  const authUser = cookies().get("user")?.value;
   const buyerId = cookies().get("buyerId")?.value;
 
   let sum = undefined;
@@ -97,7 +97,7 @@ export default async function NavbarLayout() {
               <SheetTitle className="mb-5">Menu</SheetTitle>
             </SheetHeader>
             <ul>
-              {authToken
+              {authUser
                 ? menuItemsAuth.map((item, index) => (
                     <li key={`${item.label}-${index}`}>
                       <Link

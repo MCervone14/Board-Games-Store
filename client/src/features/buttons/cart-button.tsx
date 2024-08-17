@@ -20,7 +20,6 @@ const CartButton = ({
   productId,
   quantity,
   method,
-  cookie,
   children,
   className,
   variant = "default",
@@ -33,9 +32,7 @@ const CartButton = ({
       variant={variant}
       disabled={isPending}
       onClick={() =>
-        startTransition(() =>
-          CartActionButton(productId, quantity, method, cookie)
-        )
+        startTransition(() => CartActionButton(productId, quantity, method))
       }
     >
       {isPending ? <LoadingIndicator /> : children}

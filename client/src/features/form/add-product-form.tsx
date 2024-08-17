@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { AddProductFormSchema } from "@/lib/form-schemas";
 import { Textarea } from "@/components/ui/textarea";
 import { Product } from "@/types/products";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import DropZone from "@/components/reusable/drop-zone";
 import { Label } from "@/components/ui/label";
@@ -30,6 +30,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { SelectComponent } from "@/components/reusable/select-combo-box";
 import { CreateProduct, UpdateProduct, getFilters } from "@/actions/server";
 import { createFormData } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface AddProductFormProps {
   setEditMode?: (value: boolean) => void;
@@ -37,6 +38,7 @@ interface AddProductFormProps {
 }
 
 export function AddProductForm({ setEditMode, product }: AddProductFormProps) {
+  const [isPending, startTransition] = useTransition();
   const [categories, setCategories] = useState<string[]>([]);
   const [mechanics, setMechanics] = useState<string[]>([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -136,12 +138,15 @@ export function AddProductForm({ setEditMode, product }: AddProductFormProps) {
     try {
       if (product) {
         await UpdateProduct(formData);
+        toast("Product Updated Successfully");
       } else {
         await CreateProduct(formData);
+        toast("Product Created Successfully");
       }
       router.replace("/inventory");
     } catch (error) {
       console.error(error);
+      toast("An error occurred, when creating the product");
     }
   };
 
@@ -156,7 +161,12 @@ export function AddProductForm({ setEditMode, product }: AddProductFormProps) {
         </CardHeader>
         <CardContent>
           <form
-            onSubmit={methods.handleSubmit(onSubmit)}
+            onSubmit={(event) => {
+              event.preventDefault();
+              startTransition(() => {
+                methods.handleSubmit(onSubmit)();
+              });
+            }}
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
             <div className="grid gap-4">

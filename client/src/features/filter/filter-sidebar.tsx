@@ -158,7 +158,8 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
               <span className="mr-2">
                 Categories:{" "}
                 <span className="text-blue-400">
-                  {categoriesSelected.join(", ")}
+                  {categoriesSelected.join(", ") ||
+                    searchParams.get("categoriesSelected")}
                 </span>
               </span>
               {isOpen.category ? (
@@ -186,6 +187,7 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
                     if (categoriesSelected.includes(item)) {
                       return categoriesSelected.filter((i) => i !== item);
                     }
+
                     return [...categoriesSelected, item];
                   });
                 }}
