@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 import { redirect } from "next/navigation";
@@ -278,6 +278,7 @@ export const handleSubmitOrder = async (values: FieldValues) => {
       return { message: "Error with submitting order" };
     } else {
       const data = await response.json();
+      revalidatePath("/", "layout");
       return data;
     }
   } catch (error) {

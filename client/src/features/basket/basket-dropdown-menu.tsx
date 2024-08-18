@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Basket } from "@/types/basket";
 import { ShoppingCartIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import CartButton from "../buttons/cart-button";
 import { cn, ProductPrice } from "@/lib/utils";
@@ -68,7 +68,6 @@ const BasketDropDownMenu = ({ sum, basket }: BasketDropDownMenuProps) => {
                 productId={item.productId}
                 quantity={item.quantity}
                 method="DELETE"
-                cookie={false}
                 variant={"ghost"}
                 className="hover:bg-transparent"
               >
