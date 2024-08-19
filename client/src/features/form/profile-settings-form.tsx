@@ -17,7 +17,7 @@ import { startTransition, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { User } from "@/types/user";
-import { DeleteAccount, UpdateProfileSettings } from "@/actions/server";
+import { UpdateProfileSettings } from "@/actions/server";
 import DeleteConfirmationModal from "@/components/modals/delete-confirmation-modal";
 import { toast } from "sonner";
 
@@ -26,6 +26,7 @@ interface ProfileSettingsFormProps {
 }
 
 const ProfileSettingsForm = ({ user }: ProfileSettingsFormProps) => {
+  console.log(user);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);

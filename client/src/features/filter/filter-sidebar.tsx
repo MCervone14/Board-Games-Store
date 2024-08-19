@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input";
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import debounce from "lodash.debounce";
 import {
   DropdownMenu,
@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/solid";
-import { set } from "lodash";
 
 interface FilterSideBarProps {
   filters: {
@@ -115,6 +114,12 @@ const FilterSideBar = ({ filters }: FilterSideBarProps) => {
   const debouncedSearch = useCallback(debounce(handleSearchChange, 700), [
     searchParams,
   ]);
+
+  useEffect(() => {
+    setCategoriesSelected(
+      searchParams.get("categoriesSelected")?.split(",") || []
+    );
+  }, [searchParams]);
 
   return (
     <div className="flex items-center flex-wrap gap-2 p-0 py-5">

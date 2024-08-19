@@ -1,4 +1,5 @@
 import { fetchProducts } from "@/actions/server";
+import { ImageCarousel } from "@/components/carousel/hero-carousel";
 import Catalog from "@/features/catalog/catalog";
 import { Product } from "@/types/products";
 import Image from "next/image";
@@ -12,18 +13,11 @@ export default async function Home() {
 
   return (
     <>
-      <section className="w-full">
-        <Image
-          src="/images/promotionals/Invincible_KeyArt_2560x680.png"
-          alt="Promotional Board Game Image for Invincible The-Hero-Building-Game"
-          className="mx-auto max-h-[500px]"
-          width={1440}
-          height={500}
-          sizes="(max-width: 1440px) 100vw, (max-width 768px) 50vw"
-        />
+      <section className="w-full flex justify-center">
+        <ImageCarousel />
       </section>
       <section>
-        <div className="flex flex-col lg:flex-row justify-center items-center gap-10 py-6 border-t-none shadow-lg">
+        <div className="flex flex-col lg:flex-row justify-center items-center gap-10 border-t-none shadow-lg">
           <div className=" flex flex-col items-center justify-center space-y-4 text-2xl p-10">
             <p>
               We sell <span className="text-blue-600">NEW</span> and{" "}

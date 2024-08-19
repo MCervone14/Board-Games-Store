@@ -4,6 +4,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 import { redirect } from "next/navigation";
+import { object } from "zod";
 
 const baseURL = process.env.BASE_API_URL;
 
@@ -224,17 +225,18 @@ export const Register = async (
 };
 
 export const getCurrentUser = async (token?: string | undefined) => {
-  const cookie = cookies().get("token")?.value;
+  const user = cookies().get("user")?.value;
+  let userObject = null;
 
-  if (!token && !cookie) {
-    return null;
+  if (user) {
+    userObject = await JSON.parse(user);
   }
 
   const response = await fetch(`${baseURL}/Account/currentUser`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + (token || cookie),
+      Authorization: "Bearer " + (userObject.token || token),
     },
     credentials: "include",
   });
