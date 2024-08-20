@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 const PrivacyPolicyPage = () => {
   return (
-    <div className="max-w-5xl mx-auto my-10">
+    <div className="max-w-5xl mx-auto py-10 p-5">
       <h1 className="text-3xl">Tabletop Zealot - Terms of Service</h1>
       <small>Last updated: June 11th, 2024</small>
       <div className="space-y-5 my-5">
