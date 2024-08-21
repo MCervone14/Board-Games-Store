@@ -236,7 +236,7 @@ export const getCurrentUser = async (token?: string | undefined) => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + (userObject.token || token),
+      Authorization: "Bearer " + (token || userObject?.token),
     },
     credentials: "include",
   });
