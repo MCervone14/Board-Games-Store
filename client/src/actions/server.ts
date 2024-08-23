@@ -1,10 +1,9 @@
 "use server";
 
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 import { redirect } from "next/navigation";
-import { object } from "zod";
 
 const baseURL = process.env.BASE_API_URL;
 
@@ -399,7 +398,7 @@ export const CreateProduct = async (formData: FormData) => {
     }
 
     const data = await response.json();
-    revalidatePath("/inventory");
+    revalidatePath("/");
     return data;
   } catch (error) {
     console.log("Error creating product in server action");
@@ -429,7 +428,7 @@ export const UpdateProduct = async (formData: FormData) => {
     } else {
       const data = await response.json();
 
-      revalidatePath("/inventory");
+      revalidatePath("/");
       return data;
     }
   } catch (error) {
@@ -454,7 +453,7 @@ export const DeleteProduct = async (id: number) => {
       },
     });
 
-    revalidatePath("/inventory");
+    revalidatePath("/");
   } catch (error) {
     console.log("Error deleting product in server action");
   }
