@@ -5,7 +5,12 @@ import { Product } from "@/types/products";
 import Image from "next/image";
 
 export default async function Home() {
-  const { products, paginationMetaData } = await fetchProducts();
+  const { products, paginationMetaData } = await fetchProducts(
+    "name",
+    "",
+    1,
+    1000
+  );
 
   const featuredProducts = products?.filter(
     (product: Product) => product.isFeatured
