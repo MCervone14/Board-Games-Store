@@ -10,7 +10,7 @@
 
 ## Overview
 
-![Tabletop_Zealots](./public/images/promotionals/Home_Tabletop_Zealots.png)
+![Tabletop_Zealots](./client/public/images/promotionals/Home_Tabletop_Zealots.png)
 
 Link to website - [Tabletop Zealots](https://board-games-store-kappa.vercel.app/)
 
