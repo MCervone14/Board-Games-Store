@@ -6,7 +6,6 @@
 - [Overview](#overview)
 - [Built With](#built-with)
 - [Purpose](#purpose)
-- [Contact](#contact)
 
 ## Overview
 
@@ -32,7 +31,3 @@ I continued my learning of Next.js/React and really tried out a lot of cool feat
 ## Purpose
 
 The purpose of this project was to create a fully functioning e-commerce website that sells board games/card games. The design was to be responsive, user-friendly, visually appealing, and minimalistic.
-
-## Contact
-
-- [Github](https://github.com/MCervone14)
